@@ -1,6 +1,9 @@
 use derivative::Derivative;
 use serde::{de::DeserializeOwned, Serialize};
 
+const LIVE_URL: &str = "https://api.stytch.com/";
+const TEST_URL: &str = "https://test.stytch.com/";
+
 #[derive(Clone, Derivative)]
 #[derivative(Debug)]
 pub struct Client {
@@ -10,12 +13,20 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(config: crate::Config) -> crate::Result<Self> {
+    pub fn new(project_id: String, secret: String) -> crate::Result<Self> {
+        let base_url = Self::base_url(&project_id);
+        Client::new_with_base_url(project_id, secret, base_url)
+    }
+
+    pub fn new_with_base_url(
+        project_id: String,
+        secret: String,
+        base_url: reqwest::Url,
+    ) -> crate::Result<Self> {
         let mut headers = http::header::HeaderMap::new();
 
-        let encoded = base64::encode(format!("{}:{}", config.project_id, config.secret));
-        let basic_auth = format!("Basic {}", encoded)
-            .parse::<http::header::HeaderValue>()?;
+        let encoded = base64::encode(format!("{}:{}", project_id, secret));
+        let basic_auth = format!("Basic {}", encoded).parse::<http::header::HeaderValue>()?;
 
         headers.insert(http::header::AUTHORIZATION, basic_auth);
 
@@ -24,10 +35,7 @@ impl Client {
             .default_headers(headers)
             .build()?;
 
-        Ok(Self {
-            client,
-            base_url: config.base_url,
-        })
+        Ok(Self { client, base_url })
     }
 
     pub async fn send<Req, Res>(&self, req: crate::Request<Req>) -> crate::Result<Res>
@@ -36,6 +44,7 @@ impl Client {
         Res: DeserializeOwned + std::fmt::Debug,
     {
         let url = self.base_url.join(&req.path)?;
+        // TODO: Handle GET params?
         let req = self.client.request(req.method, url).json(&req.body);
 
         tracing::debug!({ req = ?req }, "send Stytch request");
@@ -48,6 +57,14 @@ impl Client {
             let err = res.json::<crate::ErrorResponse>().await?;
             tracing::debug!({ ?err }, "Stytch response error");
             Err(crate::Error::Response(err))
+        }
+    }
+
+    fn base_url(project_id: &str) -> reqwest::Url {
+        if project_id.starts_with("project-live-") {
+            reqwest::Url::parse(LIVE_URL).unwrap()
+        } else {
+            reqwest::Url::parse(TEST_URL).unwrap()
         }
     }
 }
