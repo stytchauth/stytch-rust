@@ -1,1 +1,24 @@
+pub mod client;
 
+pub mod discovery;
+pub mod discovery_intermediate_sessions;
+pub mod discovery_organizations;
+pub mod magic_links;
+pub mod magic_links_discovery;
+pub mod magic_links_email;
+pub mod magic_links_email_discovery;
+pub mod mfa;
+pub mod oauth;
+pub mod oauth_discovery;
+pub mod organizations;
+pub mod organizations_members;
+pub mod otp;
+pub mod otp_sms;
+pub mod passwords;
+pub mod passwords_email;
+pub mod passwords_existing_password;
+pub mod passwords_session;
+pub mod sessions;
+pub mod sso;
+pub mod sso_oidc;
+pub mod sso_saml;

@@ -29,24 +29,24 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(project_id: String, secret: String) -> Self {
-        Client::NewWithHTTPClient(reqwest::Client::new())
+    pub fn new(project_id: String, secret: String) -> crate::Result<Self> {
+        Ok(Client::new_with_http_client(crate::reqwest::Client::new(
+            project_id, secret,
+        )?))
     }
 
-    pub fn new_with_http_client(http_client: HttpClient) -> Self {
+    pub fn new_with_http_client(http_client: crate::reqwest::Client) -> Self {
         Client {
-            project_id,
-            secret,
-            crypto_wallets: CryptoWallets::New(http_client),
-            m2m: M2M::New(http_client),
-            magic_links: MagicLinks::New(http_client),
-            oauth: OAuth::New(http_client),
-            otps: OTPs::New(http_client),
-            passwords: Passwords::New(http_client),
-            sessions: Sessions::New(http_client),
-            totps: TOTPs::New(http_client),
-            users: Users::New(http_client),
-            webauthn: WebAuthn::New(http_client),
+            crypto_wallets: CryptoWallets::new(http_client.clone()),
+            m2m: M2M::new(http_client.clone()),
+            magic_links: MagicLinks::new(http_client.clone()),
+            oauth: OAuth::new(http_client.clone()),
+            otps: OTPs::new(http_client.clone()),
+            passwords: Passwords::new(http_client.clone()),
+            sessions: Sessions::new(http_client.clone()),
+            totps: TOTPs::new(http_client.clone()),
+            users: Users::new(http_client.clone()),
+            webauthn: WebAuthn::new(http_client.clone()),
         }
     }
 }

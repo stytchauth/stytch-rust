@@ -1,1 +1,22 @@
+pub mod client;
 
+pub mod attribute;
+pub mod crypto_wallets;
+pub mod m2m;
+pub mod m2m_clients;
+pub mod m2m_clients_secrets;
+pub mod magic_links;
+pub mod magic_links_email;
+pub mod oauth;
+pub mod otp;
+pub mod otp_email;
+pub mod otp_sms;
+pub mod otp_whatsapp;
+pub mod passwords;
+pub mod passwords_email;
+pub mod passwords_existing_password;
+pub mod passwords_session;
+pub mod sessions;
+pub mod totps;
+pub mod users;
+pub mod webauthn;

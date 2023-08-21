@@ -27,23 +27,23 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(project_id: String, secret: String) -> Self {
-        Client::NewWithHTTPClient(reqwest::Client::new())
+    pub fn new(project_id: String, secret: String) -> crate::Result<Self> {
+        Ok(Client::new_with_http_client(crate::reqwest::Client::new(
+            project_id, secret,
+        )?))
     }
 
-    pub fn new_with_http_client(http_client: HttpClient) -> Self {
+    pub fn new_with_http_client(http_client: crate::reqwest::Client) -> Self {
         Client {
-            project_id,
-            secret,
-            discovery: Discovery::New(http_client),
-            m2m: M2M::New(http_client),
-            magic_links: MagicLinks::New(http_client),
-            oauth: OAuth::New(http_client),
-            otps: OTPs::New(http_client),
-            organizations: Organizations::New(http_client),
-            passwords: Passwords::New(http_client),
-            sso: SSO::New(http_client),
-            sessions: Sessions::New(http_client),
+            discovery: Discovery::new(http_client.clone()),
+            m2m: M2M::new(http_client.clone()),
+            magic_links: MagicLinks::new(http_client.clone()),
+            oauth: OAuth::new(http_client.clone()),
+            otps: OTPs::new(http_client.clone()),
+            organizations: Organizations::new(http_client.clone()),
+            passwords: Passwords::new(http_client.clone()),
+            sso: SSO::new(http_client.clone()),
+            sessions: Sessions::new(http_client.clone()),
         }
     }
 }
