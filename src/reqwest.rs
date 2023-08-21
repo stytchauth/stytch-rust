@@ -44,6 +44,7 @@ impl Client {
         Res: DeserializeOwned + std::fmt::Debug,
     {
         let url = self.base_url.join(&req.path)?;
+        // TODO: Handle GET params?
         let req = self.client.request(req.method, url).json(&req.body);
 
         tracing::debug!({ req = ?req }, "send Stytch request");

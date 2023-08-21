@@ -4,15 +4,15 @@
 // or your changes may be overwritten later!
 // !!!
 
-use crate::b2b::organizations::Organizations;
-use crate::b2b::passwords::Passwords;
+use crate::b2b::discovery::Discovery;
 use crate::b2b::magic_links::MagicLinks;
-use crate::consumer::m2m::M2M;
+use crate::b2b::oauth::OAuth;
+use crate::b2b::organizations::Organizations;
+use crate::b2b::otp::OTPs;
+use crate::b2b::passwords::Passwords;
 use crate::b2b::sessions::Sessions;
 use crate::b2b::sso::SSO;
-use crate::b2b::otp::OTPs;
-use crate::b2b::oauth::OAuth;
-use crate::b2b::discovery::Discovery;
+use crate::consumer::m2m::M2M;
 
 pub struct Client {
     pub discovery: Discovery,
@@ -47,4 +47,3 @@ impl Client {
         }
     }
 }
- 
