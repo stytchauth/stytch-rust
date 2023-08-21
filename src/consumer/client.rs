@@ -4,16 +4,16 @@
 // or your changes may be overwritten later!
 // !!!
 
-use crate::consumer::sessions::Sessions;
-use crate::consumer::webauthn::WebAuthn;
 use crate::consumer::passwords::Passwords;
-use crate::consumer::m2m::M2M;
-use crate::consumer::users::Users;
-use crate::consumer::otp::OTPs;
+use crate::consumer::sessions::Sessions;
 use crate::consumer::crypto_wallets::CryptoWallets;
-use crate::consumer::magic_links::MagicLinks;
-use crate::consumer::totps::TOTPs;
 use crate::consumer::oauth::OAuth;
+use crate::consumer::m2m::M2M;
+use crate::consumer::webauthn::WebAuthn;
+use crate::consumer::totps::TOTPs;
+use crate::consumer::otp::OTPs;
+use crate::consumer::users::Users;
+use crate::consumer::magic_links::MagicLinks;
 
 pub struct Client {
     pub crypto_wallets: CryptoWallets,
@@ -50,3 +50,4 @@ impl Client {
         }
     }
 }
+ 
