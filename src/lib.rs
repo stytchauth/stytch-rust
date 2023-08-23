@@ -35,8 +35,6 @@ pub struct ErrorResponse {
     pub error_url: String,
 }
 
-#[cfg(feature = "reqwest")]
-pub mod reqwest;
-
 pub mod b2b;
 pub mod consumer;
+pub mod reqwest;
