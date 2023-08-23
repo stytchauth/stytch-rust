@@ -137,13 +137,6 @@ let resp = stytch_client
 Log the first user into the organization
 
 ```rust
-client.magicLinks.loginOrSignup({
-  organization_id: "organization-id-from-create-response-..."
-  email_address: "admin@acme.co"
-})
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
-  
 let resp = stytch_client
     .client
     .magic_links
