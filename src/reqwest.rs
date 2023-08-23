@@ -48,6 +48,7 @@ impl Client {
 
         tracing::debug!({ req = ?req }, "send Stytch request");
         let res = req.send().await?;
+
         if res.status().is_success() {
             let body = res.json().await?;
             tracing::debug!({ ?body }, "Stytch response success");

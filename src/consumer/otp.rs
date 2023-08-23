@@ -14,7 +14,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `OTPs.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// method_id: The `email_id` or `phone_id` involved in the given authentication.
     pub method_id: String,
@@ -48,7 +48,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `OTPs.authenticate`.

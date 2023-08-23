@@ -12,7 +12,7 @@ use crate::consumer::m2m_clients_secrets::Secrets;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Clients.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// scopes: An array of scopes assigned to the client.
     pub scopes: std::vec::Vec<String>,
@@ -30,7 +30,7 @@ pub struct CreateRequest {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// CreateResponse: Response type for `Clients.create`.
@@ -50,7 +50,7 @@ pub struct CreateResponse {
 }
 
 /// DeleteRequest: Request type for `Clients.delete`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -73,7 +73,7 @@ pub struct DeleteResponse {
 }
 
 /// GetRequest: Request type for `Clients.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -96,7 +96,7 @@ pub struct GetResponse {
 }
 
 /// SearchRequest: Request type for `Clients.search`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
     /// cursor: The `cursor` field allows you to paginate through your results. Each result array is limited to
     /// 1000 results. If your query returns more than 1000 results, you will need to paginate the responses
@@ -135,7 +135,7 @@ pub struct SearchResponse {
 }
 
 /// UpdateRequest: Request type for `Clients.update`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -150,7 +150,7 @@ pub struct UpdateRequest {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// UpdateResponse: Response type for `Clients.update`.
@@ -169,9 +169,10 @@ pub struct UpdateResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateRequestStatus {
     #[serde(rename = "active")]
+    #[default]
     Active,
     #[serde(rename = "inactive")]
     Inactive,

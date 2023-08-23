@@ -37,7 +37,7 @@ pub struct Membership {
     #[serde(rename = "type")]
     pub type_: String,
     /// details: An object containing additional metadata about the membership, if available.
-    pub details: std::option::Option<String>,
+    pub details: std::option::Option<serde_json::Value>,
     /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
     /// null if one does not.
     pub member: std::option::Option<Member>,

@@ -111,7 +111,7 @@ pub struct ScryptConfig {
 }
 
 /// AuthenticateRequest: Request type for `Passwords.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// email: The email address of the end user.
     pub email: String,
@@ -141,7 +141,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `Passwords.authenticate`.
@@ -174,7 +174,7 @@ pub struct AuthenticateResponse {
 }
 
 /// CreateRequest: Request type for `Passwords.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// email: The email address of the end user.
     pub email: String,
@@ -200,16 +200,16 @@ pub struct CreateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
 }
@@ -246,7 +246,7 @@ pub struct CreateResponse {
 }
 
 /// MigrateRequest: Request type for `Passwords.migrate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
     /// email: The email address of the end user.
     pub email: String,
@@ -269,12 +269,12 @@ pub struct MigrateRequest {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
 }
@@ -304,7 +304,7 @@ pub struct MigrateResponse {
 }
 
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
     /// password: The password of the user
     pub password: String,
@@ -349,9 +349,10 @@ pub struct StrengthCheckResponse {
     pub feedback: std::option::Option<Feedback>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MigrateRequestHashType {
     #[serde(rename = "bcrypt")]
+    #[default]
     Bcrypt,
     #[serde(rename = "md_5")]
     Md5,

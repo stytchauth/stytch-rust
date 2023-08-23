@@ -52,7 +52,7 @@ pub struct ZxcvbnFeedback {
 }
 
 /// AuthenticateRequest: Request type for `Passwords.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -87,7 +87,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
@@ -149,7 +149,7 @@ pub struct AuthenticateResponse {
 }
 
 /// MigrateRequest: Request type for `Passwords.migrate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -177,13 +177,13 @@ pub struct MigrateRequest {
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// MigrateResponse: Response type for `Passwords.migrate`.
@@ -211,7 +211,7 @@ pub struct MigrateResponse {
 }
 
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
     /// password: The password to authenticate.
     pub password: String,
@@ -262,9 +262,10 @@ pub struct StrengthCheckResponse {
     pub zxcvbn_feedback: std::option::Option<ZxcvbnFeedback>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -272,9 +273,10 @@ pub enum AuthenticateRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MigrateRequestHashType {
     #[serde(rename = "bcrypt")]
+    #[default]
     Bcrypt,
     #[serde(rename = "md_5")]
     Md5,

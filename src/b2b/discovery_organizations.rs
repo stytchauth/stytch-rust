@@ -12,7 +12,7 @@ use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Organizations.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
@@ -60,12 +60,12 @@ pub struct CreateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// organization_logo_url: The image URL of the Organization logo.
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///  
@@ -177,7 +177,7 @@ pub struct CreateResponse {
 }
 
 /// ListRequest: Request type for `Organizations.list`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ListRequest {
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.

@@ -21,7 +21,7 @@ pub struct TOTP {
 }
 
 /// AuthenticateRequest: Request type for `TOTPs.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
     pub user_id: String,
@@ -51,7 +51,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `TOTPs.authenticate`.
@@ -86,7 +86,7 @@ pub struct AuthenticateResponse {
 }
 
 /// CreateRequest: Request type for `TOTPs.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
     pub user_id: String,
@@ -125,7 +125,7 @@ pub struct CreateResponse {
 }
 
 /// RecoverRequest: Request type for `TOTPs.recover`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoverRequest {
     /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
     pub user_id: String,
@@ -155,7 +155,7 @@ pub struct RecoverRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// RecoverResponse: Response type for `TOTPs.recover`.
@@ -190,7 +190,7 @@ pub struct RecoverResponse {
 }
 
 /// RecoveryCodesRequest: Request type for `TOTPs.recovery_codes`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoveryCodesRequest {
     /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
     pub user_id: String,

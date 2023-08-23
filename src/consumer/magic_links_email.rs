@@ -9,7 +9,7 @@ use crate::consumer::users::Name;
 use serde::{Deserialize, Serialize};
 
 /// InviteRequest: Request type for `Email.invite`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct InviteRequest {
     /// email: The email address of the User to send the invite Magic Link to.
     pub email: String,
@@ -60,7 +60,7 @@ pub struct InviteResponse {
 }
 
 /// LoginOrCreateRequest: Request type for `Email.login_or_create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
     /// email: The email address of the end user.
     pub email: String,
@@ -135,7 +135,7 @@ pub struct LoginOrCreateResponse {
 }
 
 /// RevokeInviteRequest: Request type for `Email.revoke_invite`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeInviteRequest {
     /// email: The email of the user.
     pub email: String,
@@ -156,7 +156,7 @@ pub struct RevokeInviteResponse {
 }
 
 /// SendRequest: Request type for `Email.send`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// email: The email address of the User to send the Magic Link to.
     pub email: String,
@@ -225,9 +225,10 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum InviteRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -235,9 +236,10 @@ pub enum InviteRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -245,9 +247,10 @@ pub enum LoginOrCreateRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

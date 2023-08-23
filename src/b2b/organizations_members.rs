@@ -11,7 +11,7 @@ use crate::b2b::organizations::SearchQuery;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Members.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -22,13 +22,13 @@ pub struct CreateRequest {
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// create_member_as_pending: Flag for whether or not to save a Member as `pending` or `active` in Stytch.
     /// It defaults to false. If true, new Members will be created with status `pending` in Stytch's backend.
     /// Their status will remain `pending` and they will continue to receive signup email templates for every
@@ -71,7 +71,7 @@ pub struct CreateResponse {
 }
 
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteMFAPhoneNumberRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -103,7 +103,7 @@ pub struct DeleteMFAPhoneNumberResponse {
 }
 
 /// DeletePasswordRequest: Request type for `Members.delete_password`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePasswordRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -134,7 +134,7 @@ pub struct DeletePasswordResponse {
 }
 
 /// DeleteRequest: Request type for `Members.delete`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -161,7 +161,7 @@ pub struct DeleteResponse {
 }
 
 /// GetRequest: Request type for `Members.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -194,7 +194,7 @@ pub struct GetResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ReactivateMethodRequest {
     pub organization_id: String,
     pub member_id: String,
@@ -211,7 +211,7 @@ pub struct ReactivateMethodResponse {
 }
 
 /// SearchRequest: Request type for `Members.search`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
     /// organization_ids: An array of organization_ids. At least one value is required.
     pub organization_ids: std::vec::Vec<String>,
@@ -256,7 +256,7 @@ pub struct SearchResponse {
 }
 
 /// UpdateRequest: Request type for `Members.update`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -268,13 +268,13 @@ pub struct UpdateRequest {
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the

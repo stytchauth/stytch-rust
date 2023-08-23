@@ -10,7 +10,7 @@ use crate::b2b::organizations::Organization;
 use serde::{Deserialize, Serialize};
 
 /// InviteRequest: Request type for `Email.invite`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct InviteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -30,13 +30,13 @@ pub struct InviteRequest {
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// invite_template_id: Use a custom template for invite emails. By default, it will use your default email
     /// template. The template must be a template
     ///   using our built-in customizations or a custom HTML email for Magic Links - Invite.
@@ -75,7 +75,7 @@ pub struct InviteResponse {
 }
 
 /// LoginOrSignupRequest: Request type for `Email.login_or_signup`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrSignupRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -143,9 +143,10 @@ pub struct LoginOrSignupResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum InviteRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -153,9 +154,10 @@ pub enum InviteRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrSignupRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

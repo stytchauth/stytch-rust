@@ -9,7 +9,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `CryptoWallets.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// crypto_wallet_type: The type of wallet to authenticate. Currently `ethereum` and `solana` are supported.
     /// Wallets for any EVM-compatible chains (such as Polygon or BSC) are also supported and are grouped under
@@ -43,7 +43,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `CryptoWallets.authenticate`.
@@ -76,7 +76,7 @@ pub struct AuthenticateResponse {
 }
 
 /// AuthenticateStartRequest: Request type for `CryptoWallets.authenticate_start`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
     /// crypto_wallet_type: The type of wallet to authenticate. Currently `ethereum` and `solana` are supported.
     /// Wallets for any EVM-compatible chains (such as Polygon or BSC) are also supported and are grouped under

@@ -9,7 +9,7 @@ use crate::consumer::m2m::M2MClientWithNextClientSecret;
 use serde::{Deserialize, Serialize};
 
 /// RotateCancelRequest: Request type for `Secrets.rotate_cancel`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateCancelRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -32,7 +32,7 @@ pub struct RotateCancelResponse {
 }
 
 /// RotateRequest: Request type for `Secrets.rotate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -55,7 +55,7 @@ pub struct RotateResponse {
 }
 
 /// RotateStartRequest: Request type for `Secrets.rotate_start`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateStartRequest {
     /// client_id: The ID of the client.
     pub client_id: String,

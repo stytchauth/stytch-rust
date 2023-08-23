@@ -10,7 +10,7 @@ use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
 /// ResetRequest: Request type for `Sessions.reset`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.

@@ -9,7 +9,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// ResetRequest: Request type for `Sessions.reset`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// password: The password of the user
     pub password: String,

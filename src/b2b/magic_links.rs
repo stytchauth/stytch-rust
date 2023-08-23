@@ -13,7 +13,7 @@ use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `MagicLinks.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// magic_links_token: The Email Magic Link token to authenticate.
     pub magic_links_token: String,
@@ -54,7 +54,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
@@ -125,9 +125,10 @@ pub struct AuthenticateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

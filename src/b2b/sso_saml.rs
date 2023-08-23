@@ -8,7 +8,7 @@ use crate::b2b::sso::SAMLConnection;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `SAML.create_connection`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -36,7 +36,7 @@ pub struct CreateConnectionResponse {
 }
 
 /// DeleteVerificationCertificateRequest: Request type for `SAML.delete_verification_certificate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteVerificationCertificateRequest {
     /// organization_id: The organization ID that the SAML connection belongs to.
     pub organization_id: String,
@@ -63,7 +63,7 @@ pub struct DeleteVerificationCertificateResponse {
 }
 
 /// UpdateConnectionRequest: Request type for `SAML.update_connection`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -77,7 +77,7 @@ pub struct UpdateConnectionRequest {
     /// attribute_mapping: An object that represents the attributes used to identify a Member. This object will
     /// map the IdP-defined User attributes to Stytch-specific values. Required attributes: `email` and one of
     /// `full_name` or `first_name` and `last_name`.
-    pub attribute_mapping: std::option::Option<String>,
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
     /// x509_certificate: A certificate that Stytch will use to verify the sign-in assertion sent by the IdP, in
     /// [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format. See our
     /// [X509 guide](https://stytch.com/docs/b2b/api/saml-certificates) for more info.

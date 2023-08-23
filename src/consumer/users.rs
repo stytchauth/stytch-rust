@@ -115,7 +115,7 @@ pub struct SearchUsersQuery {
     pub operator: SearchUsersQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search search query.
-    pub operands: std::vec::Vec<String>,
+    pub operands: std::vec::Vec<serde_json::Value>,
 }
 
 /// TOTP:
@@ -161,12 +161,12 @@ pub struct User {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// WebAuthnRegistration:
@@ -188,7 +188,7 @@ pub struct WebAuthnRegistration {
 }
 
 /// CreateRequest: Request type for `Users.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,
@@ -211,12 +211,12 @@ pub struct CreateRequest {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// CreateResponse: Response type for `Users.create`.
@@ -245,7 +245,7 @@ pub struct CreateResponse {
 }
 
 /// DeleteBiometricRegistrationRequest: Request type for `Users.delete_biometric_registration`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteBiometricRegistrationRequest {
     /// biometric_registration_id: The `biometric_registration_id` to be deleted.
     pub biometric_registration_id: String,
@@ -271,7 +271,7 @@ pub struct DeleteBiometricRegistrationResponse {
 }
 
 /// DeleteCryptoWalletRequest: Request type for `Users.delete_crypto_wallet`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteCryptoWalletRequest {
     /// crypto_wallet_id: The `crypto_wallet_id` to be deleted.
     pub crypto_wallet_id: String,
@@ -297,7 +297,7 @@ pub struct DeleteCryptoWalletResponse {
 }
 
 /// DeleteEmailRequest: Request type for `Users.delete_email`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteEmailRequest {
     /// email_id: The `email_id` to be deleted.
     pub email_id: String,
@@ -323,7 +323,7 @@ pub struct DeleteEmailResponse {
 }
 
 /// DeleteOAuthRegistrationRequest: Request type for `Users.delete_oauth_registration`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteOAuthRegistrationRequest {
     /// oauth_user_registration_id: The `oauth_user_registration_id` to be deleted.
     pub oauth_user_registration_id: String,
@@ -349,7 +349,7 @@ pub struct DeleteOAuthRegistrationResponse {
 }
 
 /// DeletePasswordRequest: Request type for `Users.delete_password`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePasswordRequest {
     /// password_id: The `password_id` to be deleted.
     pub password_id: String,
@@ -375,7 +375,7 @@ pub struct DeletePasswordResponse {
 }
 
 /// DeletePhoneNumberRequest: Request type for `Users.delete_phone_number`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePhoneNumberRequest {
     /// phone_id: The `phone_id` to be deleted.
     pub phone_id: String,
@@ -401,7 +401,7 @@ pub struct DeletePhoneNumberResponse {
 }
 
 /// DeleteRequest: Request type for `Users.delete`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// user_id: The unique ID of a specific User.
     pub user_id: String,
@@ -424,7 +424,7 @@ pub struct DeleteResponse {
 }
 
 /// DeleteTOTPRequest: Request type for `Users.delete_totp`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteTOTPRequest {
     /// totp_id: The `totp_id` to be deleted.
     pub totp_id: String,
@@ -450,7 +450,7 @@ pub struct DeleteTOTPResponse {
 }
 
 /// DeleteWebAuthnRegistrationRequest: Request type for `Users.delete_webauthn_registration`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteWebAuthnRegistrationRequest {
     /// webauthn_registration_id: The `webauthn_registration_id` to be deleted.
     pub webauthn_registration_id: String,
@@ -476,7 +476,7 @@ pub struct DeleteWebAuthnRegistrationResponse {
 }
 
 /// GetRequest: Request type for `Users.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// user_id: The unique ID of a specific User.
     pub user_id: String,
@@ -524,16 +524,16 @@ pub struct GetResponse {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// SearchRequest: Request type for `Users.search`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
     /// cursor: The `cursor` field allows you to paginate through your results. Each result array is limited to
     /// 1000 results. If your query returns more than 1000 results, you will need to paginate the responses
@@ -572,7 +572,7 @@ pub struct SearchResponse {
 }
 
 /// UpdateRequest: Request type for `Users.update`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// user_id: The unique ID of a specific User.
     pub user_id: String,
@@ -583,12 +583,12 @@ pub struct UpdateRequest {
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
     /// details.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
     /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// UpdateResponse: Response type for `Users.update`.
@@ -616,9 +616,10 @@ pub struct UpdateResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchUsersQueryOperator {
     #[serde(rename = "or")]
+    #[default]
     OR,
     #[serde(rename = "and")]
     AND,

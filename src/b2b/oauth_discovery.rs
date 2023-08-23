@@ -8,14 +8,14 @@ use crate::b2b::discovery::DiscoveredOrganization;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `Discovery.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// discovery_oauth_token: The Discovery OAuth token to authenticate.
     pub discovery_oauth_token: String,
     pub session_token: std::option::Option<String>,
     pub session_duration_minutes: std::option::Option<i32>,
     pub session_jwt: std::option::Option<String>,
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// pkce_code_verifier: A base64url encoded one time secret used to validate that the request starts and
     /// ends on the same device.
     pub pkce_code_verifier: std::option::Option<String>,

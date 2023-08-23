@@ -23,7 +23,7 @@ pub struct M2MClient {
     /// client_secret_last_four: The last four characters of the client secret.
     pub client_secret_last_four: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
@@ -49,7 +49,7 @@ pub struct M2MClientWithClientSecret {
     /// client_secret_last_four: The last four characters of the client secret.
     pub client_secret_last_four: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
@@ -76,7 +76,7 @@ pub struct M2MClientWithNextClientSecret {
     /// client_secret_last_four: The last four characters of the client secret.
     pub client_secret_last_four: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
@@ -93,7 +93,7 @@ pub struct M2MSearchQuery {
     pub operator: M2MSearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search search query.
-    pub operands: std::vec::Vec<String>,
+    pub operands: std::vec::Vec<serde_json::Value>,
 }
 
 /// ResultsMetadata:
@@ -106,9 +106,10 @@ pub struct ResultsMetadata {
     pub next_cursor: std::option::Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum M2MSearchQueryOperator {
     #[serde(rename = "or")]
+    #[default]
     OR,
     #[serde(rename = "and")]
     AND,

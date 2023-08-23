@@ -9,7 +9,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `WebAuthn.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
@@ -38,7 +38,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `WebAuthn.authenticate`.
@@ -73,7 +73,7 @@ pub struct AuthenticateResponse {
 }
 
 /// AuthenticateStartRequest: Request type for `WebAuthn.authenticate_start`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
     /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
     pub user_id: String,
@@ -100,7 +100,7 @@ pub struct AuthenticateStartResponse {
 }
 
 /// RegisterRequest: Request type for `WebAuthn.register`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterRequest {
     /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
     pub user_id: String,
@@ -128,7 +128,7 @@ pub struct RegisterResponse {
 }
 
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterStartRequest {
     /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
     pub user_id: String,

@@ -8,7 +8,7 @@ use crate::b2b::discovery::DiscoveredOrganization;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `Discovery.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// discovery_magic_links_token: The Discovery Email Magic Link token to authenticate.
     pub discovery_magic_links_token: String,

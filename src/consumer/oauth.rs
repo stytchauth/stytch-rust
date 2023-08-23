@@ -30,7 +30,7 @@ pub struct ProviderValues {
 }
 
 /// AttachRequest: Request type for `OAuth.attach`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AttachRequest {
     /// provider: The OAuth provider's name.
     pub provider: String,
@@ -60,7 +60,7 @@ pub struct AttachResponse {
 }
 
 /// AuthenticateRequest: Request type for `OAuth.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// token: The token to authenticate.
     pub token: String,
@@ -94,7 +94,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// code_verifier: A base64url encoded one time secret used to validate that the request starts and ends on
     /// the same device.
     pub code_verifier: std::option::Option<String>,

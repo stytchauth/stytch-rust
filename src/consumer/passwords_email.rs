@@ -11,7 +11,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// ResetRequest: Request type for `Email.reset`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// token: The token to authenticate.
     pub token: String,
@@ -44,7 +44,7 @@ pub struct ResetRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// attributes: Provided attributes help with fraud detection.
     pub attributes: std::option::Option<Attributes>,
     /// options: Specify optional security settings.
@@ -81,7 +81,7 @@ pub struct ResetResponse {
 }
 
 /// ResetStartRequest: Request type for `Email.reset_start`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetStartRequest {
     /// email: The email of the User that requested the password reset.
     pub email: String,
@@ -145,9 +145,10 @@ pub struct ResetStartResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetStartRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

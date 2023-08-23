@@ -10,7 +10,7 @@ use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `Sms.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -57,7 +57,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// set_mfa_enrollment: Optionally sets the Member’s MFA enrollment status upon a successful authentication.
     /// If the Organization’s MFA policy is `REQUIRED_FOR_ALL`, this field will be ignored. If this field is not
     /// passed in, the Member’s `mfa_enrolled` boolean will not be affected. The options are:
@@ -99,7 +99,7 @@ pub struct AuthenticateResponse {
 }
 
 /// SendRequest: Request type for `Sms.send`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -143,9 +143,10 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

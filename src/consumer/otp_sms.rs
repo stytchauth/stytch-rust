@@ -8,7 +8,7 @@ use crate::consumer::attribute::Attributes;
 use serde::{Deserialize, Serialize};
 
 /// LoginOrCreateRequest: Request type for `Sms.login_or_create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
     /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164
     /// format. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test
@@ -61,7 +61,7 @@ pub struct LoginOrCreateResponse {
 }
 
 /// SendRequest: Request type for `Sms.send`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164
     /// format. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test
@@ -108,9 +108,10 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -118,9 +119,10 @@ pub enum LoginOrCreateRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

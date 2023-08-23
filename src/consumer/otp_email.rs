@@ -8,7 +8,7 @@ use crate::consumer::attribute::Attributes;
 use serde::{Deserialize, Serialize};
 
 /// LoginOrCreateRequest: Request type for `Email.login_or_create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
     /// email: The email address of the user to send the one-time passcode to. You may use sandbox@stytch.com to
     /// test this endpoint, see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
@@ -68,7 +68,7 @@ pub struct LoginOrCreateResponse {
 }
 
 /// SendRequest: Request type for `Email.send`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// email: The email address of the user to send the one-time passcode to. You may use sandbox@stytch.com to
     /// test this endpoint, see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
@@ -122,9 +122,10 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,
@@ -132,9 +133,10 @@ pub enum LoginOrCreateRequestLocale {
     Ptbr,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

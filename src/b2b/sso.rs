@@ -40,7 +40,7 @@ pub struct SAMLConnection {
     pub audience_uri: String,
     pub signing_certificates: std::vec::Vec<X509Certificate>,
     pub verification_certificates: std::vec::Vec<X509Certificate>,
-    pub attribute_mapping: std::option::Option<String>,
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -53,7 +53,7 @@ pub struct X509Certificate {
 }
 
 /// AuthenticateRequest: Request type for `SSO.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// sso_token: The token to authenticate.
     pub sso_token: String,
@@ -86,7 +86,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
@@ -153,7 +153,7 @@ pub struct AuthenticateResponse {
 }
 
 /// DeleteConnectionRequest: Request type for `SSO.delete_connection`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteConnectionRequest {
     /// organization_id: The organization ID that the SSO connection belongs to.
     pub organization_id: String,
@@ -178,7 +178,7 @@ pub struct DeleteConnectionResponse {
 }
 
 /// GetConnectionsRequest: Request type for `SSO.get_connections`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetConnectionsRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -205,9 +205,10 @@ pub struct GetConnectionsResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

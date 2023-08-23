@@ -56,13 +56,13 @@ pub struct Member {
     pub mfa_phone_number: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    pub untrusted_metadata: std::option::Option<String>,
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 
 /// OAuthRegistration:
@@ -162,7 +162,7 @@ pub struct Organization {
     pub mfa_policy: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
@@ -188,7 +188,7 @@ pub struct SSORegistration {
     /// registration_id: The unique ID of an SSO Registration.
     pub registration_id: String,
     /// sso_attributes: An object for storing SSO attributes brought over from the identity provider.
-    pub sso_attributes: std::option::Option<String>,
+    pub sso_attributes: std::option::Option<serde_json::Value>,
 }
 
 /// SearchQuery:
@@ -202,11 +202,11 @@ pub struct SearchQuery {
     pub operator: SearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search query.
-    pub operands: std::vec::Vec<String>,
+    pub operands: std::vec::Vec<serde_json::Value>,
 }
 
 /// CreateRequest: Request type for `Organizations.create`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// organization_name: The name of the Organization.
     pub organization_name: String,
@@ -217,7 +217,7 @@ pub struct CreateRequest {
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///  
@@ -301,7 +301,7 @@ pub struct CreateResponse {
 }
 
 /// DeleteRequest: Request type for `Organizations.delete`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -326,7 +326,7 @@ pub struct DeleteResponse {
 }
 
 /// GetRequest: Request type for `Organizations.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -350,7 +350,7 @@ pub struct GetResponse {
 }
 
 /// SearchRequest: Request type for `Organizations.search`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
     /// cursor: The `cursor` field allows you to paginate through your results. Each result array is limited to
     /// 1000 results. If your query returns more than 1000 results, you will need to paginate the responses
@@ -389,7 +389,7 @@ pub struct SearchResponse {
 }
 
 /// UpdateRequest: Request type for `Organizations.update`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -403,7 +403,7 @@ pub struct UpdateRequest {
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
-    pub trusted_metadata: std::option::Option<String>,
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
@@ -494,9 +494,10 @@ pub struct UpdateResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
     #[serde(rename = "or")]
+    #[default]
     OR,
     #[serde(rename = "and")]
     AND,

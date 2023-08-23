@@ -8,7 +8,7 @@ use crate::b2b::sso::OIDCConnection;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `OIDC.create_connection`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -36,7 +36,7 @@ pub struct CreateConnectionResponse {
 }
 
 /// UpdateConnectionRequest: Request type for `OIDC.update_connection`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.

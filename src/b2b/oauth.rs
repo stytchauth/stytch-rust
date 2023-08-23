@@ -31,7 +31,7 @@ pub struct ProviderValues {
 }
 
 /// AuthenticateRequest: Request type for `OAuth.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// oauth_token: The token to authenticate.
     pub oauth_token: String,
@@ -61,7 +61,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// pkce_code_verifier: A base64url encoded one time secret used to validate that the request starts and
     /// ends on the same device.
     pub pkce_code_verifier: std::option::Option<String>,
@@ -142,9 +142,10 @@ pub struct AuthenticateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

@@ -34,11 +34,11 @@ pub struct MemberSession {
     pub organization_id: String,
     /// custom_claims: The custom claims map for a Session. Claims can be added to a session during a Sessions
     /// authenticate call.
-    pub custom_claims: std::option::Option<String>,
+    pub custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,
@@ -66,7 +66,7 @@ pub struct AuthenticateRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
@@ -95,7 +95,7 @@ pub struct AuthenticateResponse {
 }
 
 /// ExchangeRequest: Request type for `Sessions.exchange`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangeRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -126,7 +126,7 @@ pub struct ExchangeRequest {
     ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
@@ -188,7 +188,7 @@ pub struct ExchangeResponse {
 }
 
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetJWKSRequest {
     /// project_id: The `project_id` to get the JWKS for.
     pub project_id: String,
@@ -211,7 +211,7 @@ pub struct GetJWKSResponse {
 }
 
 /// GetRequest: Request type for `Sessions.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -238,7 +238,7 @@ pub struct GetResponse {
 }
 
 /// RevokeRequest: Request type for `Sessions.revoke`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
     /// member_session_id: Globally unique UUID that identifies a specific Session in the Stytch API. The
     /// `member_session_id` is critical to perform operations on an Session, so be sure to preserve this value.
@@ -266,9 +266,10 @@ pub struct RevokeResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ExchangeRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

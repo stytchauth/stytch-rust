@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 /// SendRequest: Request type for `Discovery.send`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -51,9 +51,10 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
+    #[default]
     En,
     #[serde(rename = "es")]
     Es,

@@ -239,7 +239,7 @@ pub struct Session {
     pub attributes: std::option::Option<Attributes>,
     /// custom_claims: The custom claims map for a Session. Claims can be added to a session during a Sessions
     /// authenticate call.
-    pub custom_claims: std::option::Option<String>,
+    pub custom_claims: std::option::Option<serde_json::Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -313,7 +313,7 @@ pub struct YahooOAuthFactor {
 }
 
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// session_token: The session token to authenticate.
     pub session_token: std::option::Option<String>,
@@ -332,7 +332,7 @@ pub struct AuthenticateRequest {
     ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
-    pub session_custom_claims: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
@@ -363,7 +363,7 @@ pub struct AuthenticateResponse {
 }
 
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetJWKSRequest {
     /// project_id: The `project_id` to get the JWKS for.
     pub project_id: String,
@@ -386,7 +386,7 @@ pub struct GetJWKSResponse {
 }
 
 /// GetRequest: Request type for `Sessions.get`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// user_id: The `user_id` to get active Sessions for.
     pub user_id: String,
@@ -409,7 +409,7 @@ pub struct GetResponse {
 }
 
 /// RevokeRequest: Request type for `Sessions.revoke`.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
     /// session_id: The `session_id` to revoke.
     pub session_id: std::option::Option<String>,
@@ -433,9 +433,10 @@ pub struct RevokeResponse {
     pub status_code: http::StatusCode,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorDeliveryMethod {
     #[serde(rename = "email")]
+    #[default]
     Email,
     #[serde(rename = "sms")]
     Sms,
@@ -507,9 +508,10 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthYahoo,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
     #[serde(rename = "magic_link")]
+    #[default]
     MagicLink,
     #[serde(rename = "otp")]
     OTP,
