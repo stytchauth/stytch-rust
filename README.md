@@ -56,17 +56,10 @@ use stytch::consumer::{
     client::Client
 };
 
-struct StytchClient {
-    client: Client,
-}
-
-let stytch_client = StytchClient {
-    client: stytch::consumer::client::Client::new(
-        "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
-        "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-    )
-    .unwrap(),
-}
+let stytch_client = Client::new(
+    "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
+    "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
+).unwrap();
 ```
 
 Send a magic link by email:
@@ -105,23 +98,16 @@ use stytch::b2b::{
     client::Client
 };
 
-struct StytchClient {
-    client: Client,
-}
-
-let stytch_client = StytchClient {
-    client: stytch::b2b::client::Client::new(
-        "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
-        "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
-    )
-    .unwrap(),
-}
+let stytch_client = Client::new(
+    "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
+    "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
+).unwrap()
 ```
 
 Create an organization
 
 ```rust
-let mut allowed_domains = vec!["acme.co".to_string()];
+let allowed_domains = vec!["acme.co".to_string()];
 let resp = stytch_client
     .client
     .organizations
