@@ -1,15 +1,20 @@
-use derivative::Derivative;
 use serde::{de::DeserializeOwned, Serialize};
 
 const LIVE_URL: &str = "https://api.stytch.com/";
 const TEST_URL: &str = "https://test.stytch.com/";
 
-#[derive(Clone, Derivative)]
-#[derivative(Debug)]
+#[derive(Clone)]
 pub struct Client {
-    #[derivative(Debug = "ignore")]
     pub client: reqwest::Client,
     pub base_url: reqwest::Url,
+}
+
+impl std::fmt::Debug for Client {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Client")
+            .field("base_url", &self.base_url)
+            .finish()
+    }
 }
 
 impl Client {
