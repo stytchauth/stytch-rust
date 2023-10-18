@@ -19,9 +19,9 @@ pub struct ResetRequest {
     pub password: String,
     /// session_token: Reuse an existing session instead of creating a new one. If you provide a
     /// `session_token`, Stytch will update the session.
-    ///       If the `session_token` and `magic_links_token` belong to different Members, the `session_token`
-    /// will be ignored. This endpoint will error if
-    ///       both `session_token` and `session_jwt` are provided.
+    ///   If the `session_token` and `magic_links_token` belong to different Members, the `session_token` will
+    /// be ignored. This endpoint will error if
+    ///   both `session_token` and `session_jwt` are provided.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
@@ -30,19 +30,19 @@ pub struct ResetRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: Reuse an existing session instead of creating a new one. If you provide a `session_jwt`,
     /// Stytch will update the session. If the `session_jwt`
-    ///       and `magic_links_token` belong to different Members, the `session_jwt` will be ignored. This
-    /// endpoint will error if both `session_token` and `session_jwt`
-    ///       are provided.
+    ///   and `magic_links_token` belong to different Members, the `session_jwt` will be ignored. This endpoint
+    /// will error if both `session_token` and `session_jwt`
+    ///   are provided.
     pub session_jwt: std::option::Option<String>,
     /// code_verifier: A base64url encoded one time secret used to validate that the request starts and ends on
     /// the same device.
@@ -85,8 +85,7 @@ pub struct ResetResponse {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -96,11 +95,11 @@ pub struct ResetResponse {
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains a password factor
     /// associated with the Member.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       Password factors are not transferable between Organizations, so the intermediate session token is
-    /// not valid for use with discovery endpoints.
+    ///   Password factors are not transferable between Organizations, so the intermediate session token is not
+    /// valid for use with discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.
@@ -139,11 +138,11 @@ pub struct ResetStartRequest {
     pub code_challenge: std::option::Option<String>,
     /// login_redirect_url: The URL that the member clicks from the reset without password link. This URL should
     /// be an endpoint in the backend server
-    ///       that verifies the request by querying Stytch's authenticate endpoint and finishes the magic link
-    /// flow. If this value is not passed, the
-    ///       default `login_redirect_url` that you set in your Dashboard is used. This value is only used if
-    /// magic links are enabled for the member. If
-    ///       you have not set a default `login_redirect_url` and magic links are not enabled for the member, an
+    ///   that verifies the request by querying Stytch's authenticate endpoint and finishes the magic link flow.
+    /// If this value is not passed, the
+    ///   default `login_redirect_url` that you set in your Dashboard is used. This value is only used if magic
+    /// links are enabled for the member. If
+    ///   you have not set a default `login_redirect_url` and magic links are not enabled for the member, an
     /// error is returned.
     pub login_redirect_url: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
@@ -203,18 +202,18 @@ pub enum ResetStartRequestLocale {
 }
 
 pub struct Email {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Email {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn reset_start(&self, body: ResetStartRequest) -> crate::Result<ResetStartResponse> {
-        let path = format!("/v1/b2b/passwords/email/reset/start");
+        let path = String::from("/v1/b2b/passwords/email/reset/start");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -224,7 +223,7 @@ impl Email {
             .await
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
-        let path = format!("/v1/b2b/passwords/email/reset");
+        let path = String::from("/v1/b2b/passwords/email/reset");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

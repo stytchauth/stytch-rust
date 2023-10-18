@@ -22,17 +22,40 @@ pub struct AppleOAuthFactor {
     pub provider_subject: String,
 }
 
+/// AuthenticationFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
+    /// type_: The type of authentication factor. The possible values are: `magic_link`, `otp`,
+    ///    `oauth`, `password`, or `sso`.
     #[serde(rename = "type")]
     pub type_: AuthenticationFactorType,
+    /// delivery_method: The method that was used to deliver the authentication factor. The possible values
+    /// depend on the `type`:
+    ///
+    ///   `magic_link` – Only `email`.
+    ///
+    ///   `otp` – Only `sms`.
+    ///
+    ///   `oauth` – Either `oauth_google` or `oauth_microsoft`.
+    ///
+    ///   `password` – Only `knowledge`.
+    ///
+    ///   `sso` – Either `sso_saml` or `sso_oidc`.
+    ///
     pub delivery_method: AuthenticationFactorDeliveryMethod,
+    /// last_authenticated_at: The timestamp when the factor was last authenticated.
     pub last_authenticated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// created_at: The timestamp when the factor was initially authenticated.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp when the factor was last updated.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// email_factor: Information about the email factor, if one is present.
     pub email_factor: std::option::Option<EmailFactor>,
+    /// phone_number_factor: Information about the phone number factor, if one is present.
     pub phone_number_factor: std::option::Option<PhoneNumberFactor>,
+    /// google_oauth_factor: Information about the Google OAuth factor, if one is present.
     pub google_oauth_factor: std::option::Option<GoogleOAuthFactor>,
+    /// microsoft_oauth_factor: Information about the Microsoft OAuth factor, if one is present.
     pub microsoft_oauth_factor: std::option::Option<MicrosoftOAuthFactor>,
     pub apple_oauth_factor: std::option::Option<AppleOAuthFactor>,
     pub webauthn_factor: std::option::Option<WebAuthnFactor>,
@@ -59,7 +82,9 @@ pub struct AuthenticationFactor {
     pub twitter_oauth_factor: std::option::Option<TwitterOAuthFactor>,
     pub embeddable_magic_link_factor: std::option::Option<EmbeddableMagicLinkFactor>,
     pub biometric_factor: std::option::Option<BiometricFactor>,
+    /// saml_sso_factor: Information about the SAML SSO factor, if one is present.
     pub saml_sso_factor: std::option::Option<SAMLSSOFactor>,
+    /// oidc_sso_factor: Information about the OIDC SSO factor, if one is present.
     pub oidc_sso_factor: std::option::Option<OIDCSSOFactor>,
     pub salesforce_oauth_factor: std::option::Option<SalesforceOAuthFactor>,
     pub yahoo_oauth_factor: std::option::Option<YahooOAuthFactor>,
@@ -103,9 +128,12 @@ pub struct DiscordOAuthFactor {
     pub provider_subject: String,
 }
 
+/// EmailFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailFactor {
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
+    /// email_address: The email address of the Member.
     pub email_address: String,
 }
 
@@ -142,10 +170,15 @@ pub struct GithubOAuthFactor {
     pub provider_subject: String,
 }
 
+/// GoogleOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthFactor {
+    /// id: The unique ID of an OAuth registration.
     pub id: String,
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
 }
 
@@ -178,23 +211,35 @@ pub struct LinkedInOAuthFactor {
     pub provider_subject: String,
 }
 
+/// MicrosoftOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftOAuthFactor {
+    /// id: The unique ID of an OAuth registration.
     pub id: String,
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
 }
 
+/// OIDCSSOFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCSSOFactor {
+    /// id: The unique ID of an SSO Registration.
     pub id: String,
+    /// provider_id: Globally unique UUID that identifies a specific OIDC Connection.
     pub provider_id: String,
+    /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
 
+/// PhoneNumberFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumberFactor {
+    /// phone_id: The globally unique UUID of the Member's phone number.
     pub phone_id: String,
+    /// phone_number: The phone number of the Member.
     pub phone_number: String,
 }
 
@@ -203,10 +248,14 @@ pub struct RecoveryCodeFactor {
     pub totp_recovery_code_id: String,
 }
 
+/// SAMLSSOFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLSSOFactor {
+    /// id: The unique ID of an SSO Registration.
     pub id: String,
+    /// provider_id: Globally unique UUID that identifies a specific SAML Connection.
     pub provider_id: String,
+    /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
 
@@ -224,7 +273,7 @@ pub struct Session {
     pub session_id: String,
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
-    /// authentication_factors: An array of different authentication factors that have initiated a Session.
+    /// authentication_factors: An array of different authentication factors that comprise a Session.
     pub authentication_factors: std::vec::Vec<AuthenticationFactor>,
     /// started_at: The timestamp when the Session was created. Values conform to the RFC 3339 standard and are
     /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
@@ -346,7 +395,7 @@ pub struct AuthenticateResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: Session,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -532,18 +581,18 @@ pub enum AuthenticationFactorType {
 }
 
 pub struct Sessions {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Sessions {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let path = format!("/v1/sessions");
+        let path = String::from("/v1/sessions");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -556,7 +605,7 @@ impl Sessions {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/sessions/authenticate");
+        let path = String::from("/v1/sessions/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -566,7 +615,7 @@ impl Sessions {
             .await
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
-        let path = format!("/v1/sessions/revoke");
+        let path = String::from("/v1/sessions/revoke");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

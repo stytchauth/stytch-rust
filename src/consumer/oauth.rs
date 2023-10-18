@@ -62,7 +62,13 @@ pub struct AttachResponse {
 /// AuthenticateRequest: Request type for `OAuth.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
-    /// token: The token to authenticate.
+    /// token: The OAuth `token` from the `?token=` query parameter in the URL.
+    ///
+    ///   The redirect URL will look like
+    /// `https://example.com/authenticate?stytch_token_type=oauth&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
+    ///
+    ///   In the redirect URL, the `stytch_token_type` will be `oauth`. See
+    /// [here](https://stytch.com/docs/guides/dashboard/redirect-urls) for more detail.
     pub token: String,
     /// session_token: Reuse an existing session instead of creating a new one. If you provide us with a
     /// `session_token`, then we'll update the session represented by this session token with this OAuth factor.
@@ -76,10 +82,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: Reuse an existing session instead of creating a new one. If you provide us with a
@@ -144,23 +150,23 @@ pub struct AuthenticateResponse {
     /// authenticate call is labeled as `user_session`, but is otherwise just a standard stytch `Session` object.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub user_session: std::option::Option<Session>,
 }
 
 pub struct OAuth {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl OAuth {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn attach(&self, body: AttachRequest) -> crate::Result<AttachResponse> {
-        let path = format!("/v1/oauth/attach");
+        let path = String::from("/v1/oauth/attach");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -173,7 +179,7 @@ impl OAuth {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/oauth/authenticate");
+        let path = String::from("/v1/oauth/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

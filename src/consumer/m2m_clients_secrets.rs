@@ -78,11 +78,11 @@ pub struct RotateStartResponse {
 }
 
 pub struct Secrets {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Secrets {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }

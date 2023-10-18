@@ -44,10 +44,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -100,8 +100,7 @@ pub struct AuthenticateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -114,13 +113,13 @@ pub struct AuthenticateResponse {
     pub member_authenticated: bool,
     /// intermediate_session_token: The returned Intermediate Session Token contains an OAuth factor associated
     /// with the Member's email address.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       It can also be used with the
+    ///   It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a different existing Organization that allows login with OAuth,
-    ///       or the
+    ///   or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
     pub intermediate_session_token: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
@@ -154,12 +153,12 @@ pub enum AuthenticateRequestLocale {
 }
 
 pub struct OAuth {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub discovery: Discovery,
 }
 
 impl OAuth {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             discovery: Discovery::new(http_client.clone()),
@@ -170,7 +169,7 @@ impl OAuth {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/b2b/oauth/authenticate");
+        let path = String::from("/v1/b2b/oauth/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

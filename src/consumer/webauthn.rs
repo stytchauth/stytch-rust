@@ -6,6 +6,7 @@
 
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
+use crate::consumer::users::WebAuthnRegistration;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `WebAuthn.authenticate`.
@@ -23,10 +24,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -68,17 +69,18 @@ pub struct AuthenticateResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: std::option::Option<Session>,
 }
 
 /// AuthenticateStartRequest: Request type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
-    /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
-    pub user_id: String,
     /// domain: The domain for WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
+    /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
+    pub user_id: std::option::Option<String>,
+    pub return_passkey_credential_options: std::option::Option<bool>,
 }
 
 /// AuthenticateStartResponse: Response type for `WebAuthn.authenticate_start`.
@@ -107,6 +109,10 @@ pub struct RegisterRequest {
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
     pub public_key_credential: String,
+    pub session_token: std::option::Option<String>,
+    pub session_duration_minutes: std::option::Option<i32>,
+    pub session_jwt: std::option::Option<String>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
 /// RegisterResponse: Response type for `WebAuthn.register`.
@@ -120,11 +126,14 @@ pub struct RegisterResponse {
     pub user_id: String,
     /// webauthn_registration_id: The unique ID for the WebAuthn registration.
     pub webauthn_registration_id: String,
+    pub session_token: String,
+    pub session_jwt: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    pub session: std::option::Option<Session>,
 }
 
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
@@ -139,6 +148,7 @@ pub struct RegisterStartRequest {
     /// authenticator_type: The requested authenticator type of the WebAuthn device. The two valid value are
     /// platform and cross-platform. If no value passed, we assume both values are allowed.
     pub authenticator_type: std::option::Option<String>,
+    pub return_passkey_credential_options: std::option::Option<bool>,
 }
 
 /// RegisterStartResponse: Response type for `WebAuthn.register_start`.
@@ -159,12 +169,26 @@ pub struct RegisterStartResponse {
     pub status_code: http::StatusCode,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct UpdateRequest {
+    pub webauthn_registration_id: String,
+    pub name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UpdateResponse {
+    pub request_id: String,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    pub webauthn_registration: std::option::Option<WebAuthnRegistration>,
+}
+
 pub struct WebAuthn {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl WebAuthn {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
@@ -174,7 +198,7 @@ impl WebAuthn {
         &self,
         body: RegisterStartRequest,
     ) -> crate::Result<RegisterStartResponse> {
-        let path = format!("/v1/webauthn/register/start");
+        let path = String::from("/v1/webauthn/register/start");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -184,7 +208,7 @@ impl WebAuthn {
             .await
     }
     pub async fn register(&self, body: RegisterRequest) -> crate::Result<RegisterResponse> {
-        let path = format!("/v1/webauthn/register");
+        let path = String::from("/v1/webauthn/register");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -197,7 +221,7 @@ impl WebAuthn {
         &self,
         body: AuthenticateStartRequest,
     ) -> crate::Result<AuthenticateStartResponse> {
-        let path = format!("/v1/webauthn/authenticate/start");
+        let path = String::from("/v1/webauthn/authenticate/start");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -210,10 +234,21 @@ impl WebAuthn {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/webauthn/authenticate");
+        let path = String::from("/v1/webauthn/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
+        let webauthn_registration_id = &body.webauthn_registration_id;
+        let path = format!("/v1/webauthn/{webauthn_registration_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
                 path,
                 body,
             })

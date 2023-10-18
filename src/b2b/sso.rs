@@ -71,10 +71,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -115,8 +115,7 @@ pub struct AuthenticateResponse {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -124,18 +123,18 @@ pub struct AuthenticateResponse {
     pub session_jwt: String,
     /// reset_session: Indicates if all Sessions linked to the Member need to be reset. You should check this
     /// field if you aren't using
-    ///     Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
+    /// Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
     /// Sessions for you.
     pub reset_session: bool,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains an SSO factor associated
     /// with the Member.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       SSO factors are not transferable between Organizations, so the intermediate session token is not
-    /// valid for use with discovery endpoints.
+    ///   SSO factors are not transferable between Organizations, so the intermediate session token is not valid
+    /// for use with discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.
@@ -217,13 +216,13 @@ pub enum AuthenticateRequestLocale {
 }
 
 pub struct SSO {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub oidc: OIDC,
     pub saml: SAML,
 }
 
 impl SSO {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             oidc: OIDC::new(http_client.clone()),
@@ -264,7 +263,7 @@ impl SSO {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/b2b/sso/authenticate");
+        let path = String::from("/v1/b2b/sso/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

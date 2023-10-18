@@ -13,7 +13,12 @@ use serde::{Deserialize, Serialize};
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
-    /// token: The token to authenticate.
+    /// token: The Passwords `token` from the `?token=` query parameter in the URL.
+    ///
+    ///   In the redirect URL, the `stytch_token_type` will be `login` or `reset_password`.
+    ///
+    ///   See examples and read more about redirect URLs
+    /// [here](https://stytch.com/docs/guides/dashboard/redirect-urls).
     pub token: String,
     /// password: The password of the user
     pub password: String,
@@ -26,10 +31,10 @@ pub struct ResetRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -76,7 +81,7 @@ pub struct ResetResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: std::option::Option<Session>,
 }
 
@@ -157,18 +162,18 @@ pub enum ResetStartRequestLocale {
 }
 
 pub struct Email {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Email {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn reset_start(&self, body: ResetStartRequest) -> crate::Result<ResetStartResponse> {
-        let path = format!("/v1/passwords/email/reset/start");
+        let path = String::from("/v1/passwords/email/reset/start");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -178,7 +183,7 @@ impl Email {
             .await
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
-        let path = format!("/v1/passwords/email/reset");
+        let path = String::from("/v1/passwords/email/reset");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

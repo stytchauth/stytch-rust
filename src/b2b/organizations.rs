@@ -99,15 +99,15 @@ pub struct Organization {
     pub organization_slug: String,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///   
+    ///
     pub sso_jit_provisioning: String,
     /// sso_jit_provisioning_allowed_connections: An array of `connection_id`s that reference
     /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
@@ -119,45 +119,45 @@ pub struct Organization {
     pub sso_active_connections: std::vec::Vec<ActiveSSOConnection>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
     /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///     
-    ///     
-    ///     Common domains such as `gmail.com` are not allowed. See the
+    ///
+    ///
+    /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::vec::Vec<String>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
     /// authenticating via Email Magic Link. The accepted values are:
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
-    ///   
+    ///
     pub email_jit_provisioning: String,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
     /// organization by email. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable email invites.
-    ///   
+    ///
     pub email_invites: String,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///  
+    ///
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///   
+    ///
     pub auth_methods: String,
     /// allowed_auth_methods:
     ///   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
     /// `RESTRICTED`.
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///   
+    ///
     pub allowed_auth_methods: std::vec::Vec<String>,
     pub mfa_policy: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
@@ -197,7 +197,7 @@ pub struct SearchQuery {
     /// operator: The action to perform on the operands. The accepted value are:
     ///
     ///   `AND` – all the operand values provided must match.
-    ///   
+    ///
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: SearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
@@ -220,67 +220,67 @@ pub struct CreateRequest {
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///   
+    ///
     pub sso_jit_provisioning: std::option::Option<String>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
     /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///     
-    ///     
-    ///     Common domains such as `gmail.com` are not allowed. See the
+    ///
+    ///
+    /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
     /// authenticating via Email Magic Link. The accepted values are:
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
-    ///   
+    ///
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
     /// organization by email. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable email invites.
-    ///   
+    ///
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///  
+    ///
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///   
+    ///
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods:
     ///   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
     /// `RESTRICTED`.
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///   
+    ///
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///  
+    ///
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in.
-    ///  
+    ///
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///   
+    ///
     pub mfa_policy: std::option::Option<String>,
 }
 
@@ -409,15 +409,15 @@ pub struct UpdateRequest {
     pub sso_default_connection_id: std::option::Option<String>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///   
+    ///
     pub sso_jit_provisioning: std::option::Option<String>,
     /// sso_jit_provisioning_allowed_connections: An array of `connection_id`s that reference
     /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
@@ -426,55 +426,55 @@ pub struct UpdateRequest {
     pub sso_jit_provisioning_allowed_connections: std::option::Option<std::vec::Vec<String>>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
     /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///     
-    ///     
-    ///     Common domains such as `gmail.com` are not allowed. See the
+    ///
+    ///
+    /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
     /// authenticating via Email Magic Link. The accepted values are:
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
-    ///   
+    ///
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
     /// organization by email. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable email invites.
-    ///   
+    ///
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///  
+    ///
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///   
+    ///
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods:
     ///   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
     /// `RESTRICTED`.
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///   
+    ///
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///  
+    ///
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in.
-    ///  
+    ///
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///   
+    ///
     pub mfa_policy: std::option::Option<String>,
 }
 
@@ -504,12 +504,12 @@ pub enum SearchQueryOperator {
 }
 
 pub struct Organizations {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub members: Members,
 }
 
 impl Organizations {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             members: Members::new(http_client.clone()),
@@ -517,7 +517,7 @@ impl Organizations {
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let path = format!("/v1/b2b/organizations");
+        let path = String::from("/v1/b2b/organizations");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -560,7 +560,7 @@ impl Organizations {
             .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
-        let path = format!("/v1/b2b/organizations/search");
+        let path = String::from("/v1/b2b/organizations/search");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

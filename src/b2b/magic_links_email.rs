@@ -62,8 +62,7 @@ pub struct InviteResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -131,8 +130,7 @@ pub struct LoginOrSignupResponse {
     /// member_created: A flag indicating `true` if a new Member object was created and `false` if the Member
     /// object already existed.
     pub member_created: bool,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -166,12 +164,12 @@ pub enum LoginOrSignupRequestLocale {
 }
 
 pub struct Email {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub discovery: Discovery,
 }
 
 impl Email {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             discovery: Discovery::new(http_client.clone()),
@@ -182,7 +180,7 @@ impl Email {
         &self,
         body: LoginOrSignupRequest,
     ) -> crate::Result<LoginOrSignupResponse> {
-        let path = format!("/v1/b2b/magic_links/email/login_or_signup");
+        let path = String::from("/v1/b2b/magic_links/email/login_or_signup");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -192,7 +190,7 @@ impl Email {
             .await
     }
     pub async fn invite(&self, body: InviteRequest) -> crate::Result<InviteResponse> {
-        let path = format!("/v1/b2b/magic_links/email/invite");
+        let path = String::from("/v1/b2b/magic_links/email/invite");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

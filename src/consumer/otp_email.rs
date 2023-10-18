@@ -20,11 +20,10 @@ pub struct LoginOrCreateRequest {
     pub attributes: std::option::Option<Attributes>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
-    ///         If true, users will be saved with status pending in Stytch's backend until authenticated.
-    ///         If false, users will be created as active. An example usage of
-    ///         a true flag would be to require users to verify their phone by entering the OTP code before
-    /// creating
-    ///         an account for them.
+    /// If true, users will be saved with status pending in Stytch's backend until authenticated.
+    /// If false, users will be created as active. An example usage of
+    /// a true flag would be to require users to verify their phone by entering the OTP code before creating
+    /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
@@ -145,18 +144,18 @@ pub enum SendRequestLocale {
 }
 
 pub struct Email {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Email {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = format!("/v1/otps/email/send");
+        let path = String::from("/v1/otps/email/send");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -169,7 +168,7 @@ impl Email {
         &self,
         body: LoginOrCreateRequest,
     ) -> crate::Result<LoginOrCreateResponse> {
-        let path = format!("/v1/otps/email/login_or_create");
+        let path = String::from("/v1/otps/email/login_or_create");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

@@ -99,7 +99,7 @@ pub struct ScryptConfig {
     pub salt: String,
     /// n_parameter: The N value, also known as the iterations count. It must be a power of two greater than 1
     /// and less than 262,145.
-    ///       If your applicaiton's N parameter is larger than 262,144, please reach out to
+    ///   If your applicaiton's N parameter is larger than 262,144, please reach out to
     /// [support@stytch.com](mailto:support@stytch.com)
     pub n_parameter: i32,
     /// r_parameter: The r parameter, also known as the block size.
@@ -126,10 +126,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -169,7 +169,7 @@ pub struct AuthenticateResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: std::option::Option<Session>,
 }
 
@@ -187,10 +187,10 @@ pub struct CreateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
@@ -241,7 +241,7 @@ pub struct CreateResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: std::option::Option<Session>,
 }
 
@@ -371,14 +371,14 @@ pub enum MigrateRequestHashType {
 }
 
 pub struct Passwords {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub email: Email,
     pub existing_password: ExistingPassword,
     pub sessions: Sessions,
 }
 
 impl Passwords {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             email: Email::new(http_client.clone()),
@@ -388,7 +388,7 @@ impl Passwords {
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let path = format!("/v1/passwords");
+        let path = String::from("/v1/passwords");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -401,7 +401,7 @@ impl Passwords {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/passwords/authenticate");
+        let path = String::from("/v1/passwords/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -414,7 +414,7 @@ impl Passwords {
         &self,
         body: StrengthCheckRequest,
     ) -> crate::Result<StrengthCheckResponse> {
-        let path = format!("/v1/passwords/strength_check");
+        let path = String::from("/v1/passwords/strength_check");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -424,7 +424,7 @@ impl Passwords {
             .await
     }
     pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
-        let path = format!("/v1/passwords/migrate");
+        let path = String::from("/v1/passwords/migrate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

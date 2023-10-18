@@ -110,7 +110,7 @@ pub struct SearchUsersQuery {
     /// operator: The action to perform on the operands. The accepted value are:
     ///
     ///   `AND` – all the operand values provided must match.
-    ///   
+    ///
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: SearchUsersQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
@@ -172,19 +172,14 @@ pub struct User {
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnRegistration {
-    /// webauthn_registration_id: The unique ID for the WebAuthn registration.
     pub webauthn_registration_id: String,
     /// domain: The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
     pub domain: String,
     /// user_agent: The user agent of the User.
     pub user_agent: String,
-    /// verified: The verified boolean denotes whether or not this send method, e.g. phone number, email
-    /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
-    /// authenticator_type: The `authenticator_type` string displays the requested authenticator type of the
-    /// WebAuthn device. The two valid types are "platform" and "cross-platform". If no value is present, the
-    /// WebAuthn device was created without an authenticator type preference.
     pub authenticator_type: String,
+    pub name: String,
 }
 
 /// CreateRequest: Request type for `Users.create`.
@@ -196,17 +191,16 @@ pub struct CreateRequest {
     pub name: std::option::Option<Name>,
     /// attributes: Provided attributes help with fraud detection.
     pub attributes: std::option::Option<Attributes>,
-    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164
-    /// format. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test
-    /// this endpoint, see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
+    /// (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+    /// [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
     pub phone_number: std::option::Option<String>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
-    ///         If true, users will be saved with status pending in Stytch's backend until authenticated.
-    ///         If false, users will be created as active. An example usage of
-    ///         a true flag would be to require users to verify their phone by entering the OTP code before
-    /// creating
-    ///         an account for them.
+    /// If true, users will be saved with status pending in Stytch's backend until authenticated.
+    /// If false, users will be created as active. An example usage of
+    /// a true flag would be to require users to verify their phone by entering the OTP code before creating
+    /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
@@ -475,6 +469,37 @@ pub struct DeleteWebAuthnRegistrationResponse {
     pub status_code: http::StatusCode,
 }
 
+/// ExchangePrimaryFactorRequest: Request type for `Users.exchange_primary_factor`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct ExchangePrimaryFactorRequest {
+    /// user_id: The unique ID of a specific User.
+    pub user_id: String,
+    /// email_address: The email address to exchange to.
+    pub email_address: std::option::Option<String>,
+    /// phone_number: The phone number to exchange to. The phone number should be in E.164 format (i.e.
+    /// +1XXXXXXXXXX).
+    pub phone_number: std::option::Option<String>,
+}
+
+/// ExchangePrimaryFactorResponse: Response type for `Users.exchange_primary_factor`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ExchangePrimaryFactorResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// user_id: The unique ID of the affected User.
+    pub user_id: String,
+    /// user: The `user` object affected by this API call. See the
+    /// [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+    pub user: User,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+
 /// GetRequest: Request type for `Users.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -626,18 +651,18 @@ pub enum SearchUsersQueryOperator {
 }
 
 pub struct Users {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Users {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let path = format!("/v1/users");
+        let path = String::from("/v1/users");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -658,7 +683,7 @@ impl Users {
             .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
-        let path = format!("/v1/users/search");
+        let path = String::from("/v1/users/search");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -670,6 +695,20 @@ impl Users {
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let user_id = &body.user_id;
         let path = format!("/v1/users/{user_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn exchange_primary_factor(
+        &self,
+        body: ExchangePrimaryFactorRequest,
+    ) -> crate::Result<ExchangePrimaryFactorResponse> {
+        let user_id = &body.user_id;
+        let path = format!("/v1/users/{user_id}/exchange_primary_factor");
         self.http_client
             .send(crate::Request {
                 method: http::Method::PUT,

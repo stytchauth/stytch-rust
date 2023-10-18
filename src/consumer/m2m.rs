@@ -88,7 +88,7 @@ pub struct M2MSearchQuery {
     /// operator: The action to perform on the operands. The accepted value are:
     ///
     ///   `AND` – all the operand values provided must match.
-    ///   
+    ///
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: M2MSearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
@@ -120,7 +120,7 @@ pub struct M2M {
 }
 
 impl M2M {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             clients: Clients::new(http_client.clone()),
         }

@@ -63,18 +63,18 @@ pub enum SendRequestLocale {
 }
 
 pub struct Discovery {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Discovery {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = format!("/v1/b2b/magic_links/email/discovery/send");
+        let path = String::from("/v1/b2b/magic_links/email/discovery/send");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
