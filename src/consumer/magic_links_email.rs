@@ -92,11 +92,10 @@ pub struct LoginOrCreateRequest {
     pub attributes: std::option::Option<Attributes>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
-    ///         If true, users will be saved with status pending in Stytch's backend until authenticated.
-    ///         If false, users will be created as active. An example usage of
-    ///         a true flag would be to require users to verify their phone by entering the OTP code before
-    /// creating
-    ///         an account for them.
+    /// If true, users will be saved with status pending in Stytch's backend until authenticated.
+    /// If false, users will be created as active. An example usage of
+    /// a true flag would be to require users to verify their phone by entering the OTP code before creating
+    /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
     /// starts and ends on the same device.
@@ -259,18 +258,18 @@ pub enum SendRequestLocale {
 }
 
 pub struct Email {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Email {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = format!("/v1/magic_links/email/send");
+        let path = String::from("/v1/magic_links/email/send");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -283,7 +282,7 @@ impl Email {
         &self,
         body: LoginOrCreateRequest,
     ) -> crate::Result<LoginOrCreateResponse> {
-        let path = format!("/v1/magic_links/email/login_or_create");
+        let path = String::from("/v1/magic_links/email/login_or_create");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -293,7 +292,7 @@ impl Email {
             .await
     }
     pub async fn invite(&self, body: InviteRequest) -> crate::Result<InviteResponse> {
-        let path = format!("/v1/magic_links/email/invite");
+        let path = String::from("/v1/magic_links/email/invite");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -306,7 +305,7 @@ impl Email {
         &self,
         body: RevokeInviteRequest,
     ) -> crate::Result<RevokeInviteResponse> {
-        let path = format!("/v1/magic_links/email/revoke_invite");
+        let path = String::from("/v1/magic_links/email/revoke_invite");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

@@ -22,13 +22,13 @@ pub struct AuthenticateRequest {
     pub code: String,
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
-    ///     The token can be used with the
+    /// The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
     /// flow;
-    ///     the
+    /// the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
-    ///     or the
+    /// or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: std::option::Option<String>,
     /// session_token: A secret token for a given Stytch Session.
@@ -42,10 +42,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -61,13 +61,13 @@ pub struct AuthenticateRequest {
     /// set_mfa_enrollment: Optionally sets the Member’s MFA enrollment status upon a successful authentication.
     /// If the Organization’s MFA policy is `REQUIRED_FOR_ALL`, this field will be ignored. If this field is not
     /// passed in, the Member’s `mfa_enrolled` boolean will not be affected. The options are:
-    ///  
+    ///
     ///   `enroll` – sets the Member's `mfa_enrolled` boolean to `true`. The Member will be required to complete
     /// an MFA step upon subsequent logins to the Organization.
-    ///  
+    ///
     ///   `unenroll` –  sets the Member's `mfa_enrolled` boolean to `false`. The Member will no longer be
     /// required to complete MFA steps when logging in to the Organization.
-    ///   
+    ///
     pub set_mfa_enrollment: std::option::Option<String>,
 }
 
@@ -80,8 +80,7 @@ pub struct AuthenticateResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -131,8 +130,7 @@ pub struct SendResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -155,18 +153,18 @@ pub enum SendRequestLocale {
 }
 
 pub struct Sms {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Sms {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = format!("/v1/b2b/otps/sms/send");
+        let path = String::from("/v1/b2b/otps/sms/send");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -179,7 +177,7 @@ impl Sms {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/b2b/otps/sms/authenticate");
+        let path = String::from("/v1/b2b/otps/sms/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

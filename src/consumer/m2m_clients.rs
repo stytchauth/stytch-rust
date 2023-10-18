@@ -179,12 +179,12 @@ pub enum UpdateRequestStatus {
 }
 
 pub struct Clients {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub secrets: Secrets,
 }
 
 impl Clients {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             secrets: Secrets::new(http_client.clone()),
@@ -203,7 +203,7 @@ impl Clients {
             .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
-        let path = format!("/v1/m2m/clients/search");
+        let path = String::from("/v1/m2m/clients/search");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -235,7 +235,7 @@ impl Clients {
             .await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let path = format!("/v1/m2m/clients");
+        let path = String::from("/v1/m2m/clients");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

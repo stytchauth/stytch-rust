@@ -10,9 +10,9 @@ use serde::{Deserialize, Serialize};
 /// LoginOrCreateRequest: Request type for `Whatsapp.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
-    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164
-    /// format. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test
-    /// this endpoint, see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
+    /// (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+    /// [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
     pub phone_number: String,
     /// expiration_minutes: Set the expiration for the one-time passcode, in minutes. The minimum expiration is
     /// 1 minute and the maximum is 10 minutes. The default expiration is 2 minutes.
@@ -21,11 +21,10 @@ pub struct LoginOrCreateRequest {
     pub attributes: std::option::Option<Attributes>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
-    ///         If true, users will be saved with status pending in Stytch's backend until authenticated.
-    ///         If false, users will be created as active. An example usage of
-    ///         a true flag would be to require users to verify their phone by entering the OTP code before
-    /// creating
-    ///         an account for them.
+    /// If true, users will be saved with status pending in Stytch's backend until authenticated.
+    /// If false, users will be created as active. An example usage of
+    /// a true flag would be to require users to verify their phone by entering the OTP code before creating
+    /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
@@ -63,9 +62,9 @@ pub struct LoginOrCreateResponse {
 /// SendRequest: Request type for `Whatsapp.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
-    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164
-    /// format. The phone number should be in E.164 format (i.e. +1XXXXXXXXXX). You may use +10000000000 to test
-    /// this endpoint, see [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
+    /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
+    /// (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see
+    /// [Testing](https://stytch.com/docs/home#resources_testing) for more detail.
     pub phone_number: String,
     /// expiration_minutes: Set the expiration for the one-time passcode, in minutes. The minimum expiration is
     /// 1 minute and the maximum is 10 minutes. The default expiration is 2 minutes.
@@ -131,18 +130,18 @@ pub enum SendRequestLocale {
 }
 
 pub struct Whatsapp {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Whatsapp {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = format!("/v1/otps/whatsapp/send");
+        let path = String::from("/v1/otps/whatsapp/send");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -155,7 +154,7 @@ impl Whatsapp {
         &self,
         body: LoginOrCreateRequest,
     ) -> crate::Result<LoginOrCreateResponse> {
-        let path = format!("/v1/otps/whatsapp/login_or_create");
+        let path = String::from("/v1/otps/whatsapp/login_or_create");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

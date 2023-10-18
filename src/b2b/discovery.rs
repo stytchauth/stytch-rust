@@ -60,7 +60,7 @@ pub struct Discovery {
 }
 
 impl Discovery {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             intermediate_sessions: IntermediateSessions::new(http_client.clone()),
             organizations: Organizations::new(http_client.clone()),

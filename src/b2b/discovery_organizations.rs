@@ -16,13 +16,13 @@ use serde::{Deserialize, Serialize};
 pub struct CreateRequest {
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
-    ///     The token can be used with the
+    /// The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
     /// flow;
-    ///     the
+    /// the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
-    ///     or the
+    /// or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: String,
     /// organization_name: The name of the Organization. If the name is not specified, a default name will be
@@ -45,10 +45,10 @@ pub struct CreateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -68,67 +68,67 @@ pub struct CreateRequest {
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///   
+    ///
     pub sso_jit_provisioning: std::option::Option<String>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
     /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///     
-    ///     
-    ///     Common domains such as `gmail.com` are not allowed. See the
+    ///
+    ///
+    /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
     /// authenticating via Email Magic Link. The accepted values are:
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
-    ///   
+    ///
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
     /// organization by email. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///  
+    ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///  
+    ///
     ///   `NOT_ALLOWED` – disable email invites.
-    ///   
+    ///
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///  
+    ///
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///  
+    ///
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///   
+    ///
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods:
     ///   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
     /// `RESTRICTED`.
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///   
+    ///
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///  
+    ///
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in.
-    ///  
+    ///
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///   
+    ///
     pub mfa_policy: std::option::Option<String>,
 }
 
@@ -145,21 +145,20 @@ pub struct CreateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.
     pub member_authenticated: bool,
     /// intermediate_session_token: The returned Intermediate Session Token is identical to the one that was
     /// originally passed in to the request.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       It can also be used with the
+    ///   It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a different existing Organization,
-    ///       or the
+    ///   or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
     pub intermediate_session_token: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
@@ -181,13 +180,13 @@ pub struct CreateResponse {
 pub struct ListRequest {
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
-    ///     The token can be used with the
+    /// The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
     /// flow;
-    ///     the
+    /// the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
-    ///     or the
+    /// or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: std::option::Option<String>,
     /// session_token: A secret token for a given Stytch Session.
@@ -209,18 +208,18 @@ pub struct ListResponse {
     /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
     /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
     /// complete details.
-    ///       
+    ///
     ///   Note that Organizations will only appear here under any of the following conditions:
     ///   1. The end user is already a Member of the Organization.
     ///   2. The end user is invited to the Organization.
     ///   3. The end user can join the Organization because:
-    ///   
-    ///       a) The Organization allows JIT provisioning.
-    ///       
-    ///       b) The Organizations' allowed domains list contains the Member's email domain.
-    ///       
-    ///       c) The Organization has at least one other Member with a verified email address with the same
-    /// domain as the end user (to prevent phishing attacks).
+    ///
+    ///   a) The Organization allows JIT provisioning.
+    ///
+    ///   b) The Organizations' allowed domains list contains the Member's email domain.
+    ///
+    ///   c) The Organization has at least one other Member with a verified email address with the same domain
+    /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
@@ -235,18 +234,18 @@ pub struct ListResponse {
 }
 
 pub struct Organizations {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Organizations {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let path = format!("/v1/b2b/discovery/organizations/create");
+        let path = String::from("/v1/b2b/discovery/organizations/create");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -256,7 +255,7 @@ impl Organizations {
             .await
     }
     pub async fn list(&self, body: ListRequest) -> crate::Result<ListResponse> {
-        let path = format!("/v1/b2b/discovery/organizations");
+        let path = String::from("/v1/b2b/discovery/organizations");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

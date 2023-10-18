@@ -31,10 +31,10 @@ pub struct ResetRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -74,8 +74,7 @@ pub struct ResetResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -85,11 +84,11 @@ pub struct ResetResponse {
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains a password factor
     /// associated with the Member.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       Password factors are not transferable between Organizations, so the intermediate session token is
-    /// not valid for use with discovery endpoints.
+    ///   Password factors are not transferable between Organizations, so the intermediate session token is not
+    /// valid for use with discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.
@@ -118,18 +117,18 @@ pub enum ResetRequestLocale {
 }
 
 pub struct ExistingPassword {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl ExistingPassword {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
-        let path = format!("/v1/b2b/passwords/existing_password/reset");
+        let path = String::from("/v1/b2b/passwords/existing_password/reset");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

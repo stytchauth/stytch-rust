@@ -15,13 +15,13 @@ use serde::{Deserialize, Serialize};
 pub struct ExchangeRequest {
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
-    ///     The token can be used with the
+    /// The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete an MFA
     /// flow;
-    ///     the
+    /// the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
-    ///     or the
+    /// or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
@@ -34,10 +34,10 @@ pub struct ExchangeRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -79,8 +79,7 @@ pub struct ExchangeResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -89,13 +88,13 @@ pub struct ExchangeResponse {
     pub member_authenticated: bool,
     /// intermediate_session_token: The returned Intermediate Session Token is identical to the one that was
     /// originally passed in to the request.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       It can also be used with the
+    ///   It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a different existing Organization,
-    ///       or the
+    ///   or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
     pub intermediate_session_token: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
@@ -122,18 +121,18 @@ pub enum ExchangeRequestLocale {
 }
 
 pub struct IntermediateSessions {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl IntermediateSessions {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn exchange(&self, body: ExchangeRequest) -> crate::Result<ExchangeResponse> {
-        let path = format!("/v1/b2b/discovery/intermediate_sessions/exchange");
+        let path = String::from("/v1/b2b/discovery/intermediate_sessions/exchange");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

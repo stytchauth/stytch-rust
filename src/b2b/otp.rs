@@ -11,7 +11,7 @@ pub struct OTPs {
 }
 
 impl OTPs {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             sms: Sms::new(http_client.clone()),
         }

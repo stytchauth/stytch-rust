@@ -58,8 +58,7 @@ pub struct CreateResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -90,8 +89,7 @@ pub struct DeleteMFAPhoneNumberResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -121,8 +119,7 @@ pub struct DeletePasswordResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -182,8 +179,7 @@ pub struct GetResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -194,18 +190,33 @@ pub struct GetResponse {
     pub status_code: http::StatusCode,
 }
 
+/// ReactivateRequest: Request type for `Members.reactivate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct ReactivateMethodRequest {
+pub struct ReactivateRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
 
+/// ReactivateResponse: Response type for `Members.reactivate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ReactivateMethodResponse {
+pub struct ReactivateResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
     pub request_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -301,8 +312,7 @@ pub struct UpdateResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -314,11 +324,11 @@ pub struct UpdateResponse {
 }
 
 pub struct Members {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Members {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
@@ -348,31 +358,11 @@ impl Members {
             })
             .await
     }
-    pub async fn reactivate(
-        &self,
-        body: ReactivateMethodRequest,
-    ) -> crate::Result<ReactivateMethodResponse> {
+    pub async fn reactivate(&self, body: ReactivateRequest) -> crate::Result<ReactivateResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path =
             format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/reactivate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
-    }
-    pub async fn reactivate_method(
-        &self,
-        body: ReactivateMethodRequest,
-    ) -> crate::Result<ReactivateMethodResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/reactivate_method"
-        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::PUT,
@@ -399,7 +389,7 @@ impl Members {
             .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
-        let path = format!("/v1/b2b/organizations/members/search");
+        let path = String::from("/v1/b2b/organizations/members/search");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

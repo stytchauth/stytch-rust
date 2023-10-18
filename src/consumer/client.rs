@@ -30,12 +30,12 @@ pub struct Client {
 
 impl Client {
     pub fn new(project_id: String, secret: String) -> crate::Result<Self> {
-        Ok(Client::new_with_http_client(crate::reqwest::Client::new(
+        Ok(Client::new_with_http_client(crate::client::Client::new(
             project_id, secret,
         )?))
     }
 
-    pub fn new_with_http_client(http_client: crate::reqwest::Client) -> Self {
+    pub fn new_with_http_client(http_client: crate::client::Client) -> Self {
         Client {
             crypto_wallets: CryptoWallets::new(http_client.clone()),
             m2m: M2M::new(http_client.clone()),

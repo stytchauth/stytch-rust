@@ -27,7 +27,7 @@ pub struct MemberSession {
     /// expires_at: The timestamp when the Session expires. Values conform to the RFC 3339 standard and are
     /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub expires_at: chrono::DateTime<chrono::Utc>,
-    /// authentication_factors: An array of different authentication factors that have initiated a Session.
+    /// authentication_factors: An array of different authentication factors that comprise a Session.
     pub authentication_factors: std::vec::Vec<AuthenticationFactor>,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -49,10 +49,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -82,8 +82,7 @@ pub struct AuthenticateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -111,10 +110,10 @@ pub struct ExchangeRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -158,8 +157,7 @@ pub struct ExchangeResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
@@ -168,13 +166,13 @@ pub struct ExchangeResponse {
     pub member_authenticated: bool,
     /// intermediate_session_token: The returned Intermediate Session Token contains any Email Magic Link or
     /// OAuth factors from the original member session that are valid for the target Organization.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the target Organization.
-    ///       It can also be used with the
+    ///   It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a different existing Organization,
-    ///       or the
+    ///   or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
     pub intermediate_session_token: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
@@ -278,18 +276,18 @@ pub enum ExchangeRequestLocale {
 }
 
 pub struct Sessions {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl Sessions {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let path = format!("/v1/b2b/sessions");
+        let path = String::from("/v1/b2b/sessions");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -302,7 +300,7 @@ impl Sessions {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/b2b/sessions/authenticate");
+        let path = String::from("/v1/b2b/sessions/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -312,7 +310,7 @@ impl Sessions {
             .await
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
-        let path = format!("/v1/b2b/sessions/revoke");
+        let path = String::from("/v1/b2b/sessions/revoke");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -322,7 +320,7 @@ impl Sessions {
             .await
     }
     pub async fn exchange(&self, body: ExchangeRequest) -> crate::Result<ExchangeResponse> {
-        let path = format!("/v1/b2b/sessions/exchange");
+        let path = String::from("/v1/b2b/sessions/exchange");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

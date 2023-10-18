@@ -22,15 +22,15 @@ pub struct AuthenticateRequest {
     pub pkce_code_verifier: std::option::Option<String>,
     /// session_token: Reuse an existing session instead of creating a new one. If you provide a
     /// `session_token`, Stytch will update the session.
-    ///       If the `session_token` and `magic_links_token` belong to different Members, the `session_token`
-    /// will be ignored. This endpoint will error if
-    ///       both `session_token` and `session_jwt` are provided.
+    ///   If the `session_token` and `magic_links_token` belong to different Members, the `session_token` will
+    /// be ignored. This endpoint will error if
+    ///   both `session_token` and `session_jwt` are provided.
     pub session_token: std::option::Option<String>,
     /// session_jwt: Reuse an existing session instead of creating a new one. If you provide a `session_jwt`,
     /// Stytch will update the session. If the `session_jwt`
-    ///       and `magic_links_token` belong to different Members, the `session_jwt` will be ignored. This
-    /// endpoint will error if both `session_token` and `session_jwt`
-    ///       are provided.
+    ///   and `magic_links_token` belong to different Members, the `session_jwt` will be ignored. This endpoint
+    /// will error if both `session_token` and `session_jwt`
+    ///   are provided.
     pub session_jwt: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
@@ -39,10 +39,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -84,14 +84,13 @@ pub struct AuthenticateResponse {
     pub method_id: String,
     /// reset_sessions: Indicates if all Sessions linked to the Member need to be reset. You should check this
     /// field if you aren't using
-    ///     Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
+    /// Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
     /// Sessions for you.
     pub reset_sessions: bool,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
-    /// null if one does not.
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -103,13 +102,13 @@ pub struct AuthenticateResponse {
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains an Email Magic Link factor
     /// associated with the Member's email address.
-    ///       The token can be used with the
+    ///   The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
     /// MFA flow and log in to the Organization.
-    ///       It can also be used with the
+    ///   It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a different existing Organization that allows login with Email Magic Links,
-    ///       or the
+    ///   or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
@@ -137,13 +136,13 @@ pub enum AuthenticateRequestLocale {
 }
 
 pub struct MagicLinks {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
     pub email: Email,
     pub discovery: Discovery,
 }
 
 impl MagicLinks {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
             email: Email::new(http_client.clone()),
@@ -155,7 +154,7 @@ impl MagicLinks {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/b2b/magic_links/authenticate");
+        let path = String::from("/v1/b2b/magic_links/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

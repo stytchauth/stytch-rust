@@ -28,10 +28,10 @@ pub struct AuthenticateRequest {
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
     ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///   
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///   
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -71,7 +71,7 @@ pub struct AuthenticateResponse {
     /// you'll receive a full Session object in the response.
     ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///   
+    ///
     pub session: std::option::Option<Session>,
 }
 
@@ -114,11 +114,11 @@ pub struct AuthenticateStartResponse {
 }
 
 pub struct CryptoWallets {
-    http_client: crate::reqwest::Client,
+    http_client: crate::client::Client,
 }
 
 impl CryptoWallets {
-    pub fn new(http_client: crate::reqwest::Client) -> Self {
+    pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
@@ -128,7 +128,7 @@ impl CryptoWallets {
         &self,
         body: AuthenticateStartRequest,
     ) -> crate::Result<AuthenticateStartResponse> {
-        let path = format!("/v1/crypto_wallets/authenticate/start");
+        let path = String::from("/v1/crypto_wallets/authenticate/start");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -141,7 +141,7 @@ impl CryptoWallets {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = format!("/v1/crypto_wallets/authenticate");
+        let path = String::from("/v1/crypto_wallets/authenticate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
