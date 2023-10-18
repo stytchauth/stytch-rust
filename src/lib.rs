@@ -36,5 +36,5 @@ pub struct ErrorResponse {
 }
 
 pub mod b2b;
+pub mod client;
 pub mod consumer;
-pub mod reqwest;
