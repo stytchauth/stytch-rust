@@ -172,12 +172,18 @@ pub struct User {
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnRegistration {
+    /// webauthn_registration_id: The unique ID for the WebAuthn registration.
     pub webauthn_registration_id: String,
     /// domain: The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
     pub domain: String,
     /// user_agent: The user agent of the User.
     pub user_agent: String,
+    /// verified: The verified boolean denotes whether or not this send method, e.g. phone number, email
+    /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
+    /// authenticator_type: The `authenticator_type` string displays the requested authenticator type of the
+    /// WebAuthn device. The two valid types are "platform" and "cross-platform". If no value is present, the
+    /// WebAuthn device was created without an authenticator type preference.
     pub authenticator_type: String,
     pub name: String,
 }

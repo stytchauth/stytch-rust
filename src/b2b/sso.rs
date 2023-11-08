@@ -40,6 +40,7 @@ pub struct SAMLConnection {
     pub audience_uri: String,
     pub signing_certificates: std::vec::Vec<X509Certificate>,
     pub verification_certificates: std::vec::Vec<X509Certificate>,
+    pub alternative_audience_uri: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 

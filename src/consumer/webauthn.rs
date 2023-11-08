@@ -109,9 +109,30 @@ pub struct RegisterRequest {
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
     pub public_key_credential: String,
+    /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
+    /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
+    /// new session if one doesn't already exist,
+    ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+    /// `session_jwt` will have a fixed lifetime of
+    ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+    ///
+    ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+    ///
+    ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+    /// extend the session this many minutes.
+    ///
+    ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
+    /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
+    /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
+    /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
+    /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
+    /// value. To delete a key, supply a null value.
+    ///
+    ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+    /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
 
@@ -126,13 +147,21 @@ pub struct RegisterResponse {
     pub user_id: String,
     /// webauthn_registration_id: The unique ID for the WebAuthn registration.
     pub webauthn_registration_id: String,
+    /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
+    /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
+    pub user: User,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
+    /// you'll receive a full Session object in the response.
+    ///
+    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///
     pub session: std::option::Option<Session>,
 }
 
