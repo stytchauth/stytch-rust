@@ -62,6 +62,18 @@ pub struct DeleteVerificationCertificateResponse {
     pub status_code: http::StatusCode,
 }
 
+/// UpdateByURLRequest: Request type for `SAML.update_by_url`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct UpdateByURLRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+    pub connection_id: String,
+    /// metadata_url: A URL that points to the IdP metadata. This will be provided by the IdP.
+    pub metadata_url: String,
+}
+
 /// UpdateConnectionRequest: Request type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
@@ -87,7 +99,7 @@ pub struct UpdateConnectionRequest {
     pub idp_sso_url: std::option::Option<String>,
 }
 
-/// UpdateConnectionResponse: Response type for `SAML.update_connection`.
+/// UpdateConnectionResponse: Response type for `SAML.update_by_url`, `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateConnectionResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -137,6 +149,21 @@ impl SAML {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn update_by_url(
+        &self,
+        body: UpdateByURLRequest,
+    ) -> crate::Result<UpdateConnectionResponse> {
+        let organization_id = &body.organization_id;
+        let connection_id = &body.connection_id;
+        let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/url");
         self.http_client
             .send(crate::Request {
                 method: http::Method::PUT,
