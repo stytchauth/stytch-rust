@@ -3,6 +3,14 @@ name = "stytch"
 version = "1.0.0"
 edition = "2021"
 license = "MIT"
+description = "Stytch Rust client"
+documentation = "https://stytch.com/docs"
+homepage = "https://github.com/stytchauth/stytch-rust"
+categories = [
+    "api-bindings",
+    "authentication",
+    "web-programming",
+]
 
 [dependencies]
 base64 = "0.13.0"
