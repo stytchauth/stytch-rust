@@ -169,6 +169,22 @@ pub struct DeleteResponse {
     pub status_code: http::StatusCode,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteTOTPRequest {
+    pub organization_id: String,
+    pub member_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteTOTPResponse {
+    pub request_id: String,
+    pub member_id: String,
+    pub member: Member,
+    pub organization: Organization,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+
 /// GetRequest: Request type for `Members.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -274,22 +290,6 @@ pub struct SearchResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
-    #[serde(with = "http_serde::status_code")]
-    pub status_code: http::StatusCode,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct TOTPRequest {
-    pub organization_id: String,
-    pub member_id: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct TOTPResponse {
-    pub request_id: String,
-    pub member_id: String,
-    pub member: Member,
-    pub organization: Organization,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -471,7 +471,7 @@ impl Members {
             })
             .await
     }
-    pub async fn totp(&self, body: TOTPRequest) -> crate::Result<TOTPResponse> {
+    pub async fn delete_totp(&self, body: DeleteTOTPRequest) -> crate::Result<DeleteTOTPResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/totp");

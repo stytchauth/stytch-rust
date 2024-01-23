@@ -359,7 +359,7 @@ pub struct TwitterOAuthFactor {
 pub struct WebAuthnFactor {
     pub webauthn_registration_id: String,
     pub domain: String,
-    pub user_agent: String,
+    pub user_agent: std::option::Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
