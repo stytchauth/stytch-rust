@@ -74,6 +74,24 @@ pub struct UpdateByURLRequest {
     pub metadata_url: String,
 }
 
+/// UpdateByURLResponse: Response type for `SAML.update_by_url`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UpdateByURLResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    /// connection: The `SAML Connection` object affected by this API call. See the
+    /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
+    /// field details.
+    pub connection: std::option::Option<SAMLConnection>,
+}
+
 /// UpdateConnectionRequest: Request type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
@@ -97,9 +115,26 @@ pub struct UpdateConnectionRequest {
     /// idp_sso_url: The URL for which assertions for login requests will be sent. This will be provided by the
     /// IdP.
     pub idp_sso_url: std::option::Option<String>,
+    /// saml_connection_implicit_role_assignments: All Members who log in with this SAML connection will
+    /// implicitly receive the specified Roles. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
+    pub saml_connection_implicit_role_assignments: std::option::Option<std::vec::Vec<String>>,
+    /// saml_group_implicit_role_assignments: Defines the names of the SAML groups
+    ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+    /// connection and
+    ///  belongs to the specified SAML group, they will be granted the associated Role. See the
+    ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
+    ///  Before adding any group implicit role assignments, you must add a "groups" key to your SAML connection's
+    ///  `attribute_mapping`. Make sure that your IdP is configured to correctly send the group information.
+    pub saml_group_implicit_role_assignments: std::option::Option<std::vec::Vec<String>>,
+    /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
+    /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
+    pub alternative_audience_uri: std::option::Option<String>,
 }
 
-/// UpdateConnectionResponse: Response type for `SAML.update_by_url`, `SAML.update_connection`.
+/// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateConnectionResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -160,7 +195,7 @@ impl SAML {
     pub async fn update_by_url(
         &self,
         body: UpdateByURLRequest,
-    ) -> crate::Result<UpdateConnectionResponse> {
+    ) -> crate::Result<UpdateByURLResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/url");

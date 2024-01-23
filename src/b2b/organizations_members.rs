@@ -47,6 +47,10 @@ pub struct CreateRequest {
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
     pub mfa_enrolled: std::option::Option<bool>,
+    /// roles: Roles to explicitly assign to this Member. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+    ///    for more information about role assignment.
+    pub roles: std::option::Option<std::vec::Vec<String>>,
 }
 
 /// CreateResponse: Response type for `Members.create`.
@@ -67,6 +71,14 @@ pub struct CreateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+}
+
+/// DangerouslyGetRequest: Request type for `Members.dangerously_get`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DangerouslyGetRequest {
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
+    pub member_id: String,
 }
 
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
@@ -170,7 +182,7 @@ pub struct GetRequest {
     pub email_address: std::option::Option<String>,
 }
 
-/// GetResponse: Response type for `Members.get`.
+/// GetResponse: Response type for `Members.dangerously_get`, `Members.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -266,6 +278,22 @@ pub struct SearchResponse {
     pub status_code: http::StatusCode,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct TOTPRequest {
+    pub organization_id: String,
+    pub member_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TOTPResponse {
+    pub request_id: String,
+    pub member_id: String,
+    pub member: Member,
+    pub organization: Organization,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+
 /// UpdateRequest: Request type for `Members.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -276,31 +304,86 @@ pub struct UpdateRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
     /// name: The name of the Member.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.info.name` action on the `stytch.member` Resource.
+    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// `update.info.name` action on the `stytch.self` Resource.
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
+    ///   If a session header is passed into the request, this field may **not** be passed into the request. You
+    /// cannot
+    ///   update trusted metadata when acting as a Member.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
     /// directly by the
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.info.untrusted-metadata` action on the `stytch.member` Resource.
+    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// `update.info.untrusted-metadata` action on the `stytch.self` Resource.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the
     /// [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
     /// more details.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.info.is-breakglass` action on the `stytch.member` Resource.
     pub is_breakglass: std::option::Option<bool>,
     /// mfa_phone_number: Sets the Member's phone number. Throws an error if the Member already has a phone
     /// number. To change the Member's phone number, use the
     /// [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-mfa-phone-number) to
     /// delete the Member's existing phone number first.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource.
+    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// `update.info.mfa-phone` action on the `stytch.self` Resource.
     pub mfa_phone_number: std::option::Option<String>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.settings.mfa-enrolled` action on the `stytch.member` Resource.
+    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// `update.settings.mfa-enrolled` action on the `stytch.self` Resource.
     pub mfa_enrolled: std::option::Option<bool>,
+    /// roles: Roles to explicitly assign to this Member.
+    ///  Will completely replace any existing explicitly assigned roles. See the
+    ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
+    ///
+    ///    If a Role is removed from a Member, and the Member is also implicitly assigned this Role from an SSO
+    /// connection
+    ///    or an SSO group, we will by default revoke any existing sessions for the Member that contain any SSO
+    ///    authentication factors with the affected connection ID. You can preserve these sessions by passing in
+    /// the
+    ///    `preserve_existing_sessions` parameter with a value of `true`.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.settings.roles` action on the `stytch.member` Resource.
+    pub roles: std::option::Option<std::vec::Vec<String>>,
+    /// preserve_existing_sessions: Whether to preserve existing sessions when explicit Roles that are revoked
+    /// are also implicitly assigned
+    ///   by SSO connection or SSO group. Defaults to `false` - that is, existing Member Sessions that contain
+    /// SSO
+    ///   authentication factors with the affected SSO connection IDs will be revoked.
+    pub preserve_existing_sessions: std::option::Option<bool>,
+    /// default_mfa_method: The Member's default MFA method. This value is used to determine which secondary MFA
+    /// method to use in the case of multiple methods registered for a Member. The current possible values are
+    /// `sms_otp` and `totp`.
+    pub default_mfa_method: std::option::Option<String>,
 }
 
 /// UpdateResponse: Response type for `Members.update`.
@@ -388,6 +471,18 @@ impl Members {
             })
             .await
     }
+    pub async fn totp(&self, body: TOTPRequest) -> crate::Result<TOTPResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/totp");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
         let path = String::from("/v1/b2b/organizations/members/search");
         self.http_client
@@ -410,6 +505,17 @@ impl Members {
         self.http_client
             .send(crate::Request {
                 method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn dangerously_get(&self, body: DangerouslyGetRequest) -> crate::Result<GetResponse> {
+        let member_id = &body.member_id;
+        let path = format!("/v1/b2b/organizations/members/dangerously_get/{member_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
                 path,
                 body,
             })

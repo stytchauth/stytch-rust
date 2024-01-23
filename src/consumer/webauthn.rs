@@ -51,7 +51,7 @@ pub struct AuthenticateResponse {
     pub request_id: String,
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
-    /// webauthn_registration_id: The unique ID for the WebAuthn registration.
+    /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
     pub webauthn_registration_id: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -76,10 +76,13 @@ pub struct AuthenticateResponse {
 /// AuthenticateStartRequest: Request type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
-    /// domain: The domain for WebAuthn. Defaults to `window.location.hostname`.
+    /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
-    /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
     pub user_id: std::option::Option<String>,
+    /// return_passkey_credential_options: If true, the `public_key_credential_creation_options` returned will
+    /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
+    ///
     pub return_passkey_credential_options: std::option::Option<bool>,
 }
 
@@ -92,7 +95,7 @@ pub struct AuthenticateStartResponse {
     pub request_id: String,
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
-    /// public_key_credential_request_options: Options used for WebAuthn authentication.
+    /// public_key_credential_request_options: Options used for Passkey or WebAuthn authentication.
     pub public_key_credential_request_options: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
@@ -104,7 +107,7 @@ pub struct AuthenticateStartResponse {
 /// RegisterRequest: Request type for `WebAuthn.register`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterRequest {
-    /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
     pub user_id: String,
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
@@ -145,7 +148,7 @@ pub struct RegisterResponse {
     pub request_id: String,
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
-    /// webauthn_registration_id: The unique ID for the WebAuthn registration.
+    /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
     pub webauthn_registration_id: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -168,15 +171,19 @@ pub struct RegisterResponse {
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterStartRequest {
-    /// user_id: The `user_id` of an active user the WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
     pub user_id: String,
-    /// domain: The domain for WebAuthn. Defaults to `window.location.hostname`.
+    /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
     /// user_agent: The user agent of the User.
     pub user_agent: std::option::Option<String>,
-    /// authenticator_type: The requested authenticator type of the WebAuthn device. The two valid value are
-    /// platform and cross-platform. If no value passed, we assume both values are allowed.
+    /// authenticator_type: The requested authenticator type of the Passkey or WebAuthn device. The two valid
+    /// values are platform and cross-platform. If no value passed, we assume both values are allowed.
     pub authenticator_type: std::option::Option<String>,
+    /// return_passkey_credential_options: If true, the `public_key_credential_creation_options` returned will
+    /// be optimized for Passkeys with `residentKey` set to `"required"` and `userVerification` set to
+    /// `"preferred"`.
+    ///
     pub return_passkey_credential_options: std::option::Option<bool>,
 }
 
@@ -189,7 +196,7 @@ pub struct RegisterStartResponse {
     pub request_id: String,
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
-    /// public_key_credential_creation_options: Options used for WebAuthn registration.
+    /// public_key_credential_creation_options: Options used for Passkey or WebAuthn registration.
     pub public_key_credential_creation_options: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
@@ -198,17 +205,30 @@ pub struct RegisterStartResponse {
     pub status_code: http::StatusCode,
 }
 
+/// UpdateRequest: Request type for `WebAuthn.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
+    /// webauthn_registration_id: Globally unique UUID that identifies a Passkey or WebAuthn registration in the
+    /// Stytch API. The `webautn_registration_id` is used when you need to operate on a specific User's WebAuthn
+    /// registartion.
     pub webauthn_registration_id: String,
+    /// name: The `name` of the WebAuthn registration or Passkey.
     pub name: String,
 }
 
+/// UpdateResponse: Response type for `WebAuthn.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
     pub request_id: String,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// webauthn_registration: A Passkey or WebAuthn registration.
     pub webauthn_registration: std::option::Option<WebAuthnRegistration>,
 }
 

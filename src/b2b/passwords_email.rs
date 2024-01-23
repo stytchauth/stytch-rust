@@ -172,6 +172,8 @@ pub struct ResetStartResponse {
     pub member_id: String,
     /// member_email_id: Globally unique UUID that identifies a member's email
     pub member_email_id: String,
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
+    pub member: Member,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.

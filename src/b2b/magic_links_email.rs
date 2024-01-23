@@ -51,6 +51,10 @@ pub struct InviteRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<InviteRequestLocale>,
+    /// roles: Roles to explicitly assign to this Member. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+    ///    for more information about role assignment.
+    pub roles: std::option::Option<std::vec::Vec<String>>,
 }
 
 /// InviteResponse: Response type for `Email.invite`.

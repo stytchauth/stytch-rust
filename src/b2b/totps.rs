@@ -9,7 +9,7 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
-/// AuthenticateRequest: Request type for `Sms.authenticate`.
+/// AuthenticateRequest: Request type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
@@ -69,10 +69,13 @@ pub struct AuthenticateRequest {
     /// required to complete MFA steps when logging in to the Organization.
     ///
     pub set_mfa_enrollment: std::option::Option<String>,
+    /// set_default_mfa: If passed will set the authenticated method to the default MFA method. Completing an
+    /// MFA authentication flow for the first time for a Member will implicitly set the method to the default
+    /// MFA method. This option can be used to update the default MFA method if multiple are being used.
     pub set_default_mfa: std::option::Option<bool>,
 }
 
-/// AuthenticateResponse: Response type for `Sms.authenticate`.
+/// AuthenticateResponse: Response type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -98,28 +101,19 @@ pub struct AuthenticateResponse {
     pub member_session: std::option::Option<MemberSession>,
 }
 
-/// SendRequest: Request type for `Sms.send`.
+/// CreateRequest: Request type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct SendRequest {
+pub struct CreateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
-    /// mfa_phone_number: The phone number to send the OTP to. If the Member already has a phone number, this
-    /// argument is not needed.
-    pub mfa_phone_number: std::option::Option<String>,
-    /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
-    /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-    /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
-    /// Request support for additional languages
-    /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
-    pub locale: std::option::Option<SendRequestLocale>,
+    /// expiration_minutes: The expiration for the TOTP registration. If the newly created TOTP registration is
+    /// not authenticated within this time frame the member will have to restart the registration flow. Defaults
+    /// to 60 (1 hour) with a minimum of 5 and a maximum of 1440.
+    pub expiration_minutes: std::option::Option<i32>,
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member session.
     /// The token can be used with the
@@ -137,15 +131,24 @@ pub struct SendRequest {
     pub session_jwt: std::option::Option<String>,
 }
 
-/// SendResponse: Response type for `Sms.send`.
+/// CreateResponse: Response type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct SendResponse {
+pub struct CreateResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
     /// debug an issue.
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
+    /// totp_registration_id: The unique ID for a TOTP instance.
+    pub totp_registration_id: String,
+    /// secret: The TOTP secret key shared between the authenticator app and the server used to generate TOTP
+    /// codes.
+    pub secret: String,
+    /// qr_code: The QR code image encoded in base64.
+    pub qr_code: String,
+    /// recovery_codes: An array of recovery codes that can be used to recover a Member's account.
+    pub recovery_codes: std::vec::Vec<String>,
     /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
@@ -157,30 +160,60 @@ pub struct SendResponse {
     pub status_code: http::StatusCode,
 }
 
+/// MigrateRequest: Request type for `TOTPs.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub enum SendRequestLocale {
-    #[serde(rename = "en")]
-    #[default]
-    En,
-    #[serde(rename = "es")]
-    Es,
-    #[serde(rename = "ptbr")]
-    Ptbr,
+pub struct MigrateRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
+    pub member_id: String,
+    /// secret: The TOTP secret key shared between the authenticator app and the server used to generate TOTP
+    /// codes.
+    pub secret: String,
+    /// recovery_codes: An existing set of recovery codes to be imported into Stytch to be used to authenticate
+    /// in place of the secondary MFA method.
+    pub recovery_codes: std::vec::Vec<String>,
 }
 
-pub struct Sms {
+/// MigrateResponse: Response type for `TOTPs.migrate`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MigrateResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member.
+    pub member_id: String,
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
+    pub member: Member,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+    pub organization: Organization,
+    /// totp_registration_id: The unique ID for a TOTP instance.
+    pub totp_registration_id: String,
+    /// recovery_codes: An array of recovery codes that can be used to recover a Member's account.
+    pub recovery_codes: std::vec::Vec<String>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+
+pub struct TOTPs {
     http_client: crate::client::Client,
 }
 
-impl Sms {
+impl TOTPs {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
         }
     }
 
-    pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
-        let path = String::from("/v1/b2b/otps/sms/send");
+    pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
+        let path = String::from("/v1/b2b/totp");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
@@ -193,7 +226,17 @@ impl Sms {
         &self,
         body: AuthenticateRequest,
     ) -> crate::Result<AuthenticateResponse> {
-        let path = String::from("/v1/b2b/otps/sms/authenticate");
+        let path = String::from("/v1/b2b/totp/authenticate");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
+        let path = String::from("/v1/b2b/totp/migrate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

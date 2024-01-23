@@ -11,6 +11,39 @@ use crate::consumer::sessions::AuthenticationFactor;
 use crate::consumer::sessions::JWK;
 use serde::{Deserialize, Serialize};
 
+/// AuthorizationCheck:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AuthorizationCheck {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
+    /// human-readable.
+    ///
+    ///   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+    /// default Resources with reserved  `resource_id`s. These include:
+    ///
+    ///   * `stytch.organization`
+    ///   * `stytch.member`
+    ///   * `stytch.sso`
+    ///   * `stytch.self`
+    ///
+    ///   Check out the
+    /// [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for a more
+    /// detailed explanation.
+    ///
+    ///
+    pub resource_id: String,
+    /// action: An action to take on a Resource.
+    pub action: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AuthorizationVerdict {
+    pub authorized: bool,
+    pub granting_roles: std::vec::Vec<String>,
+}
+
 /// MemberSession:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberSession {
@@ -32,6 +65,7 @@ pub struct MemberSession {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
+    pub roles: std::vec::Vec<String>,
     /// custom_claims: The custom claims map for a Session. Claims can be added to a session during a Sessions
     /// authenticate call.
     pub custom_claims: std::option::Option<serde_json::Value>,
@@ -67,6 +101,26 @@ pub struct AuthenticateRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// authorization_check: If an `authorization_check` object is passed in, this endpoint will also check if
+    /// the Member is
+    ///   authorized to perform the given action on the given Resource in the specified Organization. A Member
+    /// is authorized if
+    ///   their Member Session contains a Role, assigned
+    ///   [explicitly or implicitly](https://stytch.com/docs/b2b/guides/rbac/role-assignment), with adequate
+    /// permissions.
+    ///   In addition, the `organization_id` passed in the authorization check must match the Member's
+    /// Organization.
+    ///
+    ///   The Roles on the Member Session may differ from the Roles you see on the Member object - Roles that
+    /// are implicitly
+    ///   assigned by SSO connection or SSO group will only be valid for a Member Session if there is at least
+    /// one authentication
+    ///   factor on the Member Session from the specified SSO connection.
+    ///
+    ///   If the Member is not authorized to perform the specified action on the specified Resource, or if the
+    ///   `organization_id` does not match the Member's Organization, a 403 error will be thrown.
+    ///   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
+    pub authorization_check: std::option::Option<AuthorizationCheck>,
 }
 
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
@@ -91,6 +145,11 @@ pub struct AuthenticateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// verdict: If an `authorization_check` is provided in the request and the check succeeds, this field will
+    /// return
+    ///   the complete list of Roles that gave the Member permission to perform the specified action on the
+    /// specified Resource.
+    pub verdict: std::option::Option<AuthorizationVerdict>,
 }
 
 /// ExchangeRequest: Request type for `Sessions.exchange`.
