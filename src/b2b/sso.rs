@@ -40,8 +40,22 @@ pub struct SAMLConnection {
     pub audience_uri: String,
     pub signing_certificates: std::vec::Vec<X509Certificate>,
     pub verification_certificates: std::vec::Vec<X509Certificate>,
+    pub saml_connection_implicit_role_assignments:
+        std::vec::Vec<SAMLConnectionImplicitRoleAssignment>,
+    pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,
     pub alternative_audience_uri: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SAMLConnectionImplicitRoleAssignment {
+    pub role_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SAMLGroupImplicitRoleAssignment {
+    pub role_id: String,
+    pub group: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

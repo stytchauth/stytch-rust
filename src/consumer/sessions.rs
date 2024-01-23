@@ -88,6 +88,7 @@ pub struct AuthenticationFactor {
     pub oidc_sso_factor: std::option::Option<OIDCSSOFactor>,
     pub salesforce_oauth_factor: std::option::Option<SalesforceOAuthFactor>,
     pub yahoo_oauth_factor: std::option::Option<YahooOAuthFactor>,
+    pub hubspot_oauth_factor: std::option::Option<HubspotOAuthFactor>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -179,6 +180,13 @@ pub struct GoogleOAuthFactor {
     pub email_id: String,
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct HubspotOAuthFactor {
+    pub id: String,
+    pub email_id: String,
     pub provider_subject: String,
 }
 
@@ -351,7 +359,7 @@ pub struct TwitterOAuthFactor {
 pub struct WebAuthnFactor {
     pub webauthn_registration_id: String,
     pub domain: String,
-    pub user_agent: String,
+    pub user_agent: std::option::Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -555,6 +563,10 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthSalesforce,
     #[serde(rename = "oauth_yahoo")]
     OAuthYahoo,
+    #[serde(rename = "oauth_hubspot")]
+    OAuthHubspot,
+    #[serde(rename = "imported_auth0")]
+    ImportedAuth0,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -578,6 +590,10 @@ pub enum AuthenticationFactorType {
     SignatureChallenge,
     #[serde(rename = "sso")]
     SSO,
+    #[serde(rename = "imported")]
+    Imported,
+    #[serde(rename = "recovery_codes")]
+    RecoveryCodes,
 }
 
 pub struct Sessions {

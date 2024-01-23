@@ -139,8 +139,8 @@ pub struct User {
     pub status: String,
     /// phone_numbers: An array of phone number objects linked to the User.
     pub phone_numbers: std::vec::Vec<PhoneNumber>,
-    /// webauthn_registrations: An array that contains a list of all WebAuthn registrations for a given User in
-    /// the Stytch API.
+    /// webauthn_registrations: An array that contains a list of all Passkey or WebAuthn registrations for a
+    /// given User in the Stytch API.
     pub webauthn_registrations: std::vec::Vec<WebAuthnRegistration>,
     /// providers: An array of OAuth `provider` objects linked to the User.
     pub providers: std::vec::Vec<OAuthProvider>,
@@ -172,9 +172,10 @@ pub struct User {
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnRegistration {
-    /// webauthn_registration_id: The unique ID for the WebAuthn registration.
+    /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
     pub webauthn_registration_id: String,
-    /// domain: The `domain` on which a WebAuthn registration was started. This will be the domain of your app.
+    /// domain: The `domain` on which Passkey or WebAuthn registration was started. This will be the domain of
+    /// your app.
     pub domain: String,
     /// user_agent: The user agent of the User.
     pub user_agent: String,
@@ -182,9 +183,10 @@ pub struct WebAuthnRegistration {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
     /// authenticator_type: The `authenticator_type` string displays the requested authenticator type of the
-    /// WebAuthn device. The two valid types are "platform" and "cross-platform". If no value is present, the
-    /// WebAuthn device was created without an authenticator type preference.
+    /// Passkey or WebAuthn device. The two valid types are "platform" and "cross-platform". If no value is
+    /// present, the Passkey or WebAuthn device was created without an authenticator type preference.
     pub authenticator_type: String,
+    /// name: The `name` of the Passkey or WebAuthn registration.
     pub name: String,
 }
 
@@ -528,8 +530,8 @@ pub struct GetResponse {
     pub status: String,
     /// phone_numbers: An array of phone number objects linked to the User.
     pub phone_numbers: std::vec::Vec<PhoneNumber>,
-    /// webauthn_registrations: An array that contains a list of all WebAuthn registrations for a given User in
-    /// the Stytch API.
+    /// webauthn_registrations: An array that contains a list of all Passkey or WebAuthn registrations for a
+    /// given User in the Stytch API.
     pub webauthn_registrations: std::vec::Vec<WebAuthnRegistration>,
     /// providers: An array of OAuth `provider` objects linked to the User.
     pub providers: std::vec::Vec<OAuthProvider>,

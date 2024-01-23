@@ -6,6 +6,7 @@
 
 use crate::b2b::discovery::DiscoveredOrganization;
 use crate::b2b::mfa::MfaRequired;
+use crate::b2b::organizations::EmailImplicitRoleAssignment;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
@@ -86,12 +87,12 @@ pub struct CreateRequest {
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
-    /// authenticating via Email Magic Link. The accepted values are:
+    /// authenticating via Email Magic Link or OAuth. The accepted values are:
     ///
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
-    /// provisioned upon authentication via Email Magic Link.
+    /// provisioned upon authentication via Email Magic Link or OAuth.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link.
+    ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
     ///
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
@@ -114,9 +115,8 @@ pub struct CreateRequest {
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
     ///
     pub auth_methods: std::option::Option<String>,
-    /// allowed_auth_methods:
-    ///   An array of allowed authentication methods. This list is enforced when `auth_methods` is set to
-    /// `RESTRICTED`.
+    /// allowed_auth_methods: An array of allowed authentication methods. This list is enforced when
+    /// `auth_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
     ///
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
@@ -124,12 +124,35 @@ pub struct CreateRequest {
     /// values are:
     ///
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
-    /// they wish to log in.
+    /// they wish to log in. However, any active Session that existed prior to this setting change will remain
+    /// valid.
     ///
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
     ///
     pub mfa_policy: std::option::Option<String>,
+    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
+    ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
+    /// granted the
+    ///   associated Role, regardless of their login method. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
+    ///   for more information about role assignment.
+    pub rbac_email_implicit_role_assignments:
+        std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
+    /// mfa_methods: The setting that controls which mfa methods can be used by Members of an Organization. The
+    /// accepted values are:
+    ///
+    ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
+    ///
+    ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+    /// This setting does not apply to Members with `is_breakglass` set to `true`.
+    ///
+    pub mfa_methods: std::option::Option<String>,
+    /// allowed_mfa_methods: An array of allowed mfa authentication methods. This list is enforced when
+    /// `mfa_methods` is set to `RESTRICTED`.
+    ///   The list's accepted values are: `sms_otp` and `totp`.
+    ///
+    pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
 
 /// CreateResponse: Response type for `Organizations.create`.
