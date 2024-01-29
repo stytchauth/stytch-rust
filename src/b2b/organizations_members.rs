@@ -336,7 +336,7 @@ pub struct UpdateRequest {
     /// more details.
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
-    /// permission to perform the `update.info.is-breakglass` action on the `stytch.member` Resource.
+    /// permission to perform the `update.settings.is-breakglass` action on the `stytch.member` Resource.
     pub is_breakglass: std::option::Option<bool>,
     /// mfa_phone_number: Sets the Member's phone number. Throws an error if the Member already has a phone
     /// number. To change the Member's phone number, use the

@@ -139,16 +139,16 @@ pub struct CreateRequest {
     ///   for more information about role assignment.
     pub rbac_email_implicit_role_assignments:
         std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
-    /// mfa_methods: The setting that controls which mfa methods can be used by Members of an Organization. The
+    /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
     ///
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
     ///
-    ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
+    ///   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
     ///
     pub mfa_methods: std::option::Option<String>,
-    /// allowed_mfa_methods: An array of allowed mfa authentication methods. This list is enforced when
+    /// allowed_mfa_methods: An array of allowed MFA authentication methods. This list is enforced when
     /// `mfa_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
