@@ -275,6 +275,12 @@ pub struct MigrateRequest {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// set_email_verified: Whether to set the user's email as verified. This is a dangerous field. Incorrect
+    /// use may lead to users getting erroneously
+    /// deduplicated into one user object. This flag should only be set if you can attest that the user owns the
+    /// email address in question.
+    /// Access to this field is restricted. To enable it, please send us a note at support@stytch.com.
+    pub set_email_verified: std::option::Option<bool>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
 }
