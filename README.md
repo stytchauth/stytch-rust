@@ -152,6 +152,12 @@ match resp {
 
 Learn more about errors in the [docs](https://stytch.com/docs/api/errors).
 
+## Cargo Features
+
+- `reqwest-rustls-tls`: Enable reqwest's `rustls-tls` feature for the rustls implementation.
+- `reqwest-native-tls`: Enable reqwest's `native-tls` feature for the native TLS implementation.
+  (This is enabled by default.)
+
 ## Documentation
 
 See example requests and responses for all the endpoints in the [Stytch API Reference](https://stytch.com/docs/api).
