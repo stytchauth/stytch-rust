@@ -20,9 +20,9 @@ pub struct CreateRequest {
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member
     /// session. The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
-    /// an MFA flow and log in to the Organization. It can also be used with the
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+    /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+    /// MFA flow and log in to the Organization. It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
     /// or the
@@ -176,13 +176,12 @@ pub struct CreateResponse {
     /// complete an MFA step to log in to the Organization.
     pub member_authenticated: bool,
     /// intermediate_session_token: The returned Intermediate Session Token is identical to the one that was
-    /// originally passed in to the request.
-    /// If this value is non-empty, the member must complete an MFA step to finish logging in to the
-    /// Organization. The token can be used with the
+    /// originally passed in to the request. If this value is non-empty, the member must complete an MFA step to
+    /// finish logging in to the Organization. The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
-    /// an MFA flow and log in to the Organization. It can also be used with the
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+    /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+    /// MFA flow and log in to the Organization. It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
     /// or the
@@ -210,9 +209,9 @@ pub struct ListRequest {
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member
     /// session. The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
-    /// an MFA flow and log in to the Organization. It can also be used with the
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+    /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+    /// MFA flow and log in to the Organization. It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
     /// or the

@@ -24,9 +24,9 @@ pub struct AuthenticateRequest {
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member
     /// session. The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
-    /// an MFA flow and log in to the Organization. It can also be used with the
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+    /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+    /// MFA flow and log in to the Organization. It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
     /// or the
@@ -119,9 +119,9 @@ pub struct CreateRequest {
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member
     /// session. The token can be used with the
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
-    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
-    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
-    /// an MFA flow and log in to the Organization. It can also be used with the
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
+    /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
+    /// MFA flow and log in to the Organization. It can also be used with the
     /// [Exchange Intermediate Session endpoint](https://stytch.com/docs/b2b/api/exchange-intermediate-session)
     /// to join a specific Organization that allows the factors represented by the intermediate session token;
     /// or the
