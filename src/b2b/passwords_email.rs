@@ -69,6 +69,11 @@ pub struct ResetRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<ResetRequestLocale>,
+    /// intermediate_session_token: Adds this primary authentication factor to the intermediate session token.
+    /// If the resulting set of factors satisfies the organization's primary authentication requirements and MFA
+    /// requirements, the intermediate session token will be consumed and converted to a member session. If not,
+    /// the same intermediate session token will be returned.
+    pub intermediate_session_token: std::option::Option<String>,
 }
 
 /// ResetResponse: Response type for `Email.reset`.
@@ -95,10 +100,13 @@ pub struct ResetResponse {
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains a password factor
     /// associated with the Member.
-    ///   The token can be used with the
-    /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-    /// MFA flow and log in to the Organization.
-    ///   Password factors are not transferable between Organizations, so the intermediate session token is not
+    /// If this value is non-empty, the member must complete an MFA step to finish logging in to the
+    /// Organization. The token can be used with the
+    /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
+    /// an MFA flow and log in to the Organization.
+    /// Password factors are not transferable between Organizations, so the intermediate session token is not
     /// valid for use with discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to

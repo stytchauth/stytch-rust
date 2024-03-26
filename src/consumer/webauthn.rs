@@ -209,8 +209,8 @@ pub struct RegisterStartResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// webauthn_registration_id: Globally unique UUID that identifies a Passkey or WebAuthn registration in the
-    /// Stytch API. The `webautn_registration_id` is used when you need to operate on a specific User's WebAuthn
-    /// registartion.
+    /// Stytch API. The `webauthn_registration_id` is used when you need to operate on a specific User's
+    /// WebAuthn registration.
     pub webauthn_registration_id: String,
     /// name: The `name` of the WebAuthn registration or Passkey.
     pub name: String,

@@ -11,6 +11,8 @@ use serde::{Deserialize, Serialize};
 pub struct MemberOptions {
     /// mfa_phone_number: The Member's MFA phone number.
     pub mfa_phone_number: String,
+    /// totp_registration_id: The Member's MFA TOTP registration ID.
+    pub totp_registration_id: String,
 }
 
 /// MfaRequired:

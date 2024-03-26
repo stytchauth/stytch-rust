@@ -47,14 +47,41 @@ pub struct SAMLConnection {
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 
+/// SAMLConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnectionImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.  
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
 }
 
+/// SAMLGroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLGroupImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.  
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
+    /// group: The name of the SAML group that grants the specified role assignment.
     pub group: String,
 }
 
@@ -116,6 +143,11 @@ pub struct AuthenticateRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<AuthenticateRequestLocale>,
+    /// intermediate_session_token: Adds this primary authentication factor to the intermediate session token.
+    /// If the resulting set of factors satisfies the organization's primary authentication requirements and MFA
+    /// requirements, the intermediate session token will be consumed and converted to a member session. If not,
+    /// the same intermediate session token will be returned.
+    pub intermediate_session_token: std::option::Option<String>,
 }
 
 /// AuthenticateResponse: Response type for `SSO.authenticate`.
@@ -145,10 +177,13 @@ pub struct AuthenticateResponse {
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains an SSO factor associated
     /// with the Member.
-    ///   The token can be used with the
-    /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms) to complete the
-    /// MFA flow and log in to the Organization.
-    ///   SSO factors are not transferable between Organizations, so the intermediate session token is not valid
+    /// If this value is non-empty, the member must complete an MFA step to finish logging in to the
+    /// Organization. The token can be used with the
+    /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
+    /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp),
+    /// or [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete
+    /// an MFA flow and log in to the Organization.
+    /// SSO factors are not transferable between Organizations, so the intermediate session token is not valid
     /// for use with discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to

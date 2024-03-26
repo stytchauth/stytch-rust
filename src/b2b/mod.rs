@@ -12,6 +12,7 @@ pub mod oauth;
 pub mod oauth_discovery;
 pub mod organizations;
 pub mod organizations_members;
+pub mod organizations_members_oauth_providers;
 pub mod otp;
 pub mod otp_sms;
 pub mod passwords;
