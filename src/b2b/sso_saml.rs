@@ -5,6 +5,8 @@
 // !!!
 
 use crate::b2b::sso::SAMLConnection;
+use crate::b2b::sso::SAMLConnectionImplicitRoleAssignment;
+use crate::b2b::sso::SAMLGroupImplicitRoleAssignment;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `SAML.create_connection`.
@@ -119,7 +121,8 @@ pub struct UpdateConnectionRequest {
     /// implicitly receive the specified Roles. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
     /// assignment.
-    pub saml_connection_implicit_role_assignments: std::option::Option<std::vec::Vec<String>>,
+    pub saml_connection_implicit_role_assignments:
+        std::option::Option<std::vec::Vec<SAMLConnectionImplicitRoleAssignment>>,
     /// saml_group_implicit_role_assignments: Defines the names of the SAML groups
     ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
     /// connection and
@@ -128,7 +131,8 @@ pub struct UpdateConnectionRequest {
     /// assignment.
     ///  Before adding any group implicit role assignments, you must add a "groups" key to your SAML connection's
     ///  `attribute_mapping`. Make sure that your IdP is configured to correctly send the group information.
-    pub saml_group_implicit_role_assignments: std::option::Option<std::vec::Vec<String>>,
+    pub saml_group_implicit_role_assignments:
+        std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
     /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
     /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
     pub alternative_audience_uri: std::option::Option<String>,

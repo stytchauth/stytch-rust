@@ -698,7 +698,8 @@ pub struct UpdateRequest {
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
-    pub rbac_email_implicit_role_assignments: std::option::Option<std::vec::Vec<String>>,
+    pub rbac_email_implicit_role_assignments:
+        std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
     /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
     ///

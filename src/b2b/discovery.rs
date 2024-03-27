@@ -9,6 +9,7 @@ use crate::b2b::discovery_organizations::Organizations;
 use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
+use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
 /// DiscoveredOrganization:
@@ -41,17 +42,6 @@ pub struct Membership {
     /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object) if one already exists, or
     /// null if one does not.
     pub member: std::option::Option<Member>,
-}
-
-/// PrimaryRequired:
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct PrimaryRequired {
-    /// allowed_auth_methods: If non-empty, indicates that the Organization restricts the authentication methods
-    /// it allows for login (such as `sso` or `password`), and the end user must complete one of those
-    /// authentication methods to log in. If empty, indicates that the Organization does not restrict the
-    /// authentication method it allows for login, but the end user does not have any transferrable primary
-    /// factors. Only email magic link and OAuth factors can be transferred between Organizations.
-    pub allowed_auth_methods: std::vec::Vec<String>,
 }
 
 pub struct Discovery {

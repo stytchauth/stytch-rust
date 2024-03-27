@@ -8,6 +8,7 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::organizations::ResultsMetadata;
 use crate::b2b::organizations::SearchQuery;
+use crate::b2b::organizations_members_oauth_providers::OAuthProviders;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Members.create`.
@@ -306,9 +307,9 @@ pub struct UpdateRequest {
     /// name: The name of the Member.
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
-    /// permission to perform the `update.info.name` action on the `stytch.member` Resource.
-    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
-    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// permission to perform the `update.info.name` action on the `stytch.member` Resource. Alternatively, if
+    /// the Member Session matches the Member associated with the `member_id` passed in the request, the
+    /// authorization check will also allow a Member Session that has permission to perform the
     /// `update.info.name` action on the `stytch.self` Resource.
     pub name: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
@@ -325,7 +326,7 @@ pub struct UpdateRequest {
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.untrusted-metadata` action on the `stytch.member` Resource.
-    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
     /// request, the authorization check will also allow a Member Session that has permission to perform the
     /// `update.info.untrusted-metadata` action on the `stytch.self` Resource.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
@@ -344,9 +345,9 @@ pub struct UpdateRequest {
     /// delete the Member's existing phone number first.
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
-    /// permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource.
-    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
-    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource. Alternatively,
+    /// if the Member Session matches the Member associated with the `member_id` passed in the request, the
+    /// authorization check will also allow a Member Session that has permission to perform the
     /// `update.info.mfa-phone` action on the `stytch.self` Resource.
     pub mfa_phone_number: std::option::Option<String>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
@@ -355,7 +356,7 @@ pub struct UpdateRequest {
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.mfa-enrolled` action on the `stytch.member` Resource.
-    ///   Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
     /// request, the authorization check will also allow a Member Session that has permission to perform the
     /// `update.settings.mfa-enrolled` action on the `stytch.self` Resource.
     pub mfa_enrolled: std::option::Option<bool>,
@@ -380,10 +381,25 @@ pub struct UpdateRequest {
     /// SSO
     ///   authentication factors with the affected SSO connection IDs will be revoked.
     pub preserve_existing_sessions: std::option::Option<bool>,
-    /// default_mfa_method: The Member's default MFA method. This value is used to determine which secondary MFA
-    /// method to use in the case of multiple methods registered for a Member. The current possible values are
-    /// `sms_otp` and `totp`.
+    /// default_mfa_method: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA
+    /// step whenever they wish to log in to their Organization. If false, the Member only needs to complete an
+    /// MFA step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.settings.default-mfa-method` action on the `stytch.member` Resource.
+    /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
+    /// request, the authorization check will also allow a Member Session that has permission to perform the
+    /// `update.settings.default-mfa-method` action on the `stytch.self` Resource.
     pub default_mfa_method: std::option::Option<String>,
+    /// email_address: Updates the Member's `email_address`, if provided.
+    /// If a Member's email address is changed, other Members in the same Organization cannot use the old email
+    /// address, although the Member may update back to their old email address.
+    /// A Member's email address can only be useable again by other Members if the Member is deleted.
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.info.email` action on the `stytch.member` Resource. Members cannot
+    /// update their own email address.
+    pub email_address: std::option::Option<String>,
 }
 
 /// UpdateResponse: Response type for `Members.update`.
@@ -408,12 +424,14 @@ pub struct UpdateResponse {
 
 pub struct Members {
     http_client: crate::client::Client,
+    pub oauth_providers: OAuthProviders,
 }
 
 impl Members {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
+            oauth_providers: OAuthProviders::new(http_client.clone()),
         }
     }
 
