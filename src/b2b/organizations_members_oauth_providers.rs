@@ -41,21 +41,6 @@ pub struct GoogleResponse {
     pub refresh_token: std::option::Option<String>,
 }
 
-/// MicrosoftRequest: Request type for `OAuthProviders.google`, `OAuthProviders.microsoft`.
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct MicrosoftRequest {
-    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
-    pub organization_id: String,
-    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
-    pub member_id: String,
-    /// include_refresh_token: Whether to return the refresh token Stytch has stored for the OAuth Provider.
-    /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
-    /// able to automatically refresh access tokens in the future.
-    pub include_refresh_token: std::option::Option<bool>,
-}
-
 /// MicrosoftResponse: Response type for `OAuthProviders.microsoft`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftResponse {
@@ -91,6 +76,21 @@ pub struct MicrosoftResponse {
     pub refresh_token: std::option::Option<String>,
 }
 
+/// ProviderInformationRequest: Request type for `OAuthProviders.google`, `OAuthProviders.microsoft`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct ProviderInformationRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
+    pub member_id: String,
+    /// include_refresh_token: Whether to return the refresh token Stytch has stored for the OAuth Provider.
+    /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
+    /// able to automatically refresh access tokens in the future.
+    pub include_refresh_token: std::option::Option<bool>,
+}
+
 pub struct OAuthProviders {
     http_client: crate::client::Client,
 }
@@ -102,7 +102,7 @@ impl OAuthProviders {
         }
     }
 
-    pub async fn google(&self, body: MicrosoftRequest) -> crate::Result<GoogleResponse> {
+    pub async fn google(&self, body: ProviderInformationRequest) -> crate::Result<GoogleResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!(
@@ -116,7 +116,10 @@ impl OAuthProviders {
             })
             .await
     }
-    pub async fn microsoft(&self, body: MicrosoftRequest) -> crate::Result<MicrosoftResponse> {
+    pub async fn microsoft(
+        &self,
+        body: ProviderInformationRequest,
+    ) -> crate::Result<MicrosoftResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!(
