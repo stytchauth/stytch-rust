@@ -21,6 +21,8 @@ pub mod passwords_existing_password;
 pub mod passwords_session;
 pub mod rbac;
 pub mod recovery_codes;
+pub mod scim;
+pub mod scim_connections;
 pub mod sessions;
 pub mod sso;
 pub mod sso_oidc;
