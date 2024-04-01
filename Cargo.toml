@@ -5,7 +5,7 @@ edition = "2021"
 license = "MIT"
 description = "Stytch Rust client"
 documentation = "https://stytch.com/docs"
-homepage = "https://github.com/stytchauth/stytch-rust"
+repository = "https://github.com/stytchauth/stytch-rust"
 categories = [
     "api-bindings",
     "authentication",
