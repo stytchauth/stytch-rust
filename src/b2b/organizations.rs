@@ -516,6 +516,19 @@ pub struct GetResponse {
     pub status_code: http::StatusCode,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct MetricsRequest {
+    pub organization_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MetricsResponse {
+    pub request_id: String,
+    pub member_count: u32,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+
 /// SearchRequest: Request type for `Organizations.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
@@ -810,6 +823,17 @@ impl Organizations {
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
+        let organization_id = &body.organization_id;
+        let path = format!("/v1/b2b/organizations/{organization_id}/metrics");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
                 path,
                 body,
             })

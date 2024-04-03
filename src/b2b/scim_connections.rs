@@ -214,6 +214,16 @@ pub enum CreateRequestIdp {
     Okta,
     #[serde(rename = "microsoftentra")]
     Microsoftentra,
+    #[serde(rename = "cyberark")]
+    Cyberark,
+    #[serde(rename = "jumpcloud")]
+    Jumpcloud,
+    #[serde(rename = "onelogin")]
+    Onelogin,
+    #[serde(rename = "pingfederate")]
+    Pingfederate,
+    #[serde(rename = "rippling")]
+    Rippling,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
