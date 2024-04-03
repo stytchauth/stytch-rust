@@ -16,6 +16,7 @@ pub mod passwords;
 pub mod passwords_email;
 pub mod passwords_existing_password;
 pub mod passwords_session;
+pub mod project;
 pub mod sessions;
 pub mod totps;
 pub mod users;
