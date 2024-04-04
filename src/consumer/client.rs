@@ -10,6 +10,7 @@ use crate::consumer::magic_links::MagicLinks;
 use crate::consumer::oauth::OAuth;
 use crate::consumer::otp::OTPs;
 use crate::consumer::passwords::Passwords;
+use crate::consumer::project::Project;
 use crate::consumer::sessions::Sessions;
 use crate::consumer::totps::TOTPs;
 use crate::consumer::users::Users;
@@ -22,6 +23,7 @@ pub struct Client {
     pub oauth: OAuth,
     pub otps: OTPs,
     pub passwords: Passwords,
+    pub project: Project,
     pub sessions: Sessions,
     pub totps: TOTPs,
     pub users: Users,
@@ -43,6 +45,7 @@ impl Client {
             oauth: OAuth::new(http_client.clone()),
             otps: OTPs::new(http_client.clone()),
             passwords: Passwords::new(http_client.clone()),
+            project: Project::new(http_client.clone()),
             sessions: Sessions::new(http_client.clone()),
             totps: TOTPs::new(http_client.clone()),
             users: Users::new(http_client.clone()),

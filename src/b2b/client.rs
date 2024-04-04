@@ -17,6 +17,7 @@ use crate::b2b::sessions::Sessions;
 use crate::b2b::sso::SSO;
 use crate::b2b::totps::TOTPs;
 use crate::consumer::m2m::M2M;
+use crate::consumer::project::Project;
 
 pub struct Client {
     pub discovery: Discovery,
@@ -26,6 +27,7 @@ pub struct Client {
     pub otps: OTPs,
     pub organizations: Organizations,
     pub passwords: Passwords,
+    pub project: Project,
     pub rbac: RBAC,
     pub recovery_codes: RecoveryCodes,
     pub scim: SCIM,
@@ -50,6 +52,7 @@ impl Client {
             otps: OTPs::new(http_client.clone()),
             organizations: Organizations::new(http_client.clone()),
             passwords: Passwords::new(http_client.clone()),
+            project: Project::new(http_client.clone()),
             rbac: RBAC::new(http_client.clone()),
             recovery_codes: RecoveryCodes::new(http_client.clone()),
             scim: SCIM::new(http_client.clone()),
