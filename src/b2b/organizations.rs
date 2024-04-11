@@ -7,6 +7,14 @@
 use crate::b2b::organizations_members::Members;
 use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ActiveSCIMConnection {
+    pub connection_id: String,
+    pub display_name: String,
+    pub bearer_token_last_four: String,
+    pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
+
 /// ActiveSSOConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSSOConnection {
@@ -304,6 +312,7 @@ pub struct Organization {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::vec::Vec<String>,
+    pub scim_active_connections: std::vec::Vec<ActiveSCIMConnection>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
