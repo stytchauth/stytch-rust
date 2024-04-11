@@ -45,7 +45,7 @@ pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
 }
 

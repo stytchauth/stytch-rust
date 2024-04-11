@@ -308,6 +308,62 @@ pub struct GetResponse {
     pub status_code: http::StatusCode,
 }
 
+/// MigrateRequest: Request type for `Sessions.migrate`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct MigrateRequest {
+    /// session_token: The authorization token Stytch will pass in to the external userinfo endpoint.
+    pub session_token: String,
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
+    /// new session if one doesn't already exist,
+    ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+    /// `session_jwt` will have a fixed lifetime of
+    ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+    ///
+    ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+    ///
+    ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+    /// extend the session this many minutes.
+    ///
+    ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
+    /// 60 minute duration. If you don't want
+    ///   to use the Stytch session product, you can ignore the session fields in the response.
+    pub session_duration_minutes: std::option::Option<i32>,
+    /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
+    /// created if a Session is initialized by providing a value in
+    ///   `session_duration_minutes`. Claims will be included on the Session object and in the JWT. To update a
+    /// key in an existing Session, supply a new value. To
+    ///   delete a key, supply a null value. Custom claims made with reserved claims (`iss`, `sub`, `aud`,
+    /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
+    ///   Total custom claims size cannot exceed four kilobytes.
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
+}
+
+/// MigrateResponse: Response type for `Sessions.migrate`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MigrateResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member.
+    pub member_id: String,
+    /// session_token: A secret token for a given Stytch Session.
+    pub session_token: String,
+    /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
+    pub session_jwt: String,
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
+    pub member: Member,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+    pub organization: Organization,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
+    pub member_session: std::option::Option<MemberSession>,
+}
+
 /// RevokeRequest: Request type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
@@ -394,6 +450,16 @@ impl Sessions {
     }
     pub async fn exchange(&self, body: ExchangeRequest) -> crate::Result<ExchangeResponse> {
         let path = String::from("/v1/b2b/sessions/exchange");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
+        let path = String::from("/v1/b2b/sessions/migrate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
