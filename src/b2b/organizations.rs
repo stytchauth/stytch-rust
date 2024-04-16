@@ -7,9 +7,12 @@
 use crate::b2b::organizations_members::Members;
 use serde::{Deserialize, Serialize};
 
+/// ActiveSCIMConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSCIMConnection {
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
     pub bearer_token_last_four: String,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
@@ -59,8 +62,8 @@ pub struct Member {
     pub status: String,
     /// name: The name of the Member.
     pub name: String,
-    /// sso_registrations: An array of registered [SAML Connection](saml-connection-object) objects the Member
-    /// has authenticated with.
+    /// sso_registrations: An array of registered [SAML Connection](saml-connection-object) or
+    /// [OIDC Connection](oidc-connection-object) objects the Member has authenticated with.
     pub sso_registrations: std::vec::Vec<SSORegistration>,
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
@@ -83,6 +86,9 @@ pub struct Member {
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
+    /// scim_registrations: An array of scim member registrations, each one referencing a
+    /// [SCIM Connection](scim-connection-object) object in use for the Member creation.
+    pub scim_registrations: std::vec::Vec<SCIMRegistration>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -247,7 +253,8 @@ pub struct Organization {
     /// set to `RESTRICTED`.
     pub sso_jit_provisioning_allowed_connections: std::vec::Vec<String>,
     /// sso_active_connections: An array of active
-    /// [SAML Connection references](https://stytch.com/docs/b2b/api/saml-connection-object).
+    /// [SAML Connection references](https://stytch.com/docs/b2b/api/saml-connection-object) or
+    /// [OIDC Connection references](https://stytch.com/docs/b2b/api/oidc-connection-object).
     pub sso_active_connections: std::vec::Vec<ActiveSSOConnection>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
     /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
@@ -312,6 +319,8 @@ pub struct Organization {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::vec::Vec<String>,
+    /// scim_active_connections: An array of active
+    /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub scim_active_connections: std::vec::Vec<ActiveSCIMConnection>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
@@ -329,6 +338,19 @@ pub struct ResultsMetadata {
     /// next_cursor: The `next_cursor` string is returned when your search result contains more than one page of
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
+}
+
+/// SCIMRegistration:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SCIMRegistration {
+    /// connection_id: The ID of the SCIM connection.
+    pub connection_id: String,
+    /// registration_id: The unique ID of a SCIM Registration.
+    pub registration_id: String,
+    /// external_id: The ID of the member given by the identity provider.
+    pub external_id: std::option::Option<String>,
+    /// scim_attributes: An object for storing SCIM attributes brought over from the identity provider.
+    pub scim_attributes: std::option::Option<serde_json::Value>,
 }
 
 /// SSORegistration:
