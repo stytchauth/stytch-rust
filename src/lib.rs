@@ -30,8 +30,11 @@ pub struct ErrorResponse {
     pub status_code: http::StatusCode,
     pub request_id: String,
 
+    #[serde(alias = "error_type", alias = "error")]
     pub error_type: String,
+    #[serde(alias = "error_message", alias = "error_description")]
     pub error_message: String,
+    #[serde(alias = "error_url", alias = "error_uri")]
     pub error_url: String,
 }
 
