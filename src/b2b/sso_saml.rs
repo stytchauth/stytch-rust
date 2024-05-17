@@ -17,6 +17,7 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
+    pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 
 /// CreateConnectionResponse: Response type for `SAML.create_connection`.
@@ -136,6 +137,7 @@ pub struct UpdateConnectionRequest {
     /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
     /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
     pub alternative_audience_uri: std::option::Option<String>,
+    pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
@@ -154,6 +156,32 @@ pub struct UpdateConnectionResponse {
     /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
     /// field details.
     pub connection: std::option::Option<SAMLConnection>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum CreateConnectionRequestIdentityProvider {
+    #[serde(rename = "generic")]
+    #[default]
+    Generic,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "googleworkspace")]
+    Googleworkspace,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum UpdateConnectionRequestIdentityProvider {
+    #[serde(rename = "generic")]
+    #[default]
+    Generic,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "googleworkspace")]
+    Googleworkspace,
 }
 
 pub struct SAML {

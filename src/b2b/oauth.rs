@@ -15,11 +15,11 @@ use serde::{Deserialize, Serialize};
 /// ProviderValues:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProviderValues {
-    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
-    pub access_token: String,
     /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
     /// scopes are included by default and how to add custom scopes.
     pub scopes: std::vec::Vec<String>,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: std::option::Option<String>,
     /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
     /// the provider's API.
     pub refresh_token: std::option::Option<String>,
@@ -141,7 +141,7 @@ pub struct AuthenticateResponse {
     /// access the provider's API for a given user.
     ///
     ///   Note that these values will vary based on the OAuth provider in question, e.g. `id_token` is only
-    /// returned by Microsoft.
+    /// returned by Microsoft. Google One Tap does not return access tokens or refresh tokens.
     pub provider_values: std::option::Option<ProviderValues>,
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.

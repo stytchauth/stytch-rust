@@ -26,6 +26,7 @@ pub struct OIDCConnection {
     pub token_url: String,
     pub userinfo_url: String,
     pub jwks_url: String,
+    pub identity_provider: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -44,6 +45,7 @@ pub struct SAMLConnection {
         std::vec::Vec<SAMLConnectionImplicitRoleAssignment>,
     pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,
     pub alternative_audience_uri: String,
+    pub identity_provider: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 
@@ -58,7 +60,7 @@ pub struct SAMLConnectionImplicitRoleAssignment {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///
@@ -76,7 +78,7 @@ pub struct SAMLGroupImplicitRoleAssignment {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///
