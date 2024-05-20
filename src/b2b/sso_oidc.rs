@@ -15,6 +15,9 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 
@@ -67,6 +70,9 @@ pub struct UpdateConnectionRequest {
     /// jwks_url: The location of the IdP's JSON Web Key Set, used to verify credentials issued by the IdP. This
     /// will be provided by the IdP.
     pub jwks_url: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 
