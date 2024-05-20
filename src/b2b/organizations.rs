@@ -40,7 +40,7 @@ pub struct EmailImplicitRoleAssignment {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///
@@ -83,7 +83,7 @@ pub struct Member {
     /// Members
     ///   who create an Organization through the
     /// [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
-    ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults) for more details on this Role.
+    ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
     /// scim_registrations: An array of scim member registrations, each one referencing a
@@ -123,7 +123,7 @@ pub struct MemberRole {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///

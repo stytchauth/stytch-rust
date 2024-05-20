@@ -17,7 +17,9 @@ pub struct SCIMConnection {
     pub base_url: String,
     pub bearer_token_last_four: String,
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
+    pub next_bearer_token_last_four: String,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

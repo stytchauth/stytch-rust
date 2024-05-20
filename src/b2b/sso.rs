@@ -13,6 +13,16 @@ use crate::b2b::sso_saml::SAML;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Connection {
+    pub organization_id: String,
+    pub connection_id: String,
+    pub external_organization_id: String,
+    pub external_connection_id: String,
+    pub display_name: String,
+    pub status: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCConnection {
     pub organization_id: String,
     pub connection_id: String,
@@ -26,6 +36,7 @@ pub struct OIDCConnection {
     pub token_url: String,
     pub userinfo_url: String,
     pub jwks_url: String,
+    pub identity_provider: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -44,6 +55,7 @@ pub struct SAMLConnection {
         std::vec::Vec<SAMLConnectionImplicitRoleAssignment>,
     pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,
     pub alternative_audience_uri: String,
+    pub identity_provider: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 
@@ -58,7 +70,7 @@ pub struct SAMLConnectionImplicitRoleAssignment {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///
@@ -76,7 +88,7 @@ pub struct SAMLGroupImplicitRoleAssignment {
     ///   * `stytch_member`
     ///   * `stytch_admin`
     ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-defaults)
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
     ///
     ///
@@ -245,6 +257,7 @@ pub struct GetConnectionsResponse {
     /// oidc_connections: The list of [OIDC Connections](https://stytch.com/docs/b2b/api/oidc-connection-object)
     /// owned by this organization.
     pub oidc_connections: std::vec::Vec<OIDCConnection>,
+    pub external_connections: std::vec::Vec<Connection>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
