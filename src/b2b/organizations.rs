@@ -110,6 +110,12 @@ pub struct Member {
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are
+    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard
+    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 
 /// MemberRole:
@@ -325,6 +331,12 @@ pub struct Organization {
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and
+    /// are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Organization was last updated. Values conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
