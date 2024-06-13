@@ -43,7 +43,6 @@ pub struct ResetRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// ResetResponse: Response type for `ExistingPassword.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetResponse {

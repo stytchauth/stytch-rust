@@ -45,7 +45,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `CryptoWallets.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -74,7 +73,6 @@ pub struct AuthenticateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// AuthenticateStartRequest: Request type for `CryptoWallets.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
@@ -91,7 +89,6 @@ pub struct AuthenticateStartRequest {
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// AuthenticateStartResponse: Response type for `CryptoWallets.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateStartResponse {

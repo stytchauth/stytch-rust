@@ -26,7 +26,6 @@ pub struct Argon2Config {
     /// key_length: The key length, also known as the hash length.
     pub key_length: i32,
 }
-
 /// Feedback:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Feedback {
@@ -41,7 +40,6 @@ pub struct Feedback {
     /// how to improve the password.
     pub luds_requirements: std::option::Option<LUDSRequirements>,
 }
-
 /// LUDSRequirements:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LUDSRequirements {
@@ -62,7 +60,6 @@ pub struct LUDSRequirements {
     /// password to make it valid.
     pub missing_characters: i32,
 }
-
 /// MD5Config:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MD5Config {
@@ -71,7 +68,6 @@ pub struct MD5Config {
     /// append_salt: The salt that should be appended to the migrated password.
     pub append_salt: String,
 }
-
 /// PBKDF2Config:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PBKDF2Config {
@@ -82,7 +78,6 @@ pub struct PBKDF2Config {
     /// key_length: The key length, also known as the hash length.
     pub key_length: i32,
 }
-
 /// SHA1Config:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SHA1Config {
@@ -91,7 +86,6 @@ pub struct SHA1Config {
     /// append_salt: The salt that should be appended to the migrated password.
     pub append_salt: String,
 }
-
 /// ScryptConfig:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ScryptConfig {
@@ -109,7 +103,6 @@ pub struct ScryptConfig {
     /// key_length: The key length, also known as the hash length.
     pub key_length: i32,
 }
-
 /// AuthenticateRequest: Request type for `Passwords.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -143,7 +136,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `Passwords.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -172,7 +164,6 @@ pub struct AuthenticateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// CreateRequest: Request type for `Passwords.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -213,7 +204,6 @@ pub struct CreateRequest {
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
 }
-
 /// CreateResponse: Response type for `Passwords.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -244,7 +234,6 @@ pub struct CreateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// MigrateRequest: Request type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
@@ -284,7 +273,6 @@ pub struct MigrateRequest {
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
 }
-
 /// MigrateResponse: Response type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MigrateResponse {
@@ -308,7 +296,6 @@ pub struct MigrateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
@@ -317,7 +304,6 @@ pub struct StrengthCheckRequest {
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,
 }
-
 /// StrengthCheckResponse: Response type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct StrengthCheckResponse {

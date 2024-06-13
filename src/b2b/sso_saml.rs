@@ -17,12 +17,8 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
-
 /// CreateConnectionResponse: Response type for `SAML.create_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateConnectionResponse {
@@ -40,7 +36,6 @@ pub struct CreateConnectionResponse {
     /// field details.
     pub connection: std::option::Option<SAMLConnection>,
 }
-
 /// DeleteVerificationCertificateRequest: Request type for `SAML.delete_verification_certificate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteVerificationCertificateRequest {
@@ -51,7 +46,6 @@ pub struct DeleteVerificationCertificateRequest {
     /// certificate_id: The ID of the certificate to be deleted.
     pub certificate_id: String,
 }
-
 /// DeleteVerificationCertificateResponse: Response type for `SAML.delete_verification_certificate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteVerificationCertificateResponse {
@@ -67,7 +61,6 @@ pub struct DeleteVerificationCertificateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateByURLRequest: Request type for `SAML.update_by_url`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateByURLRequest {
@@ -79,7 +72,6 @@ pub struct UpdateByURLRequest {
     /// metadata_url: A URL that points to the IdP metadata. This will be provided by the IdP.
     pub metadata_url: String,
 }
-
 /// UpdateByURLResponse: Response type for `SAML.update_by_url`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateByURLResponse {
@@ -97,7 +89,6 @@ pub struct UpdateByURLResponse {
     /// field details.
     pub connection: std::option::Option<SAMLConnection>,
 }
-
 /// UpdateConnectionRequest: Request type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
@@ -140,12 +131,8 @@ pub struct UpdateConnectionRequest {
     /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
     /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
     pub alternative_audience_uri: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
-
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateConnectionResponse {
@@ -176,7 +163,6 @@ pub enum CreateConnectionRequestIdentityProvider {
     #[serde(rename = "googleworkspace")]
     Googleworkspace,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateConnectionRequestIdentityProvider {
     #[serde(rename = "generic")]

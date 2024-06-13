@@ -37,10 +37,10 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(project_id: String, secret: String) -> crate::Result<Self> {
-        Ok(Client::new_with_http_client(crate::client::Client::new(
-            project_id, secret,
-        )?))
+    pub fn new(project_id: &str, secret: &str) -> crate::Result<Self> {
+        Ok(Client::new_with_http_client(
+            crate::client::Client::new_b2b(project_id, secret)?,
+        ))
     }
 
     pub fn new_with_http_client(http_client: crate::client::Client) -> Self {

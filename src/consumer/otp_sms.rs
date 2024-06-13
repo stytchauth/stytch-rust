@@ -37,7 +37,6 @@ pub struct LoginOrCreateRequest {
     ///
     pub locale: std::option::Option<LoginOrCreateRequestLocale>,
 }
-
 /// LoginOrCreateResponse: Response type for `Sms.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LoginOrCreateResponse {
@@ -58,7 +57,6 @@ pub struct LoginOrCreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SendRequest: Request type for `Sms.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
@@ -88,7 +86,6 @@ pub struct SendRequest {
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// SendResponse: Response type for `Sms.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {
@@ -117,7 +114,6 @@ pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]

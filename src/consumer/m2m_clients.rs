@@ -32,7 +32,6 @@ pub struct CreateRequest {
     /// details.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// CreateResponse: Response type for `Clients.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -48,14 +47,12 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteRequest: Request type for `Clients.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
 }
-
 /// DeleteResponse: Response type for `Clients.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteResponse {
@@ -71,14 +68,12 @@ pub struct DeleteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Clients.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
 }
-
 /// GetResponse: Response type for `Clients.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -94,7 +89,6 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SearchRequest: Request type for `Clients.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
@@ -114,7 +108,6 @@ pub struct SearchRequest {
     /// applied. If you include no query object, it will return all results with no filtering applied.
     pub query: std::option::Option<M2MSearchQuery>,
 }
-
 /// SearchResponse: Response type for `Clients.search`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchResponse {
@@ -133,7 +126,6 @@ pub struct SearchResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateRequest: Request type for `Clients.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -152,7 +144,6 @@ pub struct UpdateRequest {
     /// details.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// UpdateResponse: Response type for `Clients.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {

@@ -75,7 +75,6 @@ pub struct ResetRequest {
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
 }
-
 /// ResetResponse: Response type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetResponse {
@@ -121,7 +120,6 @@ pub struct ResetResponse {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
 }
-
 /// ResetStartRequest: Request type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetStartRequest {
@@ -166,7 +164,6 @@ pub struct ResetStartRequest {
     /// custom HTML email for Magic Links - Reset Password.
     pub reset_password_template_id: std::option::Option<String>,
 }
-
 /// ResetStartResponse: Response type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetStartResponse {
@@ -197,7 +194,6 @@ pub enum ResetRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetStartRequestLocale {
     #[serde(rename = "en")]

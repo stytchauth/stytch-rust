@@ -41,7 +41,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `WebAuthn.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -72,7 +71,6 @@ pub struct AuthenticateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// AuthenticateStartRequest: Request type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateStartRequest {
@@ -85,7 +83,6 @@ pub struct AuthenticateStartRequest {
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
 }
-
 /// AuthenticateStartResponse: Response type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateStartResponse {
@@ -103,7 +100,6 @@ pub struct AuthenticateStartResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RegisterRequest: Request type for `WebAuthn.register`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterRequest {
@@ -138,7 +134,6 @@ pub struct RegisterRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// RegisterResponse: Response type for `WebAuthn.register`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RegisterResponse {
@@ -167,7 +162,6 @@ pub struct RegisterResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterStartRequest {
@@ -186,7 +180,6 @@ pub struct RegisterStartRequest {
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
 }
-
 /// RegisterStartResponse: Response type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RegisterStartResponse {
@@ -204,7 +197,6 @@ pub struct RegisterStartResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateRequest: Request type for `WebAuthn.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -215,7 +207,6 @@ pub struct UpdateRequest {
     /// name: The `name` of the WebAuthn registration or Passkey.
     pub name: String,
 }
-
 /// UpdateResponse: Response type for `WebAuthn.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {

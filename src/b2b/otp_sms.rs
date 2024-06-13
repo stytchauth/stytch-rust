@@ -72,7 +72,6 @@ pub struct AuthenticateRequest {
     pub set_mfa_enrollment: std::option::Option<String>,
     pub set_default_mfa: std::option::Option<bool>,
 }
-
 /// AuthenticateResponse: Response type for `Sms.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -98,7 +97,6 @@ pub struct AuthenticateResponse {
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
 }
-
 /// SendRequest: Request type for `Sms.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
@@ -138,7 +136,6 @@ pub struct SendRequest {
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// SendResponse: Response type for `Sms.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {

@@ -37,13 +37,11 @@ pub struct AuthorizationCheck {
     /// action: An action to take on a Resource.
     pub action: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthorizationVerdict {
     pub authorized: bool,
     pub granting_roles: std::vec::Vec<String>,
 }
-
 /// MemberSession:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberSession {
@@ -70,7 +68,6 @@ pub struct MemberSession {
     /// authenticate call.
     pub custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// PrimaryRequired:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PrimaryRequired {
@@ -81,7 +78,6 @@ pub struct PrimaryRequired {
     /// factors. Only email magic link and OAuth factors can be transferred between Organizations.
     pub allowed_auth_methods: std::vec::Vec<String>,
 }
-
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -133,7 +129,6 @@ pub struct AuthenticateRequest {
     ///   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
     pub authorization_check: std::option::Option<AuthorizationCheck>,
 }
-
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -162,7 +157,6 @@ pub struct AuthenticateResponse {
     /// specified Resource.
     pub verdict: std::option::Option<AuthorizationVerdict>,
 }
-
 /// ExchangeRequest: Request type for `Sessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangeRequest {
@@ -211,7 +205,6 @@ pub struct ExchangeRequest {
     ///
     pub locale: std::option::Option<ExchangeRequestLocale>,
 }
-
 /// ExchangeResponse: Response type for `Sessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ExchangeResponse {
@@ -257,14 +250,12 @@ pub struct ExchangeResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     pub primary_required: std::option::Option<PrimaryRequired>,
 }
-
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetJWKSRequest {
     /// project_id: The `project_id` to get the JWKS for.
     pub project_id: String,
 }
-
 /// GetJWKSResponse: Response type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetJWKSResponse {
@@ -280,7 +271,6 @@ pub struct GetJWKSResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -291,7 +281,6 @@ pub struct GetRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// GetResponse: Response type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -307,7 +296,6 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// MigrateRequest: Request type for `Sessions.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
@@ -340,7 +328,6 @@ pub struct MigrateRequest {
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// MigrateResponse: Response type for `Sessions.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MigrateResponse {
@@ -363,7 +350,6 @@ pub struct MigrateResponse {
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
 }
-
 /// RevokeRequest: Request type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
@@ -378,7 +364,6 @@ pub struct RevokeRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: std::option::Option<String>,
 }
-
 /// RevokeResponse: Response type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RevokeResponse {

@@ -20,7 +20,6 @@ pub struct Options {
     /// user agent it's clicked from.
     pub user_agent_match_required: bool,
 }
-
 /// AuthenticateRequest: Request type for `MagicLinks.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -65,7 +64,6 @@ pub struct AuthenticateRequest {
     /// the same device.
     pub code_verifier: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `MagicLinks.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -100,7 +98,6 @@ pub struct AuthenticateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// CreateRequest: Request type for `MagicLinks.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -112,7 +109,6 @@ pub struct CreateRequest {
     /// attributes: Provided attributes help with fraud detection.
     pub attributes: std::option::Option<Attributes>,
 }
-
 /// CreateResponse: Response type for `MagicLinks.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {

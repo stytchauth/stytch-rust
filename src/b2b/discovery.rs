@@ -30,7 +30,6 @@ pub struct DiscoveredOrganization {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
 }
-
 /// Membership:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Membership {

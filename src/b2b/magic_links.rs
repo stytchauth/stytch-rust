@@ -75,7 +75,6 @@ pub struct AuthenticateRequest {
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `MagicLinks.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {

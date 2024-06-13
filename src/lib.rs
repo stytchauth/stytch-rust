@@ -12,6 +12,9 @@ pub enum Error {
     #[error(transparent)]
     InvalidUrl(#[from] url::ParseError),
 
+    #[error("{0:?}")]
+    JwkNotFound(String),
+
     #[error(transparent)]
     Other(#[from] Box<dyn std::error::Error + Send + Sync>),
 }
@@ -41,3 +44,4 @@ pub struct ErrorResponse {
 pub mod b2b;
 pub mod client;
 pub mod consumer;
+mod shared;

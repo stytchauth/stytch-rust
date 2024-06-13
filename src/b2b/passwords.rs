@@ -39,7 +39,6 @@ pub struct LudsFeedback {
     ///   The user will need to add this many characters to the password to make it valid.
     pub missing_characters: i32,
 }
-
 /// ZxcvbnFeedback:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ZxcvbnFeedback {
@@ -50,7 +49,6 @@ pub struct ZxcvbnFeedback {
     /// strength of the password.
     pub suggestions: std::vec::Vec<String>,
 }
-
 /// AuthenticateRequest: Request type for `Passwords.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -108,7 +106,6 @@ pub struct AuthenticateRequest {
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `Passwords.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -152,7 +149,6 @@ pub struct AuthenticateResponse {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
 }
-
 /// MigrateRequest: Request type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
@@ -208,7 +204,6 @@ pub struct MigrateRequest {
     ///   authentication factors with the affected SSO connection IDs will be revoked.
     pub preserve_existing_sessions: std::option::Option<bool>,
 }
-
 /// MigrateResponse: Response type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MigrateResponse {
@@ -231,7 +226,6 @@ pub struct MigrateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
@@ -240,7 +234,6 @@ pub struct StrengthCheckRequest {
     /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,
 }
-
 /// StrengthCheckResponse: Response type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct StrengthCheckResponse {
@@ -294,7 +287,6 @@ pub enum AuthenticateRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MigrateRequestHashType {
     #[serde(rename = "bcrypt")]

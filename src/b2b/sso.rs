@@ -21,7 +21,6 @@ pub struct Connection {
     pub display_name: String,
     pub status: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCConnection {
     pub organization_id: String,
@@ -38,7 +37,6 @@ pub struct OIDCConnection {
     pub jwks_url: String,
     pub identity_provider: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnection {
     pub organization_id: String,
@@ -58,7 +56,6 @@ pub struct SAMLConnection {
     pub identity_provider: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
-
 /// SAMLConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnectionImplicitRoleAssignment {
@@ -76,7 +73,6 @@ pub struct SAMLConnectionImplicitRoleAssignment {
     ///
     pub role_id: String,
 }
-
 /// SAMLGroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLGroupImplicitRoleAssignment {
@@ -96,7 +92,6 @@ pub struct SAMLGroupImplicitRoleAssignment {
     /// group: The name of the SAML group that grants the specified role assignment.
     pub group: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct X509Certificate {
     pub certificate_id: String,
@@ -105,7 +100,6 @@ pub struct X509Certificate {
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 /// AuthenticateRequest: Request type for `SSO.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -161,7 +155,6 @@ pub struct AuthenticateRequest {
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `SSO.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -210,7 +203,6 @@ pub struct AuthenticateResponse {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
 }
-
 /// DeleteConnectionRequest: Request type for `SSO.delete_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteConnectionRequest {
@@ -219,7 +211,6 @@ pub struct DeleteConnectionRequest {
     /// connection_id: The ID of the SSO connection. Both SAML and OIDC connection IDs can be provided.
     pub connection_id: String,
 }
-
 /// DeleteConnectionResponse: Response type for `SSO.delete_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteConnectionResponse {
@@ -235,7 +226,6 @@ pub struct DeleteConnectionResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetConnectionsRequest: Request type for `SSO.get_connections`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetConnectionsRequest {
@@ -243,7 +233,6 @@ pub struct GetConnectionsRequest {
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
 }
-
 /// GetConnectionsResponse: Response type for `SSO.get_connections`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetConnectionsResponse {

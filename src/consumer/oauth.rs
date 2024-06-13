@@ -28,7 +28,6 @@ pub struct ProviderValues {
     /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 /// AttachRequest: Request type for `OAuth.attach`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AttachRequest {
@@ -41,7 +40,6 @@ pub struct AttachRequest {
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// AttachResponse: Response type for `OAuth.attach`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AttachResponse {
@@ -58,7 +56,6 @@ pub struct AttachResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// AuthenticateRequest: Request type for `OAuth.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -105,7 +102,6 @@ pub struct AuthenticateRequest {
     /// the same device.
     pub code_verifier: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `OAuth.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {

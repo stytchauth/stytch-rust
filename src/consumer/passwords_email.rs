@@ -55,7 +55,6 @@ pub struct ResetRequest {
     /// options: Specify optional security settings.
     pub options: std::option::Option<Options>,
 }
-
 /// ResetResponse: Response type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetResponse {
@@ -84,7 +83,6 @@ pub struct ResetResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// ResetStartRequest: Request type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetStartRequest {
@@ -131,7 +129,6 @@ pub struct ResetStartRequest {
     /// - Password reset.
     pub reset_password_template_id: std::option::Option<String>,
 }
-
 /// ResetStartResponse: Response type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetStartResponse {
