@@ -7,7 +7,7 @@
 use crate::consumer::m2m_clients::Clients;
 use serde::{Deserialize, Serialize};
 
-use crate::shared::jwt_helpers::authenticate_jwt;
+use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
 
 /// M2MClient:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -145,7 +145,7 @@ pub struct AuthenticateTokenRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct M2MJWTClaims {
+pub struct AuthenticateTokenResponse {
     pub client_id: String,
     pub scopes: std::vec::Vec<String>,
     pub custom_claims: std::collections::HashMap<String, serde_json::Value>,
@@ -158,39 +158,29 @@ fn perform_authorization_check(params: &AuthorizationCheckParams) -> bool {
         std::collections::HashMap::new();
 
     for scope in &params.has_scopes {
-        if let Some(pos) = scope.find(':') {
-            let (action, resource) = scope.split_at(pos);
-            client_scopes
-                .entry(action.to_string())
-                .or_default()
-                .insert(resource[1..].to_string());
-        } else {
-            client_scopes
-                .entry(scope.clone())
-                .or_default()
-                .insert("-".to_string());
-        }
+        let (action, resource) = split_scope(scope);
+        client_scopes.entry(action).or_default().insert(resource);
     }
 
-    for required_scope in &params.required_scopes {
-        let (required_action, required_resource) = if let Some(pos) = required_scope.find(':') {
-            let (action, resource) = required_scope.split_at(pos);
-            (action.to_string(), resource[1..].to_string())
-        } else {
-            (required_scope.clone(), "-".to_string())
-        };
+    // Check if all required scopes are satisfied
+    params.required_scopes.iter().all(|required_scope| {
+        let (required_action, required_resource) = split_scope(required_scope);
+        client_scopes
+            .get(&required_action)
+            .map_or(false, |resources| {
+                resources.contains("*") || resources.contains(&required_resource)
+            })
+    })
+}
 
-        match client_scopes.get(&required_action) {
-            Some(resources) => {
-                if !resources.contains("*") && !resources.contains(&required_resource) {
-                    return false;
-                }
-            }
-            None => return false,
-        }
+// Helper function to split a scope into action and resource parts
+fn split_scope(scope: &str) -> (String, String) {
+    if let Some(pos) = scope.find(':') {
+        let (action, resource) = scope.split_at(pos);
+        (action.to_string(), resource[1..].to_string())
+    } else {
+        (scope.to_string(), "-".to_string())
     }
-
-    true
 }
 // ENDMANUAL(perform_authorization_check)
 
@@ -234,11 +224,11 @@ impl M2M {
     // ENDMANUAL(m2m.token)
 
     // MANUAL(m2m.authenticate_token)(SERVICE_METHOD)
-    // ADDIMPORT: use crate::shared::jwt_helpers::authenticate_jwt;
+    // ADDIMPORT: use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
     pub async fn authenticate_token(
         &self,
         body: AuthenticateTokenRequest,
-    ) -> std::option::Option<M2MJWTClaims> {
+    ) -> crate::Result<AuthenticateTokenResponse> {
         let _scope_claim = "scope";
         let generic_claims = authenticate_jwt(
             &self.http_client,
@@ -247,8 +237,13 @@ impl M2M {
         )
         .await?;
 
-        let scope_value = generic_claims.untyped_claims.get(_scope_claim)?.to_owned();
-        let scope: String = serde_json::from_value(scope_value).ok()?;
+        let scope_value = generic_claims
+            .untyped_claims
+            .get(_scope_claim)
+            .ok_or(JWTError::MissingField(_scope_claim.to_owned()))?
+            .to_owned();
+        let scope: String =
+            serde_json::from_value(scope_value).map_err(|_| JWTError::PayloadFormat)?;
         let scopes: Vec<String> = scope.split_whitespace().map(|s| s.to_string()).collect();
         let required_scopes = body.required_scopes.unwrap_or_default();
 
@@ -263,11 +258,11 @@ impl M2M {
         });
 
         if !is_authorized {
-            return None;
+            return Err(crate::Error::Unauthorized);
         }
 
         let sub_claim = generic_claims.reserved_claims["sub"].to_owned();
-        let client_id = serde_json::from_value(sub_claim).ok()?;
+        let client_id = serde_json::from_value(sub_claim).map_err(|_| JWTError::PayloadFormat)?;
         let custom_claims: std::collections::HashMap<String, serde_json::Value> = generic_claims
             .untyped_claims
             .iter()
@@ -280,7 +275,7 @@ impl M2M {
             })
             .collect();
 
-        Some(M2MJWTClaims {
+        Ok(AuthenticateTokenResponse {
             client_id,
             scopes,
             custom_claims,

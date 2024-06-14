@@ -10,6 +10,10 @@ pub struct Client {
     pub base_url: reqwest::Url,
     pub project_id: String,
     jwks_url: String,
+    // This would be very natural as a OnceCell, but get_or_try_init is unstable
+    // and would require marking this library as only usable with nightly rust.
+    // When that feature is stabilized, we should switch to using OnceCell.
+    jwks: std::cell::RefCell<Option<Jwks>>,
 }
 
 impl std::fmt::Debug for Client {
@@ -34,7 +38,7 @@ pub struct Jwk {
     pub e: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 struct Jwks {
     keys: Vec<Jwk>,
 }
@@ -78,17 +82,22 @@ impl Client {
             project_id: project_id.to_string(),
             base_url,
             jwks_url,
+            jwks: std::cell::RefCell::new(None),
         })
     }
 
     async fn fetch_jwks(&self) -> crate::Result<Jwks> {
-        // TODO: We *should* be able to cache this for the most part.
-        self.send(crate::Request {
-            method: http::Method::GET,
-            path: self.jwks_url.clone(),
-            body: (),
-        })
-        .await
+        if self.jwks.borrow().is_none() {
+            self.jwks.replace(
+                self.send(crate::Request {
+                    method: http::Method::GET,
+                    path: self.jwks_url.clone(),
+                    body: (),
+                })
+                .await?,
+            );
+        }
+        Ok(self.jwks.borrow().clone().unwrap())
     }
 
     pub async fn fetch_jwk(&self, kid: &str) -> crate::Result<Jwk> {
