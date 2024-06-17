@@ -44,7 +44,6 @@ pub struct LoginOrCreateRequest {
     /// Magic links - Sign-up.
     pub signup_template_id: std::option::Option<String>,
 }
-
 /// LoginOrCreateResponse: Response type for `Email.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LoginOrCreateResponse {
@@ -65,7 +64,6 @@ pub struct LoginOrCreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SendRequest: Request type for `Email.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
@@ -102,7 +100,6 @@ pub struct SendRequest {
     /// Magic links - Sign-up.
     pub signup_template_id: std::option::Option<String>,
 }
-
 /// SendResponse: Response type for `Email.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {
@@ -131,7 +128,6 @@ pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]

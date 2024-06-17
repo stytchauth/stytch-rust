@@ -19,7 +19,6 @@ pub struct GetRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// GetResponse: Response type for `RecoveryCodes.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -41,7 +40,6 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RecoverRequest: Request type for `RecoveryCodes.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoverRequest {
@@ -94,7 +92,6 @@ pub struct RecoverRequest {
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// RecoverResponse: Response type for `RecoveryCodes.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RecoverResponse {
@@ -122,7 +119,6 @@ pub struct RecoverResponse {
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
 }
-
 /// RotateRequest: Request type for `RecoveryCodes.rotate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateRequest {
@@ -133,7 +129,6 @@ pub struct RotateRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// RotateResponse: Response type for `RecoveryCodes.rotate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RotateResponse {

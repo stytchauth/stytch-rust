@@ -156,7 +156,6 @@ pub struct CreateRequest {
     ///
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
-
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -201,7 +200,6 @@ pub struct CreateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     pub primary_required: std::option::Option<PrimaryRequired>,
 }
-
 /// ListRequest: Request type for `Organizations.list`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ListRequest {
@@ -222,7 +220,6 @@ pub struct ListRequest {
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// ListResponse: Response type for `Organizations.list`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ListResponse {

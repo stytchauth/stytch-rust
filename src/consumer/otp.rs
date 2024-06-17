@@ -50,7 +50,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `OTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {

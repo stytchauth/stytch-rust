@@ -11,10 +11,8 @@ pub struct ProjectMetric {
     pub count: u32,
     pub metric_type: std::option::Option<ProjectMetricMetricType>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MetricsRequest {}
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MetricsResponse {
     pub request_id: String,

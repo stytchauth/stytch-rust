@@ -16,7 +16,6 @@ pub struct BiometricRegistration {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-
 /// CryptoWallet:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CryptoWallet {
@@ -30,7 +29,6 @@ pub struct CryptoWallet {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-
 /// Email:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Email {
@@ -42,7 +40,6 @@ pub struct Email {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-
 /// Name:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Name {
@@ -53,7 +50,6 @@ pub struct Name {
     /// last_name: The last name of the user.
     pub last_name: std::option::Option<String>,
 }
-
 /// OAuthProvider:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OAuthProvider {
@@ -72,7 +68,6 @@ pub struct OAuthProvider {
     /// oauth_user_registration_id: The unique ID for an OAuth registration.
     pub oauth_user_registration_id: String,
 }
-
 /// Password:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Password {
@@ -81,7 +76,6 @@ pub struct Password {
     /// requires_reset: Indicates whether this password requires a password reset
     pub requires_reset: bool,
 }
-
 /// PhoneNumber:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumber {
@@ -93,7 +87,6 @@ pub struct PhoneNumber {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
@@ -103,7 +96,6 @@ pub struct ResultsMetadata {
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
 }
-
 /// SearchUsersQuery:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchUsersQuery {
@@ -117,7 +109,6 @@ pub struct SearchUsersQuery {
     /// search search query.
     pub operands: std::vec::Vec<serde_json::Value>,
 }
-
 /// TOTP:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TOTP {
@@ -127,7 +118,6 @@ pub struct TOTP {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-
 /// User:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct User {
@@ -168,7 +158,6 @@ pub struct User {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnRegistration {
@@ -189,7 +178,6 @@ pub struct WebAuthnRegistration {
     /// name: The `name` of the Passkey or WebAuthn registration.
     pub name: String,
 }
-
 /// CreateRequest: Request type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -220,7 +208,6 @@ pub struct CreateRequest {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// CreateResponse: Response type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -245,14 +232,12 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteBiometricRegistrationRequest: Request type for `Users.delete_biometric_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteBiometricRegistrationRequest {
     /// biometric_registration_id: The `biometric_registration_id` to be deleted.
     pub biometric_registration_id: String,
 }
-
 /// DeleteBiometricRegistrationResponse: Response type for `Users.delete_biometric_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteBiometricRegistrationResponse {
@@ -271,14 +256,12 @@ pub struct DeleteBiometricRegistrationResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteCryptoWalletRequest: Request type for `Users.delete_crypto_wallet`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteCryptoWalletRequest {
     /// crypto_wallet_id: The `crypto_wallet_id` to be deleted.
     pub crypto_wallet_id: String,
 }
-
 /// DeleteCryptoWalletResponse: Response type for `Users.delete_crypto_wallet`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteCryptoWalletResponse {
@@ -297,14 +280,12 @@ pub struct DeleteCryptoWalletResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteEmailRequest: Request type for `Users.delete_email`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteEmailRequest {
     /// email_id: The `email_id` to be deleted.
     pub email_id: String,
 }
-
 /// DeleteEmailResponse: Response type for `Users.delete_email`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteEmailResponse {
@@ -323,14 +304,12 @@ pub struct DeleteEmailResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteOAuthRegistrationRequest: Request type for `Users.delete_oauth_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteOAuthRegistrationRequest {
     /// oauth_user_registration_id: The `oauth_user_registration_id` to be deleted.
     pub oauth_user_registration_id: String,
 }
-
 /// DeleteOAuthRegistrationResponse: Response type for `Users.delete_oauth_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteOAuthRegistrationResponse {
@@ -349,14 +328,12 @@ pub struct DeleteOAuthRegistrationResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeletePasswordRequest: Request type for `Users.delete_password`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePasswordRequest {
     /// password_id: The `password_id` to be deleted.
     pub password_id: String,
 }
-
 /// DeletePasswordResponse: Response type for `Users.delete_password`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeletePasswordResponse {
@@ -375,14 +352,12 @@ pub struct DeletePasswordResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeletePhoneNumberRequest: Request type for `Users.delete_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePhoneNumberRequest {
     /// phone_id: The `phone_id` to be deleted.
     pub phone_id: String,
 }
-
 /// DeletePhoneNumberResponse: Response type for `Users.delete_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeletePhoneNumberResponse {
@@ -401,14 +376,12 @@ pub struct DeletePhoneNumberResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteRequest: Request type for `Users.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// user_id: The unique ID of a specific User.
     pub user_id: String,
 }
-
 /// DeleteResponse: Response type for `Users.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteResponse {
@@ -424,14 +397,12 @@ pub struct DeleteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteTOTPRequest: Request type for `Users.delete_totp`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteTOTPRequest {
     /// totp_id: The `totp_id` to be deleted.
     pub totp_id: String,
 }
-
 /// DeleteTOTPResponse: Response type for `Users.delete_totp`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteTOTPResponse {
@@ -450,14 +421,12 @@ pub struct DeleteTOTPResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteWebAuthnRegistrationRequest: Request type for `Users.delete_webauthn_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteWebAuthnRegistrationRequest {
     /// webauthn_registration_id: The `webauthn_registration_id` to be deleted.
     pub webauthn_registration_id: String,
 }
-
 /// DeleteWebAuthnRegistrationResponse: Response type for `Users.delete_webauthn_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteWebAuthnRegistrationResponse {
@@ -476,7 +445,6 @@ pub struct DeleteWebAuthnRegistrationResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// ExchangePrimaryFactorRequest: Request type for `Users.exchange_primary_factor`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangePrimaryFactorRequest {
@@ -488,7 +456,6 @@ pub struct ExchangePrimaryFactorRequest {
     /// +1XXXXXXXXXX).
     pub phone_number: std::option::Option<String>,
 }
-
 /// ExchangePrimaryFactorResponse: Response type for `Users.exchange_primary_factor`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ExchangePrimaryFactorResponse {
@@ -507,14 +474,12 @@ pub struct ExchangePrimaryFactorResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Users.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// user_id: The unique ID of a specific User.
     pub user_id: String,
 }
-
 /// GetResponse: Response type for `Users.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -564,7 +529,6 @@ pub struct GetResponse {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// SearchRequest: Request type for `Users.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
@@ -584,7 +548,6 @@ pub struct SearchRequest {
     /// applied. If you include no query object, it will return all results with no filtering applied.
     pub query: std::option::Option<SearchUsersQuery>,
 }
-
 /// SearchResponse: Response type for `Users.search`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchResponse {
@@ -603,7 +566,6 @@ pub struct SearchResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateRequest: Request type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -623,7 +585,6 @@ pub struct UpdateRequest {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
-
 /// UpdateResponse: Response type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {

@@ -36,7 +36,6 @@ pub struct SendRequest {
     ///
     pub locale: std::option::Option<SendRequestLocale>,
 }
-
 /// SendResponse: Response type for `Discovery.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {

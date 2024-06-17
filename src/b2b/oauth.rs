@@ -30,7 +30,6 @@ pub struct ProviderValues {
     /// specification, which is based on OAuth.
     pub id_token: std::option::Option<String>,
 }
-
 /// AuthenticateRequest: Request type for `OAuth.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -86,7 +85,6 @@ pub struct AuthenticateRequest {
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `OAuth.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {

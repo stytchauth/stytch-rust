@@ -53,7 +53,6 @@ pub struct CreateRequest {
     ///    for more information about role assignment.
     pub roles: std::option::Option<std::vec::Vec<String>>,
 }
-
 /// CreateResponse: Response type for `Members.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -73,7 +72,6 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DangerouslyGetRequest: Request type for `Members.dangerously_get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DangerouslyGetRequest {
@@ -81,7 +79,6 @@ pub struct DangerouslyGetRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteMFAPhoneNumberRequest {
@@ -92,7 +89,6 @@ pub struct DeleteMFAPhoneNumberRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// DeleteMFAPhoneNumberResponse: Response type for `Members.delete_mfa_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteMFAPhoneNumberResponse {
@@ -112,7 +108,6 @@ pub struct DeleteMFAPhoneNumberResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeletePasswordRequest: Request type for `Members.delete_password`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePasswordRequest {
@@ -122,7 +117,6 @@ pub struct DeletePasswordRequest {
     /// member_password_id: Globally unique UUID that identifies a Member's password.
     pub member_password_id: String,
 }
-
 /// DeletePasswordResponse: Response type for `Members.delete_password`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeletePasswordResponse {
@@ -142,7 +136,6 @@ pub struct DeletePasswordResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteRequest: Request type for `Members.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
@@ -153,7 +146,6 @@ pub struct DeleteRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// DeleteResponse: Response type for `Members.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteResponse {
@@ -169,7 +161,6 @@ pub struct DeleteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteTOTPRequest: Request type for `Members.delete_totp`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteTOTPRequest {
@@ -180,7 +171,6 @@ pub struct DeleteTOTPRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// DeleteTOTPResponse: Response type for `Members.delete_totp`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteTOTPResponse {
@@ -200,7 +190,6 @@ pub struct DeleteTOTPResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Members.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -213,7 +202,6 @@ pub struct GetRequest {
     /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,
 }
-
 /// GetResponse: Response type for `Members.dangerously_get`, `Members.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -233,7 +221,6 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// ReactivateRequest: Request type for `Members.reactivate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ReactivateRequest {
@@ -244,7 +231,6 @@ pub struct ReactivateRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
-
 /// ReactivateResponse: Response type for `Members.reactivate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ReactivateResponse {
@@ -264,7 +250,6 @@ pub struct ReactivateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SearchRequest: Request type for `Members.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
@@ -286,7 +271,6 @@ pub struct SearchRequest {
     /// applied. If you include no query object, it will return all Members with no filtering applied.
     pub query: std::option::Option<SearchQuery>,
 }
-
 /// SearchResponse: Response type for `Members.search`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchResponse {
@@ -309,7 +293,6 @@ pub struct SearchResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateRequest: Request type for `Members.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -416,7 +399,6 @@ pub struct UpdateRequest {
     /// update their own email address.
     pub email_address: std::option::Option<String>,
 }
-
 /// UpdateResponse: Response type for `Members.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {

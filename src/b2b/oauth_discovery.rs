@@ -20,7 +20,6 @@ pub struct AuthenticateRequest {
     /// ends on the same device.
     pub pkce_code_verifier: std::option::Option<String>,
 }
-
 /// AuthenticateResponse: Response type for `Discovery.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {

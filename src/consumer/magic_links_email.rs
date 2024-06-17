@@ -40,7 +40,6 @@ pub struct InviteRequest {
     ///
     pub locale: std::option::Option<InviteRequestLocale>,
 }
-
 /// InviteResponse: Response type for `Email.invite`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InviteResponse {
@@ -58,7 +57,6 @@ pub struct InviteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// LoginOrCreateRequest: Request type for `Email.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
@@ -111,7 +109,6 @@ pub struct LoginOrCreateRequest {
     ///
     pub locale: std::option::Option<LoginOrCreateRequestLocale>,
 }
-
 /// LoginOrCreateResponse: Response type for `Email.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LoginOrCreateResponse {
@@ -132,14 +129,12 @@ pub struct LoginOrCreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RevokeInviteRequest: Request type for `Email.revoke_invite`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeInviteRequest {
     /// email: The email of the user.
     pub email: String,
 }
-
 /// RevokeInviteResponse: Response type for `Email.revoke_invite`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RevokeInviteResponse {
@@ -153,7 +148,6 @@ pub struct RevokeInviteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SendRequest: Request type for `Email.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
@@ -205,7 +199,6 @@ pub struct SendRequest {
     /// Magic links - Sign-up.
     pub signup_template_id: std::option::Option<String>,
 }
-
 /// SendResponse: Response type for `Email.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {
@@ -234,7 +227,6 @@ pub enum InviteRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "en")]
@@ -245,7 +237,6 @@ pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]

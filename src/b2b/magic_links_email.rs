@@ -56,7 +56,6 @@ pub struct InviteRequest {
     ///    for more information about role assignment.
     pub roles: std::option::Option<std::vec::Vec<String>>,
 }
-
 /// InviteResponse: Response type for `Email.invite`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InviteResponse {
@@ -76,7 +75,6 @@ pub struct InviteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// LoginOrSignupRequest: Request type for `Email.login_or_signup`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrSignupRequest {
@@ -121,7 +119,6 @@ pub struct LoginOrSignupRequest {
     ///
     pub locale: std::option::Option<LoginOrSignupRequestLocale>,
 }
-
 /// LoginOrSignupResponse: Response type for `Email.login_or_signup`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LoginOrSignupResponse {
@@ -155,7 +152,6 @@ pub enum InviteRequestLocale {
     #[serde(rename = "ptbr")]
     Ptbr,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrSignupRequestLocale {
     #[serde(rename = "en")]

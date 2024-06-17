@@ -14,7 +14,6 @@ pub struct RotateCancelRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
 }
-
 /// RotateCancelResponse: Response type for `Secrets.rotate_cancel`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RotateCancelResponse {
@@ -30,14 +29,12 @@ pub struct RotateCancelResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RotateRequest: Request type for `Secrets.rotate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
 }
-
 /// RotateResponse: Response type for `Secrets.rotate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RotateResponse {
@@ -53,14 +50,12 @@ pub struct RotateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RotateStartRequest: Request type for `Secrets.rotate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateStartRequest {
     /// client_id: The ID of the client.
     pub client_id: String,
 }
-
 /// RotateStartResponse: Response type for `Secrets.rotate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RotateStartResponse {

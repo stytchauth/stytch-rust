@@ -75,7 +75,6 @@ pub struct AuthenticateRequest {
     /// MFA method. This option can be used to update the default MFA method if multiple are being used.
     pub set_default_mfa: std::option::Option<bool>,
 }
-
 /// AuthenticateResponse: Response type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -101,7 +100,6 @@ pub struct AuthenticateResponse {
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
 }
-
 /// CreateRequest: Request type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -132,7 +130,6 @@ pub struct CreateRequest {
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// CreateResponse: Response type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -161,7 +158,6 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// MigrateRequest: Request type for `TOTPs.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
@@ -178,7 +174,6 @@ pub struct MigrateRequest {
     /// in place of the secondary MFA method.
     pub recovery_codes: std::vec::Vec<String>,
 }
-
 /// MigrateResponse: Response type for `TOTPs.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MigrateResponse {

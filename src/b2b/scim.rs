@@ -4,7 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
-use crate::b2b::scim_connections::Connections;
+use crate::b2b::scim_connection::Connection;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -21,7 +21,6 @@ pub struct SCIMConnection {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMConnectionWithNextToken {
     pub organization_id: String,
@@ -36,7 +35,6 @@ pub struct SCIMConnectionWithNextToken {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMConnectionWithToken {
     pub organization_id: String,
@@ -49,7 +47,6 @@ pub struct SCIMConnectionWithToken {
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMGroupImplicitRoleAssignments {
     pub role_id: String,
@@ -58,13 +55,13 @@ pub struct SCIMGroupImplicitRoleAssignments {
 }
 
 pub struct SCIM {
-    pub connections: Connections,
+    pub connection: Connection,
 }
 
 impl SCIM {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
-            connections: Connections::new(http_client.clone()),
+            connection: Connection::new(http_client.clone()),
         }
     }
 }

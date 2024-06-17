@@ -7,6 +7,8 @@
 use crate::consumer::m2m_clients::Clients;
 use serde::{Deserialize, Serialize};
 
+use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
+
 /// M2MClient:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClient {
@@ -28,7 +30,6 @@ pub struct M2MClient {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-
 /// M2MClientWithClientSecret:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClientWithClientSecret {
@@ -54,7 +55,6 @@ pub struct M2MClientWithClientSecret {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-
 /// M2MClientWithNextClientSecret:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClientWithNextClientSecret {
@@ -81,7 +81,6 @@ pub struct M2MClientWithNextClientSecret {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-
 /// M2MSearchQuery:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MSearchQuery {
@@ -95,7 +94,6 @@ pub struct M2MSearchQuery {
     /// search search query.
     pub operands: std::vec::Vec<serde_json::Value>,
 }
-
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
@@ -115,14 +113,173 @@ pub enum M2MSearchQueryOperator {
     AND,
 }
 
+// MANUAL(token_types)(TYPES)
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TokenRequest {
+    pub client_id: String,
+    pub client_secret: String,
+    pub scopes: std::option::Option<std::vec::Vec<String>>,
+    pub grant_type: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TokenResponse {
+    pub access_token: String,
+    pub token_type: String,
+    pub expires_in: i32,
+}
+// ENDMANUAL(token_types)
+
+// MANUAL(authentication_token_types)(TYPES)
+pub struct AuthorizationCheckParams {
+    pub has_scopes: std::vec::Vec<String>,
+    pub required_scopes: std::vec::Vec<String>,
+}
+
+#[derive(Default)]
+pub struct AuthenticateTokenRequest {
+    pub access_token: String,
+    pub required_scopes: std::option::Option<std::vec::Vec<String>>,
+    pub max_token_age_seconds: std::option::Option<u64>,
+    pub scope_authorization_func: std::option::Option<fn(&AuthorizationCheckParams) -> bool>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AuthenticateTokenResponse {
+    pub client_id: String,
+    pub scopes: std::vec::Vec<String>,
+    pub custom_claims: std::collections::HashMap<String, serde_json::Value>,
+}
+// ENDMANUAL(authentication_token_types)
+
+// MANUAL(perform_authorization_check)(FREE_FUNCTION)
+fn perform_authorization_check(params: &AuthorizationCheckParams) -> bool {
+    let mut client_scopes: std::collections::HashMap<String, std::collections::HashSet<String>> =
+        std::collections::HashMap::new();
+
+    for scope in &params.has_scopes {
+        let (action, resource) = split_scope(scope);
+        client_scopes.entry(action).or_default().insert(resource);
+    }
+
+    // Check if all required scopes are satisfied
+    params.required_scopes.iter().all(|required_scope| {
+        let (required_action, required_resource) = split_scope(required_scope);
+        client_scopes
+            .get(&required_action)
+            .map_or(false, |resources| {
+                resources.contains("*") || resources.contains(&required_resource)
+            })
+    })
+}
+
+// Helper function to split a scope into action and resource parts
+fn split_scope(scope: &str) -> (String, String) {
+    if let Some(pos) = scope.find(':') {
+        let (action, resource) = scope.split_at(pos);
+        (action.to_string(), resource[1..].to_string())
+    } else {
+        (scope.to_string(), "-".to_string())
+    }
+}
+// ENDMANUAL(perform_authorization_check)
+
 pub struct M2M {
+    http_client: crate::client::Client,
     pub clients: Clients,
 }
 
 impl M2M {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
+            http_client: http_client.clone(),
             clients: Clients::new(http_client.clone()),
         }
     }
+
+    // MANUAL(m2m.token)(SERVICE_METHOD)
+    pub async fn token(&self, body: TokenRequest) -> crate::Result<TokenResponse> {
+        /*
+        """Retrieves an access token for the given M2M Client.
+        Access tokens are JWTs signed with the project's JWKs, and are valid for one hour after issuance.
+        M2M Access tokens contain a standard set of claims as well as any custom claims generated from templates.
+
+        Fields:
+          - client_id: The ID of the client.
+          - client_secret: The secret of the client.
+          - scopes: An array of scopes requested. If omitted, all scopes assigned to the client will be returned.
+        """  # noqa
+        */
+
+        let project_id = &self.http_client.project_id;
+        let path = format!("/v1/public/{project_id}/oauth2/token");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    // ENDMANUAL(m2m.token)
+
+    // MANUAL(m2m.authenticate_token)(SERVICE_METHOD)
+    // ADDIMPORT: use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
+    pub async fn authenticate_token(
+        &self,
+        body: AuthenticateTokenRequest,
+    ) -> crate::Result<AuthenticateTokenResponse> {
+        let _scope_claim = "scope";
+        let generic_claims = authenticate_jwt(
+            &self.http_client,
+            &body.access_token,
+            body.max_token_age_seconds,
+        )
+        .await?;
+
+        let scope_value = generic_claims
+            .untyped_claims
+            .get(_scope_claim)
+            .ok_or(JWTError::MissingField(_scope_claim.to_owned()))?
+            .to_owned();
+        let scope: String =
+            serde_json::from_value(scope_value).map_err(|_| JWTError::PayloadFormat)?;
+        let scopes: Vec<String> = scope.split_whitespace().map(|s| s.to_string()).collect();
+        let required_scopes = body.required_scopes.unwrap_or_default();
+
+        let scope_authorization_func = if let Some(f) = body.scope_authorization_func {
+            f
+        } else {
+            perform_authorization_check
+        };
+        let is_authorized = scope_authorization_func(&AuthorizationCheckParams {
+            has_scopes: scopes.clone(),
+            required_scopes: required_scopes.clone(),
+        });
+
+        if !is_authorized {
+            return Err(crate::Error::Unauthorized);
+        }
+
+        let sub_claim = generic_claims.reserved_claims["sub"].to_owned();
+        let client_id = serde_json::from_value(sub_claim).map_err(|_| JWTError::PayloadFormat)?;
+        let custom_claims: std::collections::HashMap<String, serde_json::Value> = generic_claims
+            .untyped_claims
+            .iter()
+            .filter_map(|(k, v)| {
+                if k != _scope_claim {
+                    Some((k.clone(), v.clone()))
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        Ok(AuthenticateTokenResponse {
+            client_id,
+            scopes,
+            custom_claims,
+        })
+    }
+    // ENDMANUAL(m2m.authenticate_token)
 }

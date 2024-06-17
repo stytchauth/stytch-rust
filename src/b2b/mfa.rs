@@ -14,7 +14,6 @@ pub struct MemberOptions {
     /// totp_registration_id: The Member's MFA TOTP registration ID.
     pub totp_registration_id: String,
 }
-
 /// MfaRequired:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MfaRequired {

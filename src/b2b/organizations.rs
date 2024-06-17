@@ -7,17 +7,13 @@
 use crate::b2b::organizations_members::Members;
 use serde::{Deserialize, Serialize};
 
-/// ActiveSCIMConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSCIMConnection {
-    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
-    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
     pub bearer_token_last_four: String,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-
 /// ActiveSSOConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSSOConnection {
@@ -26,7 +22,6 @@ pub struct ActiveSSOConnection {
     /// display_name: A human-readable display name for the connection.
     pub display_name: String,
 }
-
 /// EmailImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailImplicitRoleAssignment {
@@ -46,7 +41,6 @@ pub struct EmailImplicitRoleAssignment {
     ///
     pub role_id: String,
 }
-
 /// Member:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Member {
@@ -86,9 +80,6 @@ pub struct Member {
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
-    /// scim_registrations: An array of scim member registrations, each one referencing a
-    /// [SCIM Connection](scim-connection-object) object in use for the Member creation.
-    pub scim_registrations: std::vec::Vec<SCIMRegistration>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -110,14 +101,10 @@ pub struct Member {
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
-    /// created_at: The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are
-    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
-    /// updated_at: The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard
-    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub scim_registration: std::option::Option<SCIMRegistration>,
 }
-
 /// MemberRole:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRole {
@@ -139,7 +126,6 @@ pub struct MemberRole {
     /// domain.
     pub sources: std::vec::Vec<MemberRoleSource>,
 }
-
 /// MemberRoleSource:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRoleSource {
@@ -207,7 +193,6 @@ pub struct MemberRoleSource {
     ///
     pub details: std::option::Option<serde_json::Value>,
 }
-
 /// OAuthRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OAuthRegistration {
@@ -226,7 +211,6 @@ pub struct OAuthRegistration {
     /// user has authenticated with.
     pub locale: std::option::Option<String>,
 }
-
 /// Organization:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Organization {
@@ -325,23 +309,16 @@ pub struct Organization {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::vec::Vec<String>,
-    /// scim_active_connections: An array of active
-    /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
-    pub scim_active_connections: std::vec::Vec<ActiveSCIMConnection>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
-    /// created_at: The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and
-    /// are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
-    /// updated_at: The timestamp of when the Organization was last updated. Values conform to the RFC 3339
-    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
+    pub scim_active_connection: std::option::Option<ActiveSCIMConnection>,
 }
-
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
@@ -351,20 +328,13 @@ pub struct ResultsMetadata {
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
 }
-
-/// SCIMRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMRegistration {
-    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
-    /// registration_id: The unique ID of a SCIM Registration.
     pub registration_id: String,
-    /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
-    /// scim_attributes: An object for storing SCIM attributes brought over from the identity provider.
     pub scim_attributes: std::option::Option<serde_json::Value>,
 }
-
 /// SSORegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SSORegistration {
@@ -377,7 +347,6 @@ pub struct SSORegistration {
     /// sso_attributes: An object for storing SSO attributes brought over from the identity provider.
     pub sso_attributes: std::option::Option<serde_json::Value>,
 }
-
 /// SearchQuery:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchQuery {
@@ -391,7 +360,6 @@ pub struct SearchQuery {
     /// search query.
     pub operands: std::vec::Vec<serde_json::Value>,
 }
-
 /// CreateRequest: Request type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -493,7 +461,6 @@ pub struct CreateRequest {
     ///
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
-
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -509,7 +476,6 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// DeleteRequest: Request type for `Organizations.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
@@ -517,7 +483,6 @@ pub struct DeleteRequest {
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
 }
-
 /// DeleteResponse: Response type for `Organizations.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DeleteResponse {
@@ -534,7 +499,6 @@ pub struct DeleteResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Organizations.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -542,7 +506,6 @@ pub struct GetRequest {
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
 }
-
 /// GetResponse: Response type for `Organizations.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -558,12 +521,10 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MetricsRequest {
     pub organization_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MetricsResponse {
     pub request_id: String,
@@ -571,7 +532,6 @@ pub struct MetricsResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// SearchRequest: Request type for `Organizations.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchRequest {
@@ -591,7 +551,6 @@ pub struct SearchRequest {
     /// applied. If you include no query object, it will return all Organizations with no filtering applied.
     pub query: std::option::Option<SearchQuery>,
 }
-
 /// SearchResponse: Response type for `Organizations.search`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchResponse {
@@ -610,7 +569,6 @@ pub struct SearchResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// UpdateRequest: Request type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
@@ -779,7 +737,6 @@ pub struct UpdateRequest {
     /// Resource.
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
-
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UpdateResponse {

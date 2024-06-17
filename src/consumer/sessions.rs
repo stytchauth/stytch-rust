@@ -14,14 +14,12 @@ pub struct AmazonOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AppleOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// AuthenticationFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
@@ -93,47 +91,40 @@ pub struct AuthenticationFactor {
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
 }
-
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticatorAppFactor {
     /// totp_id: Globally unique UUID that identifies a TOTP instance.
     pub totp_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BiometricFactor {
     pub biometric_registration_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BitbucketOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CoinbaseOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CryptoWalletFactor {
     pub crypto_wallet_id: String,
     pub crypto_wallet_address: String,
     pub crypto_wallet_type: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DiscordOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// EmailFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailFactor {
@@ -142,40 +133,34 @@ pub struct EmailFactor {
     /// email_address: The email address of the Member.
     pub email_address: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmbeddableMagicLinkFactor {
     pub embedded_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct FacebookOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct FigmaOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GitLabOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// GoogleOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthFactor {
@@ -187,26 +172,22 @@ pub struct GoogleOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HubspotOAuthExchangeFactor {
     pub email_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HubspotOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InstagramOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct JWK {
@@ -221,14 +202,12 @@ pub struct JWK {
     pub n: String,
     pub e: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LinkedInOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// MicrosoftOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftOAuthFactor {
@@ -240,7 +219,6 @@ pub struct MicrosoftOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
-
 /// OIDCSSOFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCSSOFactor {
@@ -251,7 +229,6 @@ pub struct OIDCSSOFactor {
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
-
 /// PhoneNumberFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumberFactor {
@@ -260,12 +237,10 @@ pub struct PhoneNumberFactor {
     /// phone_number: The phone number of the Member.
     pub phone_number: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RecoveryCodeFactor {
     pub totp_recovery_code_id: String,
 }
-
 /// SAMLSSOFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLSSOFactor {
@@ -276,14 +251,12 @@ pub struct SAMLSSOFactor {
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SalesforceOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// Session:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Session {
@@ -308,82 +281,70 @@ pub struct Session {
     /// authenticate call.
     pub custom_claims: std::option::Option<serde_json::Value>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ShopifyOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SlackOAuthExchangeFactor {
     pub email_id: String,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SlackOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SnapchatOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SpotifyOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SteamOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TikTokOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TwitchOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TwitterOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnFactor {
     pub webauthn_registration_id: String,
     pub domain: String,
     pub user_agent: std::option::Option<String>,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct YahooOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -406,7 +367,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -433,14 +393,12 @@ pub struct AuthenticateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetJWKSRequest {
     /// project_id: The `project_id` to get the JWKS for.
     pub project_id: String,
 }
-
 /// GetJWKSResponse: Response type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetJWKSResponse {
@@ -456,14 +414,12 @@ pub struct GetJWKSResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// GetRequest: Request type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// user_id: The `user_id` to get active Sessions for.
     pub user_id: String,
 }
-
 /// GetResponse: Response type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetResponse {
@@ -479,7 +435,6 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RevokeRequest: Request type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
@@ -490,7 +445,6 @@ pub struct RevokeRequest {
     /// session_jwt: A JWT for the session to revoke.
     pub session_jwt: std::option::Option<String>,
 }
-
 /// RevokeResponse: Response type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RevokeResponse {
@@ -587,7 +541,6 @@ pub enum AuthenticationFactorDeliveryMethod {
     #[serde(rename = "oauth_exchange_hubspot")]
     OAuthExchangeHubspot,
 }
-
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
     #[serde(rename = "magic_link")]

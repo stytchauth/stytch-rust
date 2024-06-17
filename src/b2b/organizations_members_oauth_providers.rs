@@ -40,7 +40,6 @@ pub struct GoogleResponse {
     /// the provider's API.
     pub refresh_token: std::option::Option<String>,
 }
-
 /// MicrosoftResponse: Response type for `OAuthProviders.microsoft`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftResponse {
@@ -75,7 +74,6 @@ pub struct MicrosoftResponse {
     /// the provider's API.
     pub refresh_token: std::option::Option<String>,
 }
-
 /// ProviderInformationRequest: Request type for `OAuthProviders.google`, `OAuthProviders.microsoft`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProviderInformationRequest {

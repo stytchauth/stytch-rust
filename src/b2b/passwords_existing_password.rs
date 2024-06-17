@@ -64,7 +64,6 @@ pub struct ResetRequest {
     ///
     pub locale: std::option::Option<ResetRequestLocale>,
 }
-
 /// ResetResponse: Response type for `ExistingPassword.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResetResponse {

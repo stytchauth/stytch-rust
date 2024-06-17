@@ -67,7 +67,6 @@ pub struct ExchangeRequest {
     ///
     pub locale: std::option::Option<ExchangeRequestLocale>,
 }
-
 /// ExchangeResponse: Response type for `IntermediateSessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ExchangeResponse {

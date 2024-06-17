@@ -19,7 +19,6 @@ pub struct TOTP {
     /// recovery_codes: The recovery codes used to authenticate the user without an authenticator app.
     pub recovery_codes: std::vec::Vec<String>,
 }
-
 /// AuthenticateRequest: Request type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -53,7 +52,6 @@ pub struct AuthenticateRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// AuthenticateResponse: Response type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticateResponse {
@@ -84,7 +82,6 @@ pub struct AuthenticateResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// CreateRequest: Request type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -95,7 +92,6 @@ pub struct CreateRequest {
     /// maximum of 1440.
     pub expiration_minutes: std::option::Option<i32>,
 }
-
 /// CreateResponse: Response type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateResponse {
@@ -123,7 +119,6 @@ pub struct CreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-
 /// RecoverRequest: Request type for `TOTPs.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoverRequest {
@@ -157,7 +152,6 @@ pub struct RecoverRequest {
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
 }
-
 /// RecoverResponse: Response type for `TOTPs.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RecoverResponse {
@@ -188,14 +182,12 @@ pub struct RecoverResponse {
     ///
     pub session: std::option::Option<Session>,
 }
-
 /// RecoveryCodesRequest: Request type for `TOTPs.recovery_codes`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoveryCodesRequest {
     /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
     pub user_id: String,
 }
-
 /// RecoveryCodesResponse: Response type for `TOTPs.recovery_codes`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RecoveryCodesResponse {
