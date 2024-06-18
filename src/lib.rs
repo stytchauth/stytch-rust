@@ -12,6 +12,9 @@ pub enum Error {
     #[error(transparent)]
     InvalidUrl(#[from] url::ParseError),
 
+    #[error("Failed to fetch JWKS")]
+    FetchJwks,
+
     #[error("{0:?}")]
     JwkNotFound(String),
 
