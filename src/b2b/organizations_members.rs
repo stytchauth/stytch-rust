@@ -11,8 +11,6 @@ use crate::b2b::organizations::SearchQuery;
 use crate::b2b::organizations_members_oauth_providers::OAuthProviders;
 use serde::{Deserialize, Serialize};
 
-
-
 /// CreateRequest: Request type for `Members.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -341,7 +339,7 @@ pub struct UpdateRequest {
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
     /// name: The name of the Member.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.name` action on the `stytch.member` Resource. Alternatively, if
     /// the Member Session matches the Member associated with the `member_id` passed in the request, the
@@ -351,7 +349,7 @@ pub struct UpdateRequest {
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     ///   If a session header is passed into the request, this field may **not** be passed into the request. You
-    /// cannot 
+    /// cannot
     ///   update trusted metadata when acting as a Member.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// untrusted_metadata: An arbitrary JSON object of application-specific data. These fields can be edited
@@ -359,7 +357,7 @@ pub struct UpdateRequest {
     ///   frontend SDK, and should not be used to store critical information. See the
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.untrusted-metadata` action on the `stytch.member` Resource.
     /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
@@ -371,7 +369,7 @@ pub struct UpdateRequest {
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the
     /// [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
     /// more details.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.is-breakglass` action on the `stytch.member` Resource.
     pub is_breakglass: std::option::Option<bool>,
@@ -379,7 +377,7 @@ pub struct UpdateRequest {
     /// number. To change the Member's phone number, use the
     /// [Delete member phone number endpoint](https://stytch.com/docs/b2b/api/delete-member-mfa-phone-number) to
     /// delete the Member's existing phone number first.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.mfa-phone` action on the `stytch.member` Resource. Alternatively,
     /// if the Member Session matches the Member associated with the `member_id` passed in the request, the
@@ -389,7 +387,7 @@ pub struct UpdateRequest {
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.mfa-enrolled` action on the `stytch.member` Resource.
     /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
@@ -400,14 +398,14 @@ pub struct UpdateRequest {
     ///  Will completely replace any existing explicitly assigned roles. See the
     ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
     /// assignment.
-    /// 
+    ///
     ///    If a Role is removed from a Member, and the Member is also implicitly assigned this Role from an SSO
     /// connection
     ///    or an SSO group, we will by default revoke any existing sessions for the Member that contain any SSO
     ///    authentication factors with the affected connection ID. You can preserve these sessions by passing in
     /// the
     ///    `preserve_existing_sessions` parameter with a value of `true`.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.roles` action on the `stytch.member` Resource.
     pub roles: std::option::Option<std::vec::Vec<String>>,
@@ -420,7 +418,7 @@ pub struct UpdateRequest {
     /// default_mfa_method: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA
     /// step whenever they wish to log in to their Organization. If false, the Member only needs to complete an
     /// MFA step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.default-mfa-method` action on the `stytch.member` Resource.
     /// Alternatively, if the Member Session matches the Member associated with the `member_id` passed in the
@@ -431,7 +429,7 @@ pub struct UpdateRequest {
     /// If a Member's email address is changed, other Members in the same Organization cannot use the old email
     /// address, although the Member may update back to their old email address.
     /// A Member's email address can only be useable again by other Members if the Member is deleted.
-    /// 
+    ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.email` action on the `stytch.member` Resource. Members cannot
     /// update their own email address.
@@ -457,126 +455,160 @@ pub struct UpdateResponse {
     pub status_code: http::StatusCode,
 }
 
-
-
-
 pub struct Members {
-  http_client: crate::client::Client,
-  pub oauth_providers: OAuthProviders,
+    http_client: crate::client::Client,
+    pub oauth_providers: OAuthProviders,
 }
 
 impl Members {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-        oauth_providers: OAuthProviders::new(http_client.clone()),
-      }
+        Self {
+            http_client: http_client.clone(),
+            oauth_providers: OAuthProviders::new(http_client.clone()),
+        }
     }
 
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::PUT,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn reactivate(&self, body: ReactivateRequest) -> crate::Result<ReactivateResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/reactivate");
-        self.http_client.send(crate::Request{
-            method: http::Method::PUT,
-            path,
-            body,
-        }).await
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/reactivate");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_mfa_phone_number(&self, body: DeleteMFAPhoneNumberRequest) -> crate::Result<DeleteMFAPhoneNumberResponse> {
+    pub async fn delete_mfa_phone_number(
+        &self,
+        body: DeleteMFAPhoneNumberRequest,
+    ) -> crate::Result<DeleteMFAPhoneNumberResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/mfa_phone_numbers/{member_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/mfa_phone_numbers/{member_id}"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn delete_totp(&self, body: DeleteTOTPRequest) -> crate::Result<DeleteTOTPResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/totp");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
         let path = String::from("/v1/b2b/organizations/members/search");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_password(&self, body: DeletePasswordRequest) -> crate::Result<DeletePasswordResponse> {
+    pub async fn delete_password(
+        &self,
+        body: DeletePasswordRequest,
+    ) -> crate::Result<DeletePasswordResponse> {
         let organization_id = &body.organization_id;
         let member_password_id = &body.member_password_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/passwords/{member_password_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/passwords/{member_password_id}"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn dangerously_get(&self, body: DangerouslyGetRequest) -> crate::Result<GetResponse> {
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/members/dangerously_get/{member_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::GET,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn unlink_retired_email(&self, body: UnlinkRetiredEmailRequest) -> crate::Result<UnlinkRetiredEmailResponse> {
+    pub async fn unlink_retired_email(
+        &self,
+        body: UnlinkRetiredEmailRequest,
+    ) -> crate::Result<UnlinkRetiredEmailResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/unlink_retired_email");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/unlink_retired_email"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/member");
-        self.http_client.send(crate::Request{
-            method: http::Method::GET,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
     }
-
 }

@@ -7,7 +7,6 @@
 use crate::b2b::scim_connection::Connection;
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Address {
     pub formatted: String,
@@ -44,7 +43,8 @@ pub struct Group {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Manager {
     pub value: String,
-    pub ref: String,
+    #[serde(rename = "ref")]
+    pub ref_: String,
     pub display_name: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -124,7 +124,7 @@ pub struct SCIMConnectionWithToken {
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-/// SCIMGroup: 
+/// SCIMGroup:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMGroup {
     /// group_id: Globally unique UUID that identifies a specific SCIM Group.
@@ -144,19 +144,14 @@ pub struct SCIMGroupImplicitRoleAssignments {
     pub group_name: String,
 }
 
-
-
-
 pub struct SCIM {
-  pub connection: Connection,
+    pub connection: Connection,
 }
 
 impl SCIM {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        connection: Connection::new(http_client.clone()),
-      }
+        Self {
+            connection: Connection::new(http_client.clone()),
+        }
     }
-
-
 }

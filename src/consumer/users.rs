@@ -7,8 +7,7 @@
 use crate::consumer::attribute::Attributes;
 use serde::{Deserialize, Serialize};
 
-
-/// BiometricRegistration: 
+/// BiometricRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BiometricRegistration {
     /// biometric_registration_id: The unique ID for a biometric registration.
@@ -17,7 +16,7 @@ pub struct BiometricRegistration {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-/// CryptoWallet: 
+/// CryptoWallet:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CryptoWallet {
     /// crypto_wallet_id: The unique ID for a crypto wallet
@@ -30,7 +29,7 @@ pub struct CryptoWallet {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-/// Email: 
+/// Email:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Email {
     /// email_id: The unique ID of a specific email address.
@@ -41,7 +40,7 @@ pub struct Email {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-/// Name: 
+/// Name:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Name {
     /// first_name: The first name of the user.
@@ -51,7 +50,7 @@ pub struct Name {
     /// last_name: The last name of the user.
     pub last_name: std::option::Option<String>,
 }
-/// OAuthProvider: 
+/// OAuthProvider:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OAuthProvider {
     /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
@@ -69,7 +68,7 @@ pub struct OAuthProvider {
     /// oauth_user_registration_id: The unique ID for an OAuth registration.
     pub oauth_user_registration_id: String,
 }
-/// Password: 
+/// Password:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Password {
     /// password_id: The unique ID of a specific password
@@ -77,7 +76,7 @@ pub struct Password {
     /// requires_reset: Indicates whether this password requires a password reset
     pub requires_reset: bool,
 }
-/// PhoneNumber: 
+/// PhoneNumber:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumber {
     /// phone_id: The unique ID for the phone number.
@@ -88,7 +87,7 @@ pub struct PhoneNumber {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-/// ResultsMetadata: 
+/// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query.
@@ -97,20 +96,20 @@ pub struct ResultsMetadata {
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
 }
-/// SearchUsersQuery: 
+/// SearchUsersQuery:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchUsersQuery {
     /// operator: The action to perform on the operands. The accepted value are:
-    /// 
+    ///
     ///   `AND` – all the operand values provided must match.
-    /// 
+    ///
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: SearchUsersQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search search query.
     pub operands: std::vec::Vec<serde_json::Value>,
 }
-/// TOTP: 
+/// TOTP:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TOTP {
     /// totp_id: The unique ID for a TOTP instance.
@@ -119,7 +118,7 @@ pub struct TOTP {
     /// address, etc., has been successfully authenticated by the User.
     pub verified: bool,
 }
-/// User: 
+/// User:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct User {
     /// user_id: The unique ID of the affected User.
@@ -159,7 +158,7 @@ pub struct User {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
-/// WebAuthnRegistration: 
+/// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnRegistration {
     /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
@@ -614,147 +613,197 @@ pub struct UpdateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchUsersQueryOperator {
     #[serde(rename = "or")]
- #[default]     OR,
+    #[default]
+    OR,
     #[serde(rename = "and")]
     AND,
 }
 
-
-
 pub struct Users {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl Users {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let path = String::from("/v1/users");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let user_id = &body.user_id;
         let path = format!("/v1/users/{user_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::GET,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
         let path = String::from("/v1/users/search");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let user_id = &body.user_id;
         let path = format!("/v1/users/{user_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::PUT,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn exchange_primary_factor(&self, body: ExchangePrimaryFactorRequest) -> crate::Result<ExchangePrimaryFactorResponse> {
+    pub async fn exchange_primary_factor(
+        &self,
+        body: ExchangePrimaryFactorRequest,
+    ) -> crate::Result<ExchangePrimaryFactorResponse> {
         let user_id = &body.user_id;
         let path = format!("/v1/users/{user_id}/exchange_primary_factor");
-        self.http_client.send(crate::Request{
-            method: http::Method::PUT,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
         let user_id = &body.user_id;
         let path = format!("/v1/users/{user_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_email(&self, body: DeleteEmailRequest) -> crate::Result<DeleteEmailResponse> {
+    pub async fn delete_email(
+        &self,
+        body: DeleteEmailRequest,
+    ) -> crate::Result<DeleteEmailResponse> {
         let email_id = &body.email_id;
         let path = format!("/v1/users/emails/{email_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_phone_number(&self, body: DeletePhoneNumberRequest) -> crate::Result<DeletePhoneNumberResponse> {
+    pub async fn delete_phone_number(
+        &self,
+        body: DeletePhoneNumberRequest,
+    ) -> crate::Result<DeletePhoneNumberResponse> {
         let phone_id = &body.phone_id;
         let path = format!("/v1/users/phone_numbers/{phone_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_webauthn_registration(&self, body: DeleteWebAuthnRegistrationRequest) -> crate::Result<DeleteWebAuthnRegistrationResponse> {
+    pub async fn delete_webauthn_registration(
+        &self,
+        body: DeleteWebAuthnRegistrationRequest,
+    ) -> crate::Result<DeleteWebAuthnRegistrationResponse> {
         let webauthn_registration_id = &body.webauthn_registration_id;
         let path = format!("/v1/users/webauthn_registrations/{webauthn_registration_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_biometric_registration(&self, body: DeleteBiometricRegistrationRequest) -> crate::Result<DeleteBiometricRegistrationResponse> {
+    pub async fn delete_biometric_registration(
+        &self,
+        body: DeleteBiometricRegistrationRequest,
+    ) -> crate::Result<DeleteBiometricRegistrationResponse> {
         let biometric_registration_id = &body.biometric_registration_id;
         let path = format!("/v1/users/biometric_registrations/{biometric_registration_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn delete_totp(&self, body: DeleteTOTPRequest) -> crate::Result<DeleteTOTPResponse> {
         let totp_id = &body.totp_id;
         let path = format!("/v1/users/totps/{totp_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_crypto_wallet(&self, body: DeleteCryptoWalletRequest) -> crate::Result<DeleteCryptoWalletResponse> {
+    pub async fn delete_crypto_wallet(
+        &self,
+        body: DeleteCryptoWalletRequest,
+    ) -> crate::Result<DeleteCryptoWalletResponse> {
         let crypto_wallet_id = &body.crypto_wallet_id;
         let path = format!("/v1/users/crypto_wallets/{crypto_wallet_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_password(&self, body: DeletePasswordRequest) -> crate::Result<DeletePasswordResponse> {
+    pub async fn delete_password(
+        &self,
+        body: DeletePasswordRequest,
+    ) -> crate::Result<DeletePasswordResponse> {
         let password_id = &body.password_id;
         let path = format!("/v1/users/passwords/{password_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn delete_oauth_registration(&self, body: DeleteOAuthRegistrationRequest) -> crate::Result<DeleteOAuthRegistrationResponse> {
+    pub async fn delete_oauth_registration(
+        &self,
+        body: DeleteOAuthRegistrationRequest,
+    ) -> crate::Result<DeleteOAuthRegistrationResponse> {
         let oauth_user_registration_id = &body.oauth_user_registration_id;
         let path = format!("/v1/users/oauth/{oauth_user_registration_id}");
-        self.http_client.send(crate::Request{
-            method: http::Method::DELETE,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
     }
-
 }

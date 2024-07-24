@@ -10,7 +10,6 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
-
 /// ResetRequest: Request type for `ExistingPassword.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
@@ -26,16 +25,16 @@ pub struct ResetRequest {
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist, 
+    /// new session if one doesn't already exist,
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    /// 
+    ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    /// 
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    /// 
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -53,16 +52,16 @@ pub struct ResetRequest {
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
-    /// 
+    ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
-    /// 
+    ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    /// 
+    ///
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    /// 
+    ///
     pub locale: std::option::Option<ResetRequestLocale>,
 }
 /// ResetResponse: Response type for `ExistingPassword.reset`.
@@ -109,33 +108,33 @@ pub struct ResetResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetRequestLocale {
     #[serde(rename = "en")]
- #[default]     En,
+    #[default]
+    En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
 }
 
-
-
 pub struct ExistingPassword {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl ExistingPassword {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
         let path = String::from("/v1/b2b/passwords/existing_password/reset");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-
 }

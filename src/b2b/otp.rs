@@ -6,21 +6,14 @@
 
 use crate::b2b::otp_sms::Sms;
 
-
-
-
-
-
 pub struct OTPs {
-  pub sms: Sms,
+    pub sms: Sms,
 }
 
 impl OTPs {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        sms: Sms::new(http_client.clone()),
-      }
+        Self {
+            sms: Sms::new(http_client.clone()),
+        }
     }
-
-
 }

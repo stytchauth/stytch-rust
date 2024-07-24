@@ -8,7 +8,6 @@ use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
-
 /// AuthenticateRequest: Request type for `CryptoWallets.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -23,16 +22,16 @@ pub struct AuthenticateRequest {
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist, 
+    /// new session if one doesn't already exist,
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    /// 
+    ///
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    /// 
+    ///
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    /// 
+    ///
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -41,7 +40,7 @@ pub struct AuthenticateRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    /// 
+    ///
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -69,9 +68,9 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    /// 
+    ///
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    /// 
+    ///
     pub session: std::option::Option<Session>,
 }
 /// AuthenticateStartRequest: Request type for `CryptoWallets.authenticate_start`.
@@ -111,35 +110,41 @@ pub struct AuthenticateStartResponse {
     pub status_code: http::StatusCode,
 }
 
-
-
-
 pub struct CryptoWallets {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl CryptoWallets {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
-    pub async fn authenticate_start(&self, body: AuthenticateStartRequest) -> crate::Result<AuthenticateStartResponse> {
+    pub async fn authenticate_start(
+        &self,
+        body: AuthenticateStartRequest,
+    ) -> crate::Result<AuthenticateStartResponse> {
         let path = String::from("/v1/crypto_wallets/authenticate/start");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(
+        &self,
+        body: AuthenticateRequest,
+    ) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/crypto_wallets/authenticate");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-
 }

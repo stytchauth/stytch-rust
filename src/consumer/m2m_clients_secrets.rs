@@ -8,7 +8,6 @@ use crate::consumer::m2m::M2MClient;
 use crate::consumer::m2m::M2MClientWithNextClientSecret;
 use serde::{Deserialize, Serialize};
 
-
 /// RotateCancelRequest: Request type for `Secrets.rotate_cancel`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RotateCancelRequest {
@@ -73,46 +72,54 @@ pub struct RotateStartResponse {
     pub status_code: http::StatusCode,
 }
 
-
-
-
 pub struct Secrets {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl Secrets {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
-    pub async fn rotate_start(&self, body: RotateStartRequest) -> crate::Result<RotateStartResponse> {
+    pub async fn rotate_start(
+        &self,
+        body: RotateStartRequest,
+    ) -> crate::Result<RotateStartResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate/start");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn rotate_cancel(&self, body: RotateCancelRequest) -> crate::Result<RotateCancelResponse> {
+    pub async fn rotate_cancel(
+        &self,
+        body: RotateCancelRequest,
+    ) -> crate::Result<RotateCancelResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate/cancel");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
     pub async fn rotate(&self, body: RotateRequest) -> crate::Result<RotateResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-
 }

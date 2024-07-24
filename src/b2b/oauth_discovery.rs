@@ -7,7 +7,6 @@
 use crate::b2b::discovery::DiscoveredOrganization;
 use serde::{Deserialize, Serialize};
 
-
 /// AuthenticateRequest: Request type for `Discovery.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -46,16 +45,16 @@ pub struct AuthenticateResponse {
     /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
     /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
     /// complete details.
-    /// 
+    ///
     ///   Note that Organizations will only appear here under any of the following conditions:
     ///   1. The end user is already a Member of the Organization.
-    ///   2. The end user is invited to the Organization. 
-    ///   3. The end user can join the Organization because: 
-    /// 
+    ///   2. The end user is invited to the Organization.
+    ///   3. The end user can join the Organization because:
+    ///
     ///   a) The Organization allows JIT provisioning.
-    /// 
+    ///
     ///   b) The Organizations' allowed domains list contains the Member's email domain.
-    /// 
+    ///
     ///   c) The Organization has at least one other Member with a verified email address with the same domain
     /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
@@ -68,27 +67,28 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
 }
 
-
-
-
 pub struct Discovery {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl Discovery {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
-    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(
+        &self,
+        body: AuthenticateRequest,
+    ) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/oauth/discovery/authenticate");
-        self.http_client.send(crate::Request{
-            method: http::Method::POST,
-            path,
-            body,
-        }).await
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
     }
-
 }

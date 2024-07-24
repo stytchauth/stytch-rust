@@ -6,7 +6,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// GoogleResponse: Response type for `OAuthProviders.google`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleResponse {
@@ -90,39 +89,46 @@ pub struct ProviderInformationRequest {
     pub include_refresh_token: std::option::Option<bool>,
 }
 
-
-
-
 pub struct OAuthProviders {
-  http_client: crate::client::Client,
+    http_client: crate::client::Client,
 }
 
 impl OAuthProviders {
     pub fn new(http_client: crate::client::Client) -> Self {
-      Self {
-        http_client: http_client.clone(),
-      }
+        Self {
+            http_client: http_client.clone(),
+        }
     }
 
     pub async fn google(&self, body: ProviderInformationRequest) -> crate::Result<GoogleResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google");
-        self.http_client.send(crate::Request{
-            method: http::Method::GET,
-            path,
-            body,
-        }).await
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
     }
-    pub async fn microsoft(&self, body: ProviderInformationRequest) -> crate::Result<MicrosoftResponse> {
+    pub async fn microsoft(
+        &self,
+        body: ProviderInformationRequest,
+    ) -> crate::Result<MicrosoftResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft");
-        self.http_client.send(crate::Request{
-            method: http::Method::GET,
-            path,
-            body,
-        }).await
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
     }
-
 }
