@@ -319,7 +319,6 @@ pub struct Organization {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::vec::Vec<String>,
-    pub oauth_tenant_jit_provisioning: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -758,8 +757,6 @@ pub struct UpdateRequest {
     /// permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
     /// Resource.
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
-    pub oauth_tenant_jit_provisioning: std::option::Option<String>,
-    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
