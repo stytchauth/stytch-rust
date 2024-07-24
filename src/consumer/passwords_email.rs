@@ -10,31 +10,33 @@ use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
+
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// token: The Passwords `token` from the `?token=` query parameter in the URL.
-    ///
+    /// 
     ///   In the redirect URL, the `stytch_token_type` will be `login` or `reset_password`.
-    ///
+    /// 
     ///   See examples and read more about redirect URLs
     /// [here](https://stytch.com/docs/guides/dashboard/redirect-urls).
     pub token: String,
-    /// password: The password of the user
+    /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
+    /// characers, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist,
+    /// new session if one doesn't already exist, 
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -46,7 +48,7 @@ pub struct ResetRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -78,9 +80,9 @@ pub struct ResetResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 /// ResetStartRequest: Request type for `Email.reset_start`.
@@ -89,16 +91,16 @@ pub struct ResetStartRequest {
     /// email: The email of the User that requested the password reset.
     pub email: String,
     /// reset_password_redirect_url: The url that the user clicks from the password reset email to finish the
-    /// reset password flow.
-    ///   This should be a url that your app receives and parses before showing your app's reset password page.
+    /// reset password flow. 
+    ///   This should be a url that your app receives and parses before showing your app's reset password page. 
     ///   After the user submits a new password to your app, it should send an API request to complete the
-    /// password reset process.
+    /// password reset process. 
     ///   If this value is not passed, the default reset password redirect URL that you set in your Dashboard is
-    /// used.
+    /// used. 
     ///   If you have not set a default reset password redirect URL, an error is returned.
     pub reset_password_redirect_url: std::option::Option<String>,
     /// reset_password_expiration_minutes: Set the expiration for the password reset, in minutes. By default, it
-    /// expires in 30 minutes.
+    /// expires in 30 minutes. 
     ///   The minimum expiration is 5 minutes and the maximum is 7 days (10080 mins).
     pub reset_password_expiration_minutes: std::option::Option<i32>,
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
@@ -109,22 +111,22 @@ pub struct ResetStartRequest {
     /// login_redirect_url: The URL Stytch redirects to after the OAuth flow is completed for a user that
     /// already exists. This URL should be a route in your application which will run `oauth.authenticate` (see
     /// below) and finish the login.
-    ///
+    /// 
     ///   The URL must be configured as a Login URL in the [Redirect URL page](/dashboard/redirect-urls). If the
     /// field is not specified, the default Login URL will be used.
     pub login_redirect_url: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<ResetStartRequestLocale>,
     /// reset_password_template_id: Use a custom template for password reset emails. By default, it will use
-    /// your default email template.
+    /// your default email template. 
     ///   The template must be a template using our built-in customizations or a custom HTML email for Passwords
     /// - Password reset.
     pub reset_password_template_id: std::option::Option<String>,
@@ -150,43 +152,41 @@ pub struct ResetStartResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetStartRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
 }
 
+
+
 pub struct Email {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Email {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn reset_start(&self, body: ResetStartRequest) -> crate::Result<ResetStartResponse> {
         let path = String::from("/v1/passwords/email/reset/start");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
         let path = String::from("/v1/passwords/email/reset");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

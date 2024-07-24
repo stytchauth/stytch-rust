@@ -8,6 +8,7 @@ use crate::consumer::attribute::Attributes;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AmazonOAuthFactor {
     pub id: String,
@@ -20,7 +21,7 @@ pub struct AppleOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// AuthenticationFactor:
+/// AuthenticationFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
     /// type_: The type of authentication factor. The possible values are: `magic_link`, `otp`,
@@ -28,18 +29,18 @@ pub struct AuthenticationFactor {
     #[serde(rename = "type")]
     pub type_: AuthenticationFactorType,
     /// delivery_method: The method that was used to deliver the authentication factor. The possible values
-    /// depend on the `type`:
-    ///
+    /// depend on the `type`: 
+    /// 
     ///   `magic_link` – Only `email`.
-    ///
+    /// 
     ///   `otp` – Only `sms`.
-    ///
+    /// 
     ///   `oauth` – Either `oauth_google` or `oauth_microsoft`.
-    ///
+    /// 
     ///   `password` – Only `knowledge`.
-    ///
+    /// 
     ///   `sso` – Either `sso_saml` or `sso_oidc`.
-    ///
+    /// 
     pub delivery_method: AuthenticationFactorDeliveryMethod,
     /// last_authenticated_at: The timestamp when the factor was last authenticated.
     pub last_authenticated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
@@ -91,7 +92,7 @@ pub struct AuthenticationFactor {
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
 }
-/// AuthenticatorAppFactor:
+/// AuthenticatorAppFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticatorAppFactor {
     /// totp_id: Globally unique UUID that identifies a TOTP instance.
@@ -125,7 +126,7 @@ pub struct DiscordOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// EmailFactor:
+/// EmailFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailFactor {
     /// email_id: The globally unique UUID of the Member's email.
@@ -161,7 +162,7 @@ pub struct GithubOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// GoogleOAuthFactor:
+/// GoogleOAuthFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthFactor {
     /// id: The unique ID of an OAuth registration.
@@ -208,7 +209,7 @@ pub struct LinkedInOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// MicrosoftOAuthFactor:
+/// MicrosoftOAuthFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftOAuthFactor {
     /// id: The unique ID of an OAuth registration.
@@ -219,7 +220,7 @@ pub struct MicrosoftOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
-/// OIDCSSOFactor:
+/// OIDCSSOFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCSSOFactor {
     /// id: The unique ID of an SSO Registration.
@@ -229,7 +230,7 @@ pub struct OIDCSSOFactor {
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
-/// PhoneNumberFactor:
+/// PhoneNumberFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumberFactor {
     /// phone_id: The globally unique UUID of the Member's phone number.
@@ -241,7 +242,7 @@ pub struct PhoneNumberFactor {
 pub struct RecoveryCodeFactor {
     pub totp_recovery_code_id: String,
 }
-/// SAMLSSOFactor:
+/// SAMLSSOFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLSSOFactor {
     /// id: The unique ID of an SSO Registration.
@@ -257,7 +258,7 @@ pub struct SalesforceOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// Session:
+/// Session: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Session {
     /// session_id: A unique identifier for a specific Session.
@@ -362,7 +363,7 @@ pub struct AuthenticateRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -376,9 +377,9 @@ pub struct AuthenticateResponse {
     pub request_id: String,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
-    ///
+    /// 
     pub session: Session,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -462,8 +463,7 @@ pub struct RevokeResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorDeliveryMethod {
     #[serde(rename = "email")]
-    #[default]
-    Email,
+ #[default]     Email,
     #[serde(rename = "sms")]
     Sms,
     #[serde(rename = "whatsapp")]
@@ -544,8 +544,7 @@ pub enum AuthenticationFactorDeliveryMethod {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
     #[serde(rename = "magic_link")]
-    #[default]
-    MagicLink,
+ #[default]     MagicLink,
     #[serde(rename = "otp")]
     OTP,
     #[serde(rename = "oauth")]
@@ -568,59 +567,51 @@ pub enum AuthenticationFactorType {
     RecoveryCodes,
 }
 
+
+
 pub struct Sessions {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Sessions {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let path = String::from("/v1/sessions");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/sessions/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
         let path = String::from("/v1/sessions/revoke");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get_jwks(&self, body: GetJWKSRequest) -> crate::Result<GetJWKSResponse> {
         let project_id = &body.project_id;
         let path = format!("/v1/sessions/jwks/{project_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

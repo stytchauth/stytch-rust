@@ -9,6 +9,7 @@ use crate::b2b::sso::SAMLConnectionImplicitRoleAssignment;
 use crate::b2b::sso::SAMLGroupImplicitRoleAssignment;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateConnectionRequest: Request type for `SAML.create_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
@@ -17,6 +18,9 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 /// CreateConnectionResponse: Response type for `SAML.create_connection`.
@@ -116,8 +120,7 @@ pub struct UpdateConnectionRequest {
     /// implicitly receive the specified Roles. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
     /// assignment.
-    pub saml_connection_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<SAMLConnectionImplicitRoleAssignment>>,
+    pub saml_connection_implicit_role_assignments: std::option::Option<std::vec::Vec<SAMLConnectionImplicitRoleAssignment>>,
     /// saml_group_implicit_role_assignments: Defines the names of the SAML groups
     ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
     /// connection and
@@ -126,11 +129,13 @@ pub struct UpdateConnectionRequest {
     /// assignment.
     ///  Before adding any group implicit role assignments, you must add a "groups" key to your SAML connection's
     ///  `attribute_mapping`. Make sure that your IdP is configured to correctly send the group information.
-    pub saml_group_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
+    pub saml_group_implicit_role_assignments: std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
     /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
     /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
     pub alternative_audience_uri: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
@@ -154,8 +159,7 @@ pub struct UpdateConnectionResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum CreateConnectionRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -166,8 +170,7 @@ pub enum CreateConnectionRequestIdentityProvider {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateConnectionRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -176,75 +179,58 @@ pub enum UpdateConnectionRequestIdentityProvider {
     Googleworkspace,
 }
 
+
+
 pub struct SAML {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl SAML {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
-    pub async fn create_connection(
-        &self,
-        body: CreateConnectionRequest,
-    ) -> crate::Result<CreateConnectionResponse> {
+    pub async fn create_connection(&self, body: CreateConnectionRequest) -> crate::Result<CreateConnectionResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn update_connection(
-        &self,
-        body: UpdateConnectionRequest,
-    ) -> crate::Result<UpdateConnectionResponse> {
+    pub async fn update_connection(&self, body: UpdateConnectionRequest) -> crate::Result<UpdateConnectionResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
-    pub async fn update_by_url(
-        &self,
-        body: UpdateByURLRequest,
-    ) -> crate::Result<UpdateByURLResponse> {
+    pub async fn update_by_url(&self, body: UpdateByURLRequest) -> crate::Result<UpdateByURLResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/url");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
-    pub async fn delete_verification_certificate(
-        &self,
-        body: DeleteVerificationCertificateRequest,
-    ) -> crate::Result<DeleteVerificationCertificateResponse> {
+    pub async fn delete_verification_certificate(&self, body: DeleteVerificationCertificateRequest) -> crate::Result<DeleteVerificationCertificateResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let certificate_id = &body.certificate_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/verification_certificates/{certificate_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::DELETE,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::DELETE,
+            path,
+            body,
+        }).await
     }
+
 }

@@ -5,16 +5,21 @@
 // !!!
 
 use crate::b2b::organizations_members::Members;
+use crate::b2b::scim::SCIMAttributes;
 use serde::{Deserialize, Serialize};
 
+
+/// ActiveSCIMConnection: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSCIMConnection {
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
     pub bearer_token_last_four: String,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-/// ActiveSSOConnection:
+/// ActiveSSOConnection: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSSOConnection {
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
@@ -22,26 +27,26 @@ pub struct ActiveSSOConnection {
     /// display_name: A human-readable display name for the connection.
     pub display_name: String,
 }
-/// EmailImplicitRoleAssignment:
+/// EmailImplicitRoleAssignment: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailImplicitRoleAssignment {
     /// domain: Email domain that grants the specified Role.
     pub domain: String,
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
     /// human-readable.  
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
+    /// 
+    ///   Reserved `role_id`s that are predefined by Stytch include: 
+    /// 
     ///   * `stytch_member`
     ///   * `stytch_admin`
-    ///
+    /// 
     ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
-    ///
-    ///
+    /// 
+    /// 
     pub role_id: String,
 }
-/// Member:
+/// Member: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Member {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
@@ -74,7 +79,7 @@ pub struct Member {
     /// mfa_phone_number_verified: Whether or not the Member's phone number is verified.
     pub mfa_phone_number_verified: bool,
     /// is_admin: Whether or not the Member has the `stytch_admin` Role. This Role is automatically granted to
-    /// Members
+    /// Members 
     ///   who create an Organization through the
     /// [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
@@ -101,48 +106,54 @@ pub struct Member {
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are
+    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard
+    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// scim_registration: A scim member registration, referencing a [SCIM Connection](scim-connection-object)
+    /// object in use for the Member creation.
     pub scim_registration: std::option::Option<SCIMRegistration>,
 }
-/// MemberRole:
+/// MemberRole: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
     /// human-readable.  
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
+    /// 
+    ///   Reserved `role_id`s that are predefined by Stytch include: 
+    /// 
     ///   * `stytch_member`
     ///   * `stytch_admin`
-    ///
+    /// 
     ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
-    ///
-    ///
+    /// 
+    /// 
     pub role_id: String,
     /// sources: A list of sources for this role assignment. A role assignment can come from multiple sources -
     /// for example, the Role could be both explicitly assigned and implicitly granted from the Member's email
     /// domain.
     pub sources: std::vec::Vec<MemberRoleSource>,
 }
-/// MemberRoleSource:
+/// MemberRoleSource: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRoleSource {
-    /// type_: The type of role assignment. The possible values are:
-    ///
+    /// type_: The type of role assignment. The possible values are: 
+    /// 
     ///   `direct_assignment` – an explicitly assigned Role.
-    ///
+    /// 
     ///   Directly assigned roles can be updated by passing in the `roles` argument to the
     ///   [Update Member](https://stytch.com/docs/b2b/api/update-member) endpoint.
-    ///
+    /// 
     ///   `email_assignment` – an implicit Role granted by the Member's email domain, regardless of their login
     /// method.
-    ///
+    /// 
     ///   Email implicit role assignments can be updated by passing in the
     /// `rbac_email_implicit_role_assignments` argument to
     ///   the [Update Organization](https://stytch.com/docs/b2b/api/update-organization) endpoint.
-    ///
+    /// 
     ///   `sso_connection` – an implicit Role granted by the Member's SSO connection. This is currently only
     /// available
     ///   for SAML connections and not for OIDC. If the Member has a SAML Member registration with the given
@@ -153,11 +164,11 @@ pub struct MemberRoleSource {
     ///   headers), the Member will only be granted the Role if their session contains an authentication factor
     /// with the
     ///   specified SAML connection.
-    ///
+    /// 
     ///   SAML connection implicit role assignments can be updated by passing in the
     ///   `saml_connection_implicit_role_assignments` argument to the
     ///   [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection) endpoint.
-    ///
+    /// 
     ///   `sso_connection_group` – an implicit Role granted by the Member's SSO connection and group. This is
     /// currently only
     ///   available for SAML connections and not for OIDC. If the Member has a SAML Member registration with the
@@ -169,31 +180,31 @@ pub struct MemberRoleSource {
     ///   that enforces RBAC with session headers), the Member will only be granted the role if their session
     /// contains an
     ///   authentication factor with the specified SAML connection.
-    ///
+    /// 
     ///   SAML group implicit role assignments can be updated by passing in the
     /// `saml_group_implicit_role_assignments`
     ///   argument to the [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection)
     /// endpoint.
-    ///
+    /// 
     #[serde(rename = "type")]
     pub type_: String,
     /// details: An object containing additional metadata about the source assignment. The fields will vary
     /// depending
     ///   on the role assignment type as follows:
-    ///
+    /// 
     ///   `direct_assignment` – no additional details.
-    ///
+    /// 
     ///   `email_assignment` – will contain the email domain that granted the assignment.
-    ///
+    /// 
     ///   `sso_connection` – will contain the `connection_id` of the SAML connection that granted the assignment.
-    ///
+    /// 
     ///   `sso_connection_group` – will contain the `connection_id` of the SAML connection and the name of the
     /// `group`
     ///   that granted the assignment.
-    ///
+    /// 
     pub details: std::option::Option<serde_json::Value>,
 }
-/// OAuthRegistration:
+/// OAuthRegistration: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OAuthRegistration {
     /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
@@ -211,7 +222,7 @@ pub struct OAuthRegistration {
     /// user has authenticated with.
     pub locale: std::option::Option<String>,
 }
-/// Organization:
+/// Organization: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Organization {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
@@ -227,18 +238,18 @@ pub struct Organization {
     pub organization_slug: String,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///
+    /// 
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///
+    /// 
     pub sso_jit_provisioning: String,
     /// sso_jit_provisioning_allowed_connections: An array of `connection_id`s that reference
-    /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
+    /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object). 
     ///   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
     /// set to `RESTRICTED`.
     pub sso_jit_provisioning_allowed_connections: std::vec::Vec<String>,
@@ -247,48 +258,48 @@ pub struct Organization {
     /// [OIDC Connection references](https://stytch.com/docs/b2b/api/oidc-connection-object).
     pub sso_active_connections: std::vec::Vec<ActiveSSOConnection>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
-    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///
-    ///
+    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`. 
+    /// 
+    /// 
     /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::vec::Vec<String>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
-    /// authenticating via Email Magic Link or OAuth. The accepted values are:
-    ///
+    /// authenticating via Email Magic Link or OAuth. The accepted values are: 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-    ///
+    /// 
     pub email_jit_provisioning: String,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
-    /// organization by email. The accepted values are:
-    ///
-    ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///
+    /// organization by email. The accepted values are: 
+    /// 
+    ///   `ALL_ALLOWED` – any new Member can be invited to join via email. 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable email invites.
-    ///
+    /// 
     pub email_invites: String,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub auth_methods: String,
     /// allowed_auth_methods: An array of allowed authentication methods. This list is enforced when
-    /// `auth_methods` is set to `RESTRICTED`.
+    /// `auth_methods` is set to `RESTRICTED`. 
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///
+    /// 
     pub allowed_auth_methods: std::vec::Vec<String>,
     pub mfa_policy: String,
-    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
+    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains. 
     ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
     /// granted the
     ///   associated Role, regardless of their login method. See the
@@ -297,29 +308,36 @@ pub struct Organization {
     pub rbac_email_implicit_role_assignments: std::vec::Vec<EmailImplicitRoleAssignment>,
     /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub mfa_methods: String,
     /// allowed_mfa_methods: An array of allowed MFA authentication methods. This list is enforced when
     /// `mfa_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sms_otp` and `totp`.
-    ///
+    /// 
     pub allowed_mfa_methods: std::vec::Vec<String>,
+    pub oauth_tenant_jit_provisioning: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and
+    /// are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Organization was last updated. Values conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
+    /// scim_active_connection: An active
+    /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub scim_active_connection: std::option::Option<ActiveSCIMConnection>,
 }
-/// ResultsMetadata:
+/// ResultsMetadata: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query.
@@ -328,14 +346,19 @@ pub struct ResultsMetadata {
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
 }
+/// SCIMRegistration: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMRegistration {
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// registration_id: The unique ID of a SCIM Registration.
     pub registration_id: String,
+    /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
-    pub scim_attributes: std::option::Option<serde_json::Value>,
+    /// scim_attributes: An object for storing SCIM attributes brought over from the identity provider.
+    pub scim_attributes: std::option::Option<SCIMAttributes>,
 }
-/// SSORegistration:
+/// SSORegistration: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SSORegistration {
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
@@ -347,13 +370,13 @@ pub struct SSORegistration {
     /// sso_attributes: An object for storing SSO attributes brought over from the identity provider.
     pub sso_attributes: std::option::Option<serde_json::Value>,
 }
-/// SearchQuery:
+/// SearchQuery: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchQuery {
     /// operator: The action to perform on the operands. The accepted value are:
-    ///
+    /// 
     ///   `AND` – all the operand values provided must match.
-    ///
+    /// 
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: SearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
@@ -376,89 +399,88 @@ pub struct CreateRequest {
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///
+    /// 
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///
+    /// 
     pub sso_jit_provisioning: std::option::Option<String>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
-    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///
-    ///
+    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`. 
+    /// 
+    /// 
     /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
-    /// authenticating via Email Magic Link or OAuth. The accepted values are:
-    ///
+    /// authenticating via Email Magic Link or OAuth. The accepted values are: 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-    ///
+    /// 
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
-    /// organization by email. The accepted values are:
-    ///
-    ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///
+    /// organization by email. The accepted values are: 
+    /// 
+    ///   `ALL_ALLOWED` – any new Member can be invited to join via email. 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable email invites.
-    ///
+    /// 
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods: An array of allowed authentication methods. This list is enforced when
-    /// `auth_methods` is set to `RESTRICTED`.
+    /// `auth_methods` is set to `RESTRICTED`. 
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///
+    /// 
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///
+    /// 
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in. However, any active Session that existed prior to this setting change will remain
-    /// valid.
-    ///
+    /// valid. 
+    /// 
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///
+    /// 
     pub mfa_policy: std::option::Option<String>,
-    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
+    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains. 
     ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
     /// granted the
     ///   associated Role, regardless of their login method. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
     ///   for more information about role assignment.
-    pub rbac_email_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
+    pub rbac_email_implicit_role_assignments: std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
     /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub mfa_methods: std::option::Option<String>,
     /// allowed_mfa_methods: An array of allowed MFA authentication methods. This list is enforced when
     /// `mfa_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sms_otp` and `totp`.
-    ///
+    /// 
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
@@ -576,153 +598,152 @@ pub struct UpdateRequest {
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.name` action on the `stytch.organization` Resource.
     pub organization_name: std::option::Option<String>,
     /// organization_slug: The unique URL slug of the Organization. The slug only accepts alphanumeric
     /// characters and the following reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters
     /// in length.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.slug` action on the `stytch.organization` Resource.
     pub organization_slug: std::option::Option<String>,
     /// organization_logo_url: The image URL of the Organization logo.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.logo-url` action on the `stytch.organization` Resource.
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     ///   If a session header is passed into the request, this field may **not** be passed into the request. You
-    /// cannot
+    /// cannot 
     ///   update trusted metadata when acting as a Member.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.default-sso-connection` action on the `stytch.organization`
     /// Resource.
     pub sso_default_connection_id: std::option::Option<String>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///
+    /// 
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
     /// Resource.
     pub sso_jit_provisioning: std::option::Option<String>,
     /// sso_jit_provisioning_allowed_connections: An array of `connection_id`s that reference
-    /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object).
+    /// [SAML Connection objects](https://stytch.com/docs/b2b/api/saml-connection-object). 
     ///   Only these connections will be allowed to JIT provision Members via SSO when `sso_jit_provisioning` is
     /// set to `RESTRICTED`.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.sso-jit-provisioning` action on the `stytch.organization`
     /// Resource.
     pub sso_jit_provisioning_allowed_connections: std::option::Option<std::vec::Vec<String>>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
-    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///
-    ///
+    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`. 
+    /// 
+    /// 
     /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-domains` action on the `stytch.organization` Resource.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
-    /// authenticating via Email Magic Link or OAuth. The accepted values are:
-    ///
+    /// authenticating via Email Magic Link or OAuth. The accepted values are: 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.email-jit-provisioning` action on the `stytch.organization`
     /// Resource.
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
-    /// organization by email. The accepted values are:
-    ///
-    ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///
+    /// organization by email. The accepted values are: 
+    /// 
+    ///   `ALL_ALLOWED` – any new Member can be invited to join via email. 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable email invites.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.email-invites` action on the `stytch.organization` Resource.
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
     /// Resource.
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods: An array of allowed authentication methods. This list is enforced when
-    /// `auth_methods` is set to `RESTRICTED`.
+    /// `auth_methods` is set to `RESTRICTED`. 
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-auth-methods` action on the `stytch.organization`
     /// Resource.
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///
+    /// 
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in. However, any active Session that existed prior to this setting change will remain
-    /// valid.
-    ///
+    /// valid. 
+    /// 
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.mfa-policy` action on the `stytch.organization` Resource.
     pub mfa_policy: std::option::Option<String>,
-    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
+    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains. 
     ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
     /// granted the
     ///   associated Role, regardless of their login method. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
     ///   for more information about role assignment.
-    ///
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.implicit-roles` action on the `stytch.organization` Resource.
-    pub rbac_email_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
+    pub rbac_email_implicit_role_assignments: std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
     /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
     /// Resource.
@@ -730,12 +751,14 @@ pub struct UpdateRequest {
     /// allowed_mfa_methods: An array of allowed MFA authentication methods. This list is enforced when
     /// `mfa_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sms_otp` and `totp`.
-    ///
-    ///
+    /// 
+    /// 
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
     /// Resource.
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
+    pub oauth_tenant_jit_provisioning: std::option::Option<String>,
+    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -756,87 +779,77 @@ pub struct UpdateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
     #[serde(rename = "or")]
-    #[default]
-    OR,
+ #[default]     OR,
     #[serde(rename = "and")]
     AND,
 }
 
+
+
 pub struct Organizations {
-    http_client: crate::client::Client,
-    pub members: Members,
+  http_client: crate::client::Client,
+  pub members: Members,
 }
 
 impl Organizations {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            members: Members::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        members: Members::new(http_client.clone()),
+      }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let path = String::from("/v1/b2b/organizations");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::DELETE,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::DELETE,
+            path,
+            body,
+        }).await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
         let path = String::from("/v1/b2b/organizations/search");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/metrics");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

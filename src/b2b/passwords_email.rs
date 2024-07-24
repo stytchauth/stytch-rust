@@ -10,12 +10,14 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
+
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// password_reset_token: The password reset token to authenticate.
     pub password_reset_token: String,
-    /// password: The password to reset.
+    /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
+    /// e.g. spaces, emojis, non-English characers, etc.
     pub password: String,
     /// session_token: Reuse an existing session instead of creating a new one. If you provide a
     /// `session_token`, Stytch will update the session.
@@ -24,16 +26,16 @@ pub struct ResetRequest {
     ///   both `session_token` and `session_jwt` are provided.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist,
+    /// new session if one doesn't already exist, 
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -58,16 +60,16 @@ pub struct ResetRequest {
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
-    ///
+    /// 
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<ResetRequestLocale>,
     /// intermediate_session_token: Adds this primary authentication factor to the intermediate session token.
     /// If the resulting set of factors satisfies the organization's primary authentication requirements and MFA
@@ -129,9 +131,9 @@ pub struct ResetStartRequest {
     /// email_address: The email address of the Member to start the email reset process for.
     pub email_address: String,
     /// reset_password_redirect_url: The URL that the Member clicks from the reset password link. This URL
-    /// should be an endpoint in the backend server that verifies the request by querying
+    /// should be an endpoint in the backend server that verifies the request by querying 
     ///   Stytch's authenticate endpoint and finishes the reset password flow. If this value is not passed, the
-    /// default `reset_password_redirect_url` that you set in your Dashboard is used.
+    /// default `reset_password_redirect_url` that you set in your Dashboard is used. 
     ///   If you have not set a default `reset_password_redirect_url`, an error is returned.
     pub reset_password_redirect_url: std::option::Option<String>,
     /// reset_password_expiration_minutes: Sets a time limit after which the email link to reset the member's
@@ -141,23 +143,23 @@ pub struct ResetStartRequest {
     /// starts and ends on the same device.
     pub code_challenge: std::option::Option<String>,
     /// login_redirect_url: The URL that the member clicks from the reset without password link. This URL should
-    /// be an endpoint in the backend server
+    /// be an endpoint in the backend server 
     ///   that verifies the request by querying Stytch's authenticate endpoint and finishes the magic link flow.
-    /// If this value is not passed, the
+    /// If this value is not passed, the 
     ///   default `login_redirect_url` that you set in your Dashboard is used. This value is only used if magic
-    /// links are enabled for the member. If
+    /// links are enabled for the member. If 
     ///   you have not set a default `login_redirect_url` and magic links are not enabled for the member, an
     /// error is returned.
     pub login_redirect_url: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<ResetStartRequestLocale>,
     /// reset_password_template_id: Use a custom template for reset password emails. By default, it will use
     /// your default email template. The template must be a template using our built-in customizations or a
@@ -187,8 +189,7 @@ pub struct ResetStartResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -197,43 +198,41 @@ pub enum ResetRequestLocale {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ResetStartRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
 }
 
+
+
 pub struct Email {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Email {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn reset_start(&self, body: ResetStartRequest) -> crate::Result<ResetStartResponse> {
         let path = String::from("/v1/b2b/passwords/email/reset/start");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
         let path = String::from("/v1/b2b/passwords/email/reset");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

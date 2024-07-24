@@ -13,6 +13,7 @@ use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateRequest: Request type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -42,16 +43,16 @@ pub struct CreateRequest {
     /// organization slug will be generated based on the email domain.
     pub organization_slug: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist,
+    /// new session if one doesn't already exist, 
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -71,89 +72,88 @@ pub struct CreateRequest {
     pub trusted_metadata: std::option::Option<serde_json::Value>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
     /// of the Organization's `sso_active_connections`.
-    ///
+    /// 
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via SSO.
-    ///
+    /// 
     pub sso_jit_provisioning: std::option::Option<String>,
     /// email_allowed_domains: An array of email domains that allow invites or JIT provisioning for new Members.
-    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`.
-    ///
-    ///
+    /// This list is enforced when either `email_invites` or `email_jit_provisioning` is set to `RESTRICTED`. 
+    /// 
+    /// 
     /// Common domains such as `gmail.com` are not allowed. See the
     /// [common email domains resource](https://stytch.com/docs/b2b/api/common-email-domains) for the full list.
     pub email_allowed_domains: std::option::Option<std::vec::Vec<String>>,
     /// email_jit_provisioning: The authentication setting that controls how a new Member can be provisioned by
-    /// authenticating via Email Magic Link or OAuth. The accepted values are:
-    ///
+    /// authenticating via Email Magic Link or OAuth. The accepted values are: 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
-    ///
+    /// 
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
-    /// organization by email. The accepted values are:
-    ///
-    ///   `ALL_ALLOWED` – any new Member can be invited to join via email.
-    ///
+    /// organization by email. The accepted values are: 
+    /// 
+    ///   `ALL_ALLOWED` – any new Member can be invited to join via email. 
+    /// 
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// invited via email.
-    ///
+    /// 
     ///   `NOT_ALLOWED` – disable email invites.
-    ///
+    /// 
     pub email_invites: std::option::Option<String>,
     /// auth_methods: The setting that controls which authentication methods can be used by Members of an
     /// Organization. The accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_auth_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub auth_methods: std::option::Option<String>,
     /// allowed_auth_methods: An array of allowed authentication methods. This list is enforced when
-    /// `auth_methods` is set to `RESTRICTED`.
+    /// `auth_methods` is set to `RESTRICTED`. 
     ///   The list's accepted values are: `sso`, `magic_link`, `password`, `google_oauth`, and `microsoft_oauth`.
-    ///
+    /// 
     pub allowed_auth_methods: std::option::Option<std::vec::Vec<String>>,
     /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
     /// values are:
-    ///
+    /// 
     ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
     /// they wish to log in. However, any active Session that existed prior to this setting change will remain
-    /// valid.
-    ///
+    /// valid. 
+    /// 
     ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
     /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
-    ///
+    /// 
     pub mfa_policy: std::option::Option<String>,
-    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
+    /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains. 
     ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
     /// granted the
     ///   associated Role, regardless of their login method. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
     ///   for more information about role assignment.
-    pub rbac_email_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
+    pub rbac_email_implicit_role_assignments: std::option::Option<std::vec::Vec<EmailImplicitRoleAssignment>>,
     /// mfa_methods: The setting that controls which MFA methods can be used by Members of an Organization. The
     /// accepted values are:
-    ///
+    /// 
     ///   `ALL_ALLOWED` – the default setting which allows all authentication methods to be used.
-    ///
+    /// 
     ///   `RESTRICTED` – only methods that comply with `allowed_mfa_methods` can be used for authentication.
     /// This setting does not apply to Members with `is_breakglass` set to `true`.
-    ///
+    /// 
     pub mfa_methods: std::option::Option<String>,
     /// allowed_mfa_methods: An array of allowed MFA authentication methods. This list is enforced when
     /// `mfa_methods` is set to `RESTRICTED`.
     ///   The list's accepted values are: `sms_otp` and `totp`.
-    ///
+    /// 
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
@@ -233,16 +233,16 @@ pub struct ListResponse {
     /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
     /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
     /// complete details.
-    ///
+    /// 
     ///   Note that Organizations will only appear here under any of the following conditions:
     ///   1. The end user is already a Member of the Organization.
-    ///   2. The end user is invited to the Organization.
-    ///   3. The end user can join the Organization because:
-    ///
+    ///   2. The end user is invited to the Organization. 
+    ///   3. The end user can join the Organization because: 
+    /// 
     ///   a) The Organization allows JIT provisioning.
-    ///
+    /// 
     ///   b) The Organizations' allowed domains list contains the Member's email domain.
-    ///
+    /// 
     ///   c) The Organization has at least one other Member with a verified email address with the same domain
     /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
@@ -258,35 +258,35 @@ pub struct ListResponse {
     pub organization_id_hint: std::option::Option<String>,
 }
 
+
+
+
 pub struct Organizations {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Organizations {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let path = String::from("/v1/b2b/discovery/organizations/create");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn list(&self, body: ListRequest) -> crate::Result<ListResponse> {
         let path = String::from("/v1/b2b/discovery/organizations");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

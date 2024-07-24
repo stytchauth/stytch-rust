@@ -14,11 +14,12 @@ use crate::b2b::sessions::MemberSession;
 use crate::consumer::passwords::Argon2Config;
 use crate::consumer::passwords::MD5Config;
 use crate::consumer::passwords::PBKDF2Config;
-use crate::consumer::passwords::SHA1Config;
 use crate::consumer::passwords::ScryptConfig;
+use crate::consumer::passwords::SHA1Config;
 use serde::{Deserialize, Serialize};
 
-/// LudsFeedback:
+
+/// LudsFeedback: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LudsFeedback {
     /// has_lower_case: For LUDS validation, whether the password contains at least one lowercase letter.
@@ -31,15 +32,15 @@ pub struct LudsFeedback {
     /// outside of a-z or A-Z may count as a valid symbol.
     pub has_symbol: bool,
     /// missing_complexity: For LUDS validation, the number of complexity requirements that are missing from the
-    /// password.
+    /// password. 
     ///   Check the complexity fields to see which requirements are missing.
     pub missing_complexity: i32,
     /// missing_characters: For LUDS validation, this is the required length of the password that you've set
-    /// minus the length of the password being checked.
+    /// minus the length of the password being checked. 
     ///   The user will need to add this many characters to the password to make it valid.
     pub missing_characters: i32,
 }
-/// ZxcvbnFeedback:
+/// ZxcvbnFeedback: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ZxcvbnFeedback {
     /// warning: For zxcvbn validation, contains an end user consumable warning if the password is valid but not
@@ -57,21 +58,22 @@ pub struct AuthenticateRequest {
     pub organization_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
-    /// password: The password to authenticate.
+    /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
+    /// e.g. spaces, emojis, non-English characers, etc.
     pub password: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
-    /// new session if one doesn't already exist,
+    /// new session if one doesn't already exist, 
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -89,16 +91,16 @@ pub struct AuthenticateRequest {
     /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
-    ///
+    /// 
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<AuthenticateRequestLocale>,
     /// intermediate_session_token: Adds this primary authentication factor to the intermediate session token.
     /// If the resulting set of factors satisfies the organization's primary authentication requirements and MFA
@@ -189,7 +191,7 @@ pub struct MigrateRequest {
     ///  Will completely replace any existing explicitly assigned roles. See the
     ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
     /// assignment.
-    ///
+    /// 
     ///    If a Role is removed from a Member, and the Member is also implicitly assigned this Role from an SSO
     /// connection
     ///    or an SSO group, we will by default revoke any existing sessions for the Member that contain any SSO
@@ -229,7 +231,8 @@ pub struct MigrateResponse {
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
-    /// password: The password to authenticate.
+    /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
+    /// e.g. spaces, emojis, non-English characers, etc.
     pub password: String,
     /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,
@@ -242,11 +245,11 @@ pub struct StrengthCheckResponse {
     /// debug an issue.
     pub request_id: String,
     /// valid_password: Returns `true` if the password passes our password validation. We offer two validation
-    /// options,
+    /// options, 
     ///   [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) is the default option which offers a
-    /// high level of sophistication.
+    /// high level of sophistication. 
     ///   We also offer [LUDS](https://stytch.com/docs/passwords#strength-requirements). If an email address is
-    /// included in the call we also
+    /// included in the call we also 
     ///   require that the password hasn't been compromised using built-in breach detection powered by
     /// [HaveIBeenPwned](https://haveibeenpwned.com/)
     pub valid_password: bool,
@@ -259,9 +262,9 @@ pub struct StrengthCheckResponse {
     /// strength_policy: The strength policy type enforced, either `zxcvbn` or `luds`.
     pub strength_policy: String,
     /// breach_detection_on_create: Will return `true` if breach detection will be evaluated. By default this
-    /// option is enabled.
+    /// option is enabled. 
     ///   This option can be disabled by contacting
-    /// [support@stytch.com](mailto:support@stytch.com?subject=Password%20strength%20configuration).
+    /// [support@stytch.com](mailto:support@stytch.com?subject=Password%20strength%20configuration). 
     ///   If this value is false then `breached_password` will always be `false` as well.
     pub breach_detection_on_create: bool,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
@@ -280,8 +283,7 @@ pub struct StrengthCheckResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -290,8 +292,7 @@ pub enum AuthenticateRequestLocale {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MigrateRequestHashType {
     #[serde(rename = "bcrypt")]
-    #[default]
-    Bcrypt,
+ #[default]     Bcrypt,
     #[serde(rename = "md_5")]
     Md5,
     #[serde(rename = "argon_2i")]
@@ -308,57 +309,48 @@ pub enum MigrateRequestHashType {
     Pbkdf2,
 }
 
+
+
 pub struct Passwords {
-    http_client: crate::client::Client,
-    pub email: Email,
-    pub sessions: Sessions,
-    pub existing_password: ExistingPassword,
+  http_client: crate::client::Client,
+  pub email: Email,
+  pub sessions: Sessions,
+  pub existing_password: ExistingPassword,
 }
 
 impl Passwords {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            email: Email::new(http_client.clone()),
-            sessions: Sessions::new(http_client.clone()),
-            existing_password: ExistingPassword::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        email: Email::new(http_client.clone()),
+        sessions: Sessions::new(http_client.clone()),
+        existing_password: ExistingPassword::new(http_client.clone()),
+      }
     }
 
-    pub async fn strength_check(
-        &self,
-        body: StrengthCheckRequest,
-    ) -> crate::Result<StrengthCheckResponse> {
+    pub async fn strength_check(&self, body: StrengthCheckRequest) -> crate::Result<StrengthCheckResponse> {
         let path = String::from("/v1/b2b/passwords/strength_check");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
         let path = String::from("/v1/b2b/passwords/migrate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/passwords/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

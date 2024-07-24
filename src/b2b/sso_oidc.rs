@@ -7,6 +7,7 @@
 use crate::b2b::sso::OIDCConnection;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateConnectionRequest: Request type for `OIDC.create_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
@@ -15,6 +16,9 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 /// CreateConnectionResponse: Response type for `OIDC.create_connection`.
@@ -65,6 +69,9 @@ pub struct UpdateConnectionRequest {
     /// jwks_url: The location of the IdP's JSON Web Key Set, used to verify credentials issued by the IdP. This
     /// will be provided by the IdP.
     pub jwks_url: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 /// UpdateConnectionResponse: Response type for `OIDC.update_connection`.
@@ -92,8 +99,7 @@ pub struct UpdateConnectionResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum CreateConnectionRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -104,8 +110,7 @@ pub enum CreateConnectionRequestIdentityProvider {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateConnectionRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -114,44 +119,37 @@ pub enum UpdateConnectionRequestIdentityProvider {
     Googleworkspace,
 }
 
+
+
 pub struct OIDC {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl OIDC {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
-    pub async fn create_connection(
-        &self,
-        body: CreateConnectionRequest,
-    ) -> crate::Result<CreateConnectionResponse> {
+    pub async fn create_connection(&self, body: CreateConnectionRequest) -> crate::Result<CreateConnectionResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/sso/oidc/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn update_connection(
-        &self,
-        body: UpdateConnectionRequest,
-    ) -> crate::Result<UpdateConnectionResponse> {
+    pub async fn update_connection(&self, body: UpdateConnectionRequest) -> crate::Result<UpdateConnectionResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/oidc/{organization_id}/connections/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
+
 }

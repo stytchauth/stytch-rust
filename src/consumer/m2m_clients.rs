@@ -11,6 +11,7 @@ use crate::consumer::m2m::ResultsMetadata;
 use crate::consumer::m2m_clients_secrets::Secrets;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateRequest: Request type for `Clients.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -163,76 +164,68 @@ pub struct UpdateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateRequestStatus {
     #[serde(rename = "active")]
-    #[default]
-    Active,
+ #[default]     Active,
     #[serde(rename = "inactive")]
     Inactive,
 }
 
+
+
 pub struct Clients {
-    http_client: crate::client::Client,
-    pub secrets: Secrets,
+  http_client: crate::client::Client,
+  pub secrets: Secrets,
 }
 
 impl Clients {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            secrets: Secrets::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        secrets: Secrets::new(http_client.clone()),
+      }
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn search(&self, body: SearchRequest) -> crate::Result<SearchResponse> {
         let path = String::from("/v1/m2m/clients/search");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
         let client_id = &body.client_id;
         let path = format!("/v1/m2m/clients/{client_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::DELETE,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::DELETE,
+            path,
+            body,
+        }).await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let path = String::from("/v1/m2m/clients");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

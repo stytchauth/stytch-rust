@@ -8,6 +8,7 @@ use crate::consumer::attribute::Attributes;
 use crate::consumer::users::Name;
 use serde::{Deserialize, Serialize};
 
+
 /// InviteRequest: Request type for `Email.invite`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct InviteRequest {
@@ -31,13 +32,13 @@ pub struct InviteRequest {
     pub invite_expiration_minutes: std::option::Option<i32>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<InviteRequestLocale>,
 }
 /// InviteResponse: Response type for `Email.invite`.
@@ -100,13 +101,13 @@ pub struct LoginOrCreateRequest {
     pub code_challenge: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<LoginOrCreateRequestLocale>,
 }
 /// LoginOrCreateResponse: Response type for `Email.login_or_create`.
@@ -186,13 +187,13 @@ pub struct SendRequest {
     pub session_jwt: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<SendRequestLocale>,
     /// signup_template_id: Use a custom template for sign-up emails. By default, it will use your default email
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
@@ -220,8 +221,7 @@ pub struct SendResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum InviteRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -230,8 +230,7 @@ pub enum InviteRequestLocale {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum LoginOrCreateRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -240,69 +239,57 @@ pub enum LoginOrCreateRequestLocale {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
 }
 
+
+
 pub struct Email {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Email {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
         let path = String::from("/v1/magic_links/email/send");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn login_or_create(
-        &self,
-        body: LoginOrCreateRequest,
-    ) -> crate::Result<LoginOrCreateResponse> {
+    pub async fn login_or_create(&self, body: LoginOrCreateRequest) -> crate::Result<LoginOrCreateResponse> {
         let path = String::from("/v1/magic_links/email/login_or_create");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn invite(&self, body: InviteRequest) -> crate::Result<InviteResponse> {
         let path = String::from("/v1/magic_links/email/invite");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn revoke_invite(
-        &self,
-        body: RevokeInviteRequest,
-    ) -> crate::Result<RevokeInviteResponse> {
+    pub async fn revoke_invite(&self, body: RevokeInviteRequest) -> crate::Result<RevokeInviteResponse> {
         let path = String::from("/v1/magic_links/email/revoke_invite");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

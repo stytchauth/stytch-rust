@@ -6,13 +6,15 @@
 
 use serde::{Deserialize, Serialize};
 
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProjectMetric {
     pub count: u32,
     pub metric_type: std::option::Option<ProjectMetricMetricType>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct MetricsRequest {}
+pub struct MetricsRequest {
+}
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MetricsResponse {
     pub request_id: String,
@@ -25,8 +27,7 @@ pub struct MetricsResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ProjectMetricMetricType {
     #[serde(rename = "unknown")]
-    #[default]
-    UNKNOWN,
+ #[default]     UNKNOWN,
     #[serde(rename = "user_count")]
     USERCOUNT,
     #[serde(rename = "organization_count")]
@@ -37,25 +38,26 @@ pub enum ProjectMetricMetricType {
     M2MCLIENTCOUNT,
 }
 
+
+
 pub struct Project {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Project {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
         let path = String::from("/v1/projects/metrics");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }
