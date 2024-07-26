@@ -293,39 +293,20 @@ pub struct SearchResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-/// UnlinkRetiredEmailRequest: Request type for `Members.unlink_retired_email`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UnlinkRetiredEmailRequest {
-    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
-    /// email_id: The globally unique UUID of a Member's email.
     pub email_id: std::option::Option<String>,
-    /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,
 }
-/// UnlinkRetiredEmailResponse: Response type for `Members.unlink_retired_email`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UnlinkRetiredEmailResponse {
-    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
-    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
-    /// debug an issue.
     pub request_id: String,
-    /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
-    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
-    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
-    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
-    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
