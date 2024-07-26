@@ -11,7 +11,8 @@ use serde::{Deserialize, Serialize};
 /// ResetRequest: Request type for `Sessions.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
-    /// password: The password of the user
+    /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
+    /// characers, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,

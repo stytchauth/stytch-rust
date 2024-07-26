@@ -16,7 +16,8 @@ pub struct ResetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: String,
-    /// password: The password to authenticate.
+    /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
+    /// e.g. spaces, emojis, non-English characers, etc.
     pub password: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,

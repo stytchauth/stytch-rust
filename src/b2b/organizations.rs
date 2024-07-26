@@ -5,11 +5,15 @@
 // !!!
 
 use crate::b2b::organizations_members::Members;
+use crate::b2b::scim::SCIMAttributes;
 use serde::{Deserialize, Serialize};
 
+/// ActiveSCIMConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ActiveSCIMConnection {
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
     pub bearer_token_last_four: String,
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
@@ -80,6 +84,7 @@ pub struct Member {
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
+    pub retired_email_addresses: std::vec::Vec<RetiredEmail>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -101,8 +106,14 @@ pub struct Member {
     /// [Metadata resource](https://stytch.com/docs/b2b/api/metadata)
     ///   for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Member's creation. Values conform to the RFC 3339 standard and are
+    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard
+    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// scim_registration: A scim member registration, referencing a [SCIM Connection](scim-connection-object)
+    /// object in use for the Member creation.
     pub scim_registration: std::option::Option<SCIMRegistration>,
 }
 /// MemberRole:
@@ -312,11 +323,17 @@ pub struct Organization {
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// created_at: The timestamp of the Organization's creation. Values conform to the RFC 3339 standard and
+    /// are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: The timestamp of when the Organization was last updated. Values conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
+    /// scim_active_connection: An active
+    /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub scim_active_connection: std::option::Option<ActiveSCIMConnection>,
 }
 /// ResultsMetadata:
@@ -329,11 +346,21 @@ pub struct ResultsMetadata {
     pub next_cursor: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct RetiredEmail {
+    pub email_id: String,
+    pub email_address: String,
+}
+/// SCIMRegistration:
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMRegistration {
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// registration_id: The unique ID of a SCIM Registration.
     pub registration_id: String,
+    /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
-    pub scim_attributes: std::option::Option<serde_json::Value>,
+    /// scim_attributes: An object for storing SCIM attributes brought over from the identity provider.
+    pub scim_attributes: std::option::Option<SCIMAttributes>,
 }
 /// SSORegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]

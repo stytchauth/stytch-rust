@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct ResetRequest {
     /// email_address: The email address of the Member.
     pub email_address: String,
-    /// existing_password: The member's current password that they supplied.
+    /// existing_password: The Member's current password that they supplied.
     pub existing_password: String,
-    /// new_password: The member's elected new password.
+    /// new_password: The Member's elected new password.
     pub new_password: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.

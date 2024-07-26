@@ -93,7 +93,7 @@ pub struct ScryptConfig {
     pub salt: String,
     /// n_parameter: The N value, also known as the iterations count. It must be a power of two greater than 1
     /// and less than 262,145.
-    ///   If your applicaiton's N parameter is larger than 262,144, please reach out to
+    ///   If your application's N parameter is larger than 262,144, please reach out to
     /// [support@stytch.com](mailto:support@stytch.com)
     pub n_parameter: i32,
     /// r_parameter: The r parameter, also known as the block size.
@@ -108,7 +108,8 @@ pub struct ScryptConfig {
 pub struct AuthenticateRequest {
     /// email: The email address of the end user.
     pub email: String,
-    /// password: The password of the user
+    /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
+    /// characers, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
@@ -169,7 +170,8 @@ pub struct AuthenticateResponse {
 pub struct CreateRequest {
     /// email: The email address of the end user.
     pub email: String,
-    /// password: The password of the user
+    /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
+    /// characers, etc.
     pub password: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
@@ -299,7 +301,8 @@ pub struct MigrateResponse {
 /// StrengthCheckRequest: Request type for `Passwords.strength_check`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
-    /// password: The password of the user
+    /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
+    /// characers, etc.
     pub password: String,
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,

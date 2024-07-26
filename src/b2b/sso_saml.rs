@@ -17,6 +17,9 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 /// CreateConnectionResponse: Response type for `SAML.create_connection`.
@@ -131,6 +134,9 @@ pub struct UpdateConnectionRequest {
     /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
     /// when you wish to migrate an existing SAML integration to Stytch with zero downtime.
     pub alternative_audience_uri: std::option::Option<String>,
+    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
+    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
+    /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
