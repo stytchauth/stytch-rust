@@ -84,6 +84,7 @@ pub struct Member {
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
+    pub retired_email_addresses: std::vec::Vec<RetiredEmail>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -343,6 +344,11 @@ pub struct ResultsMetadata {
     /// next_cursor: The `next_cursor` string is returned when your search result contains more than one page of
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct RetiredEmail {
+    pub email_id: String,
+    pub email_address: String,
 }
 /// SCIMRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
