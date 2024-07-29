@@ -435,6 +435,23 @@ pub struct GetResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct MigrateRequest {
+    pub session_token: String,
+    pub session_duration_minutes: std::option::Option<i32>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MigrateResponse {
+    pub request_id: String,
+    pub user_id: String,
+    pub session_token: String,
+    pub session_jwt: String,
+    pub user: User,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    pub session: std::option::Option<Session>,
+}
 /// RevokeRequest: Request type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
@@ -604,6 +621,16 @@ impl Sessions {
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
         let path = String::from("/v1/sessions/revoke");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
+        let path = String::from("/v1/sessions/migrate");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
