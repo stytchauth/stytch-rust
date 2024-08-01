@@ -84,6 +84,20 @@ pub struct Member {
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
     pub totp_registration_id: String,
+    /// retired_email_addresses:
+    ///   A list of retired email addresses for this member.
+    ///   A previously active email address can be marked as retired in one of two ways:
+    ///   - It's replaced with a new primary email address during an explicit Member update.
+    ///   - A new email address is surfaced by an OAuth, SAML or OIDC provider. In this case the new email
+    /// address becomes the
+    ///   Member's primary email address and the old primary email address is retired.
+    ///
+    ///   A retired email address cannot be used by other Members in the same Organization. However, unlinking
+    /// retired email
+    ///   addresses allows them to be subsequently re-used by other Organization Members. Retired email
+    /// addresses can be unlinked
+    ///   using the [Unlink Retired Email endpoint](https://stytch.com/docs/b2b/api/unlink-retired-member-email).
+    ///
     pub retired_email_addresses: std::vec::Vec<RetiredEmail>,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
@@ -345,9 +359,12 @@ pub struct ResultsMetadata {
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
 }
+/// RetiredEmail:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RetiredEmail {
+    /// email_id: The globally unique UUID of a Member's email.
     pub email_id: String,
+    /// email_address: The email address of the Member.
     pub email_address: String,
 }
 /// SCIMRegistration:

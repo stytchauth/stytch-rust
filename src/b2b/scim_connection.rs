@@ -203,6 +203,8 @@ pub struct UpdateRequest {
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
     pub identity_provider: std::option::Option<UpdateRequestIdentityProvider>,
+    /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
+    /// the array must contain a `group` and a `role_id`.
     pub scim_group_implicit_role_assignments:
         std::option::Option<std::vec::Vec<SCIMGroupImplicitRoleAssignments>>,
 }
