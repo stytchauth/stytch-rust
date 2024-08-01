@@ -8,6 +8,33 @@ use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
+/// SIWEParams:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SIWEParams {
+    /// domain: Only required if `siwe_params` is passed. The domain that is requesting the crypto wallet
+    /// signature. Must be an RFC 3986 authority.
+    pub domain: String,
+    /// uri: Only required if `siwe_params` is passed. An RFC 3986 URI referring to the resource that is the
+    /// subject of the signing.
+    pub uri: String,
+    /// resources:  A list of information or references to information the user wishes to have resolved as part
+    /// of authentication. Every resource must be an RFC 3986 URI.
+    pub resources: std::vec::Vec<String>,
+    /// chain_id: The EIP-155 Chain ID to which the session is bound. Defaults to 1.
+    pub chain_id: std::option::Option<i32>,
+    /// statement: A human-readable ASCII assertion that the user will sign.
+    pub statement: std::option::Option<String>,
+    /// issued_at: The time when the message was generated. Defaults to the current time. All timestamps in our
+    /// API conform to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub issued_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// not_before: The time when the signed authentication message will become valid. Defaults to the current
+    /// time. All timestamps in our API conform to the RFC 3339 standard and are expressed in UTC, e.g.
+    /// `2021-12-29T12:33:09Z`.
+    pub not_before: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// message_request_id: A system-specific identifier that may be used to uniquely refer to the sign-in
+    /// request.
+    pub message_request_id: std::option::Option<String>,
+}
 /// AuthenticateRequest: Request type for `CryptoWallets.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -72,6 +99,8 @@ pub struct AuthenticateResponse {
     ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// siwe_params: The parameters of the Sign In With Ethereum (SIWE) message that was signed.
+    pub siwe_params: std::option::Option<SIWEParamsResponse>,
 }
 /// AuthenticateStartRequest: Request type for `CryptoWallets.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -88,6 +117,9 @@ pub struct AuthenticateStartRequest {
     pub session_token: std::option::Option<String>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
+    /// siwe_params: The parameters for a Sign In With Ethereum (SIWE) message. May only be passed if the
+    /// `crypto_wallet_type` is `ethereum`.
+    pub siwe_params: std::option::Option<SIWEParams>,
 }
 /// AuthenticateStartResponse: Response type for `CryptoWallets.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -108,6 +140,27 @@ pub struct AuthenticateStartResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+}
+/// SIWEParamsResponse:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SIWEParamsResponse {
+    /// domain: The domain that requested the crypto wallet signature.
+    pub domain: String,
+    /// uri: An RFC 3986 URI referring to the resource that is the subject of the signing.
+    pub uri: String,
+    /// chain_id: The EIP-155 Chain ID to which the session is bound.
+    pub chain_id: u32,
+    /// resources:  A list of information or references to information the user wishes to have resolved as part
+    /// of authentication. Every resource must be an RFC 3986 URI.
+    pub resources: std::vec::Vec<String>,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    /// issued_at: The time when the message was generated. All timestamps in our API conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub issued_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// message_request_id: A system-specific identifier that may be used to uniquely refer to the sign-in
+    /// request.
+    pub message_request_id: std::option::Option<String>,
 }
 
 pub struct CryptoWallets {
