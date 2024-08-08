@@ -21,7 +21,7 @@ pub struct SIWEParams {
     /// of authentication. Every resource must be an RFC 3986 URI.
     pub resources: std::vec::Vec<String>,
     /// chain_id: The EIP-155 Chain ID to which the session is bound. Defaults to 1.
-    pub chain_id: std::option::Option<i32>,
+    pub chain_id: std::option::Option<u64>,
     /// statement: A human-readable ASCII assertion that the user will sign.
     pub statement: std::option::Option<String>,
     /// issued_at: The time when the message was generated. Defaults to the current time. All timestamps in our
@@ -149,7 +149,7 @@ pub struct SIWEParamsResponse {
     /// uri: An RFC 3986 URI referring to the resource that is the subject of the signing.
     pub uri: String,
     /// chain_id: The EIP-155 Chain ID to which the session is bound.
-    pub chain_id: u32,
+    pub chain_id: u64,
     /// resources:  A list of information or references to information the user wishes to have resolved as part
     /// of authentication. Every resource must be an RFC 3986 URI.
     pub resources: std::vec::Vec<String>,
