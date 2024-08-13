@@ -20,9 +20,12 @@ pub struct SIWEParams {
     /// resources:  A list of information or references to information the user wishes to have resolved as part
     /// of authentication. Every resource must be an RFC 3986 URI.
     pub resources: std::vec::Vec<String>,
-    /// chain_id: The EIP-155 Chain ID to which the session is bound. Defaults to 1.
-    pub chain_id: std::option::Option<i32>,
-    /// statement: A human-readable ASCII assertion that the user will sign.
+    /// chain_id: The EIP-155 Chain ID to which the session is bound. Defaults to 1. Must be the string
+    /// representation of an integer between 1 and 9,223,372,036,854,775,771, inclusive.
+    pub chain_id: std::option::Option<String>,
+    /// statement: A human-readable ASCII assertion that the user will sign. The statement may only include
+    /// reserved, unreserved, or space characters according to RFC 3986 definitions, and must not contain other
+    /// forms of whitespace such as newlines, tabs, and carriage returns.
     pub statement: std::option::Option<String>,
     /// issued_at: The time when the message was generated. Defaults to the current time. All timestamps in our
     /// API conform to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
@@ -32,7 +35,7 @@ pub struct SIWEParams {
     /// `2021-12-29T12:33:09Z`.
     pub not_before: std::option::Option<chrono::DateTime<chrono::Utc>>,
     /// message_request_id: A system-specific identifier that may be used to uniquely refer to the sign-in
-    /// request.
+    /// request. The `message_request_id` must be a valid pchar according to RFC 3986 definitions.
     pub message_request_id: std::option::Option<String>,
 }
 /// AuthenticateRequest: Request type for `CryptoWallets.authenticate`.
@@ -149,7 +152,7 @@ pub struct SIWEParamsResponse {
     /// uri: An RFC 3986 URI referring to the resource that is the subject of the signing.
     pub uri: String,
     /// chain_id: The EIP-155 Chain ID to which the session is bound.
-    pub chain_id: u32,
+    pub chain_id: String,
     /// resources:  A list of information or references to information the user wishes to have resolved as part
     /// of authentication. Every resource must be an RFC 3986 URI.
     pub resources: std::vec::Vec<String>,

@@ -200,6 +200,16 @@ pub struct MemberRoleSource {
     ///   argument to the [Update SAML connection](https://stytch.com/docs/b2b/api/update-saml-connection)
     /// endpoint.
     ///
+    /// `scim_connection_group` – an implicit Role granted by the Member's SCIM connection and group. If the
+    /// Member has
+    ///   a SCIM Member registration with the given connection, and belongs to a specific group within the IdP,
+    /// this role assignment will appear in the list.
+    ///
+    ///   SCIM group implicit role assignments can be updated by passing in the
+    /// `scim_group_implicit_role_assignments`
+    ///   argument to the [Update SCIM connection](https://stytch.com/docs/b2b/api/update-scim-connection)
+    /// endpoint.
+    ///
     #[serde(rename = "type")]
     pub type_: String,
     /// details: An object containing additional metadata about the source assignment. The fields will vary
@@ -214,6 +224,9 @@ pub struct MemberRoleSource {
     ///
     ///   `sso_connection_group` – will contain the `connection_id` of the SAML connection and the name of the
     /// `group`
+    ///   that granted the assignment.
+    ///
+    ///   `scim_connection_group` – will contain the `connection_id` of the SAML connection and the `group_id`
     ///   that granted the assignment.
     ///
     pub details: std::option::Option<serde_json::Value>,
@@ -589,7 +602,7 @@ pub struct SearchRequest {
     /// limit: The number of search results to return per page. The default limit is 100. A maximum of 1000
     /// results can be returned by a single search request. If the total size of your result set is greater than
     /// one page size, you must paginate the response. See the `cursor` field.
-    pub limit: std::option::Option<i32>,
+    pub limit: std::option::Option<u32>,
     /// query: The optional query object contains the operator, i.e. `AND` or `OR`, and the operands that will
     /// filter your results. Only an operator is required. If you include no operands, no filtering will be
     /// applied. If you include no query object, it will return all Organizations with no filtering applied.

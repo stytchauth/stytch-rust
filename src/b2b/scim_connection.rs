@@ -80,7 +80,7 @@ pub struct GetGroupsRequest {
     /// limit: The number of search results to return per page. The default limit is 100. A maximum of 1000
     /// results can be returned by a single search request. If the total size of your result set is greater than
     /// one page size, you must paginate the response. See the `cursor` field.
-    pub limit: std::option::Option<i32>,
+    pub limit: std::option::Option<u32>,
 }
 /// GetGroupsResponse: Response type for `Connection.get_groups`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -204,7 +204,7 @@ pub struct UpdateRequest {
     pub display_name: std::option::Option<String>,
     pub identity_provider: std::option::Option<UpdateRequestIdentityProvider>,
     /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
-    /// the array must contain a `group` and a `role_id`.
+    /// the array must contain a `group_id` and a `role_id`.
     pub scim_group_implicit_role_assignments:
         std::option::Option<std::vec::Vec<SCIMGroupImplicitRoleAssignments>>,
 }

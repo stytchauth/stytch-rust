@@ -41,6 +41,12 @@ pub struct Group {
     pub display: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct IMs {
+    pub value: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Manager {
     pub value: String,
     #[serde(rename = "ref")]
@@ -81,6 +87,7 @@ pub struct SCIMAttributes {
     pub emails: std::vec::Vec<Email>,
     pub phone_numbers: std::vec::Vec<PhoneNumber>,
     pub addresses: std::vec::Vec<Address>,
+    pub ims: std::vec::Vec<IMs>,
     pub name: std::option::Option<Name>,
     pub enterprise_extension: std::option::Option<EnterpriseExtension>,
 }
@@ -142,6 +149,7 @@ pub struct SCIMGroup {
 pub struct SCIMGroupImplicitRoleAssignments {
     /// role_id: The ID of the role.
     pub role_id: String,
+    /// group_id: The ID of the group.
     pub group_id: String,
     pub group_name: String,
 }
