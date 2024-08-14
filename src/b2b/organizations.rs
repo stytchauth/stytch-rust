@@ -347,6 +347,14 @@ pub struct Organization {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::vec::Vec<String>,
+    /// oauth_tenant_jit_provisioning: The authentication setting that controls how a new Member can JIT
+    /// provision into an organization by tenant. The accepted values are:
+    ///
+    ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+    ///
+    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///
+    pub oauth_tenant_jit_provisioning: String,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -362,6 +370,9 @@ pub struct Organization {
     /// scim_active_connection: An active
     /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub scim_active_connection: std::option::Option<ActiveSCIMConnection>,
+    /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -517,6 +528,17 @@ pub struct CreateRequest {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
+    /// oauth_tenant_jit_provisioning: The authentication setting that controls how a new Member can JIT
+    /// provision into an organization by tenant. The accepted values are:
+    ///
+    ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+    ///
+    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///
+    pub oauth_tenant_jit_provisioning: std::option::Option<String>,
+    /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -793,6 +815,25 @@ pub struct UpdateRequest {
     /// permission to perform the `update.settings.allowed-mfa-methods` action on the `stytch.organization`
     /// Resource.
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
+    /// oauth_tenant_jit_provisioning: The authentication setting that controls how a new Member can JIT
+    /// provision into an organization by tenant. The accepted values are:
+    ///
+    ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+    ///
+    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.settings.oauth-tenant-jit-provisioning` action on the
+    /// `stytch.organization` Resource.
+    pub oauth_tenant_jit_provisioning: std::option::Option<String>,
+    /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    ///
+    /// If this field is provided and a session header is passed into the request, the Member Session must have
+    /// permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
+    /// Resource.
+    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

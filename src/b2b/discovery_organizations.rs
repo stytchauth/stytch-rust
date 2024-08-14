@@ -155,6 +155,17 @@ pub struct CreateRequest {
     ///   The list's accepted values are: `sms_otp` and `totp`.
     ///
     pub allowed_mfa_methods: std::option::Option<std::vec::Vec<String>>,
+    /// oauth_tenant_jit_provisioning: The authentication setting that controls how a new Member can JIT
+    /// provision into an organization by tenant. The accepted values are:
+    ///
+    ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
+    ///
+    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///
+    pub oauth_tenant_jit_provisioning: std::option::Option<String>,
+    /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
