@@ -80,7 +80,7 @@ pub struct GetGroupsRequest {
     /// limit: The number of search results to return per page. The default limit is 100. A maximum of 1000
     /// results can be returned by a single search request. If the total size of your result set is greater than
     /// one page size, you must paginate the response. See the `cursor` field.
-    pub limit: std::option::Option<u32>,
+    pub limit: std::option::Option<i32>,
 }
 /// GetGroupsResponse: Response type for `Connection.get_groups`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
