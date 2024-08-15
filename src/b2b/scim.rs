@@ -36,6 +36,13 @@ pub struct EnterpriseExtension {
     pub manager: std::option::Option<Manager>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Entitlement {
+    pub value: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub primary: bool,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Group {
     pub value: String,
     pub display: String,
@@ -45,6 +52,7 @@ pub struct IMs {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
+    pub primary: bool,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Manager {
@@ -70,6 +78,20 @@ pub struct PhoneNumber {
     pub primary: bool,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Photo {
+    pub value: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub primary: bool,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Role {
+    pub value: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub primary: bool,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMAttributes {
     pub user_name: String,
     pub id: String,
@@ -88,6 +110,10 @@ pub struct SCIMAttributes {
     pub phone_numbers: std::vec::Vec<PhoneNumber>,
     pub addresses: std::vec::Vec<Address>,
     pub ims: std::vec::Vec<IMs>,
+    pub photos: std::vec::Vec<Photo>,
+    pub entitlements: std::vec::Vec<Entitlement>,
+    pub roles: std::vec::Vec<Role>,
+    pub x509certificates: std::vec::Vec<X509Certificate>,
     pub name: std::option::Option<Name>,
     pub enterprise_extension: std::option::Option<EnterpriseExtension>,
 }
@@ -152,6 +178,13 @@ pub struct SCIMGroupImplicitRoleAssignments {
     /// group_id: The ID of the group.
     pub group_id: String,
     pub group_name: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct X509Certificate {
+    pub value: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub primary: bool,
 }
 
 pub struct SCIM {
