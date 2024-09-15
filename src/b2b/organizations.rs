@@ -32,7 +32,7 @@ pub struct EmailImplicitRoleAssignment {
     /// domain: Email domain that grants the specified Role.
     pub domain: String,
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -134,7 +134,7 @@ pub struct Member {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -853,10 +853,8 @@ pub struct UpdateResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
-    #[serde(rename = "or")]
     #[default]
     OR,
-    #[serde(rename = "and")]
     AND,
 }
 
