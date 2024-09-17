@@ -853,10 +853,10 @@ pub struct UpdateResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
-    #[serde(rename = "or")]
+    #[serde(rename = "OR")]
     #[default]
     OR,
-    #[serde(rename = "and")]
+    #[serde(rename = "AND")]
     AND,
 }
 
