@@ -624,7 +624,7 @@ pub struct SearchRequest {
     /// limit: The number of search results to return per page. The default limit is 100. A maximum of 1000
     /// results can be returned by a single search request. If the total size of your result set is greater than
     /// one page size, you must paginate the response. See the `cursor` field.
-    pub limit: std::option::Option<u32>,
+    pub limit: std::option::Option<i32>,
     /// query: The optional query object contains the operator, i.e. `AND` or `OR`, and the operands that will
     /// filter your results. Only an operator is required. If you include no operands, no filtering will be
     /// applied. If you include no query object, it will return all Organizations with no filtering applied.
@@ -853,10 +853,10 @@ pub struct UpdateResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
-    #[serde(rename = "OR")]
+    #[serde(rename = "or")]
     #[default]
     OR,
-    #[serde(rename = "AND")]
+    #[serde(rename = "and")]
     AND,
 }
 

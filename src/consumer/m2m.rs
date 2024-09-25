@@ -106,10 +106,10 @@ pub struct ResultsMetadata {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum M2MSearchQueryOperator {
-    #[serde(rename = "OR")]
+    #[serde(rename = "or")]
     #[default]
     OR,
-    #[serde(rename = "AND")]
+    #[serde(rename = "and")]
     AND,
 }
 
