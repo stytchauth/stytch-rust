@@ -55,9 +55,9 @@ pub struct AuthenticateRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
-    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
-    /// used to determine which language to use when sending the passcode.
+    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
+    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
+    /// be used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
@@ -100,6 +100,8 @@ pub struct AuthenticateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
+    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
+    pub member_session: MemberSession,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
     /// intermediate_session_token: The returned Intermediate Session Token contains an Email Magic Link factor
@@ -122,8 +124,6 @@ pub struct AuthenticateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
-    pub member_session: std::option::Option<MemberSession>,
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,

@@ -24,16 +24,16 @@ pub struct MetricsResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum ProjectMetricMetricType {
-    #[serde(rename = "unknown")]
+    #[serde(rename = "UNKNOWN")]
     #[default]
     UNKNOWN,
-    #[serde(rename = "user_count")]
+    #[serde(rename = "USER_COUNT")]
     USERCOUNT,
-    #[serde(rename = "organization_count")]
+    #[serde(rename = "ORGANIZATION_COUNT")]
     ORGANIZATIONCOUNT,
-    #[serde(rename = "member_count")]
+    #[serde(rename = "MEMBER_COUNT")]
     MEMBERCOUNT,
-    #[serde(rename = "m2m_client_count")]
+    #[serde(rename = "M2M_CLIENT_COUNT")]
     M2MCLIENTCOUNT,
 }
 

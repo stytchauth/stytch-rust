@@ -10,20 +10,6 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct DeleteRequest {
-    pub email_address: String,
-    pub organization_id: std::option::Option<String>,
-    pub member_id: std::option::Option<String>,
-}
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct DeleteResponse {
-    pub member: Member,
-    pub organization: Organization,
-    #[serde(with = "http_serde::status_code")]
-    pub status_code: http::StatusCode,
-    pub member_id: std::option::Option<String>,
-}
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
@@ -70,9 +56,9 @@ pub struct ResetRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
-    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
-    /// used to determine which language to use when sending the passcode.
+    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
+    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
+    /// be used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
@@ -243,16 +229,6 @@ impl Email {
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
         let path = String::from("/v1/b2b/passwords/email/reset");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
-    }
-    pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let path = String::from("/v1/b2b/passwords/email/delete");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

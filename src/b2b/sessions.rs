@@ -71,10 +71,11 @@ pub struct MemberSession {
 /// PrimaryRequired:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PrimaryRequired {
-    /// allowed_auth_methods: Details the auth method that the member must also complete to fulfill the primary
-    /// authentication requirements of the Organization. For example, a value of `[magic_link]` indicates that
-    /// the Member must also complete a magic link authentication step. If you have an intermediate session
-    /// token, you must pass it into that primary authentication step.
+    /// allowed_auth_methods: If non-empty, indicates that the Organization restricts the authentication methods
+    /// it allows for login (such as `sso` or `password`), and the end user must complete one of those
+    /// authentication methods to log in. If empty, indicates that the Organization does not restrict the
+    /// authentication method it allows for login, but the end user does not have any transferrable primary
+    /// factors. Only email magic link and OAuth factors can be transferred between Organizations.
     pub allowed_auth_methods: std::vec::Vec<String>,
 }
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
@@ -189,9 +190,9 @@ pub struct ExchangeRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
-    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
-    /// used to determine which language to use when sending the passcode.
+    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
+    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
+    /// be used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
