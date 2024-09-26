@@ -52,9 +52,9 @@ pub struct ExchangeRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
-    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
-    /// be used to determine which language to use when sending the passcode.
+    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+    /// used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
@@ -109,6 +109,7 @@ pub struct ExchangeResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
 }
 

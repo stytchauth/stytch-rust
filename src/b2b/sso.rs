@@ -20,6 +20,18 @@ pub struct Connection {
     pub external_connection_id: String,
     pub display_name: String,
     pub status: String,
+    pub external_connection_implicit_role_assignments:
+        std::vec::Vec<ConnectionImplicitRoleAssignment>,
+    pub external_group_implicit_role_assignments: std::vec::Vec<GroupImplicitRoleAssignment>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ConnectionImplicitRoleAssignment {
+    pub role_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GroupImplicitRoleAssignment {
+    pub role_id: String,
+    pub group: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCConnection {
@@ -135,9 +147,9 @@ pub struct AuthenticateRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
-    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
-    /// be used to determine which language to use when sending the passcode.
+    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+    /// used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
