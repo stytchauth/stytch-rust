@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sso_external::External;
 use crate::b2b::sso_oidc::OIDC;
 use crate::b2b::sso_saml::SAML;
 use serde::{Deserialize, Serialize};
@@ -48,6 +49,8 @@ pub struct OIDCConnection {
     pub userinfo_url: String,
     pub jwks_url: String,
     pub identity_provider: String,
+    pub custom_scopes: String,
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnection {
@@ -281,6 +284,7 @@ pub struct SSO {
     http_client: crate::client::Client,
     pub oidc: OIDC,
     pub saml: SAML,
+    pub external: External,
 }
 
 impl SSO {
@@ -289,6 +293,7 @@ impl SSO {
             http_client: http_client.clone(),
             oidc: OIDC::new(http_client.clone()),
             saml: SAML::new(http_client.clone()),
+            external: External::new(http_client.clone()),
         }
     }
 

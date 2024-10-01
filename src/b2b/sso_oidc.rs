@@ -72,6 +72,8 @@ pub struct UpdateConnectionRequest {
     /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
     /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
+    pub custom_scopes: std::option::Option<String>,
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 /// UpdateConnectionResponse: Response type for `OIDC.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
