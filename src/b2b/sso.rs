@@ -48,6 +48,8 @@ pub struct OIDCConnection {
     pub userinfo_url: String,
     pub jwks_url: String,
     pub identity_provider: String,
+    pub custom_scopes: String,
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnection {

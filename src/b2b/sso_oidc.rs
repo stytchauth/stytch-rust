@@ -72,6 +72,13 @@ pub struct UpdateConnectionRequest {
     /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
     /// `microsoft-entra`, and `google-workspace`.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
+    /// custom_scopes: Include a space-separated list of custom scopes that you'd like to include. Note that
+    /// this list must be URL encoded, e.g. the spaces must be expressed as %20.
+    pub custom_scopes: std::option::Option<String>,
+    /// attribute_mapping: An object that represents the attributes used to identify a Member. This object will
+    /// map the IdP-defined User attributes to Stytch-specific values, which will appear on the member's Trusted
+    /// Metadata.
+    pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 /// UpdateConnectionResponse: Response type for `OIDC.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

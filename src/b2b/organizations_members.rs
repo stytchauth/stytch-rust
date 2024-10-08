@@ -5,6 +5,7 @@
 // !!!
 
 use crate::b2b::organizations::Member;
+use crate::b2b::organizations::OIDCProviderInfo;
 use crate::b2b::organizations::Organization;
 use crate::b2b::organizations::ResultsMetadata;
 use crate::b2b::organizations::SearchQuery;
@@ -218,6 +219,19 @@ pub struct GetResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct OIDCProviderInformationRequest {
+    pub organization_id: String,
+    pub member_id: String,
+    pub include_refresh_token: std::option::Option<bool>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OIDCProvidersResponse {
+    pub request_id: String,
+    pub registrations: std::vec::Vec<OIDCProviderInfo>,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -564,6 +578,22 @@ impl Members {
     pub async fn dangerously_get(&self, body: DangerouslyGetRequest) -> crate::Result<GetResponse> {
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/members/dangerously_get/{member_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn oidc_providers(
+        &self,
+        body: OIDCProviderInformationRequest,
+    ) -> crate::Result<OIDCProvidersResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oidc_providers");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
