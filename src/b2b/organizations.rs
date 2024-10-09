@@ -249,6 +249,16 @@ pub struct OAuthRegistration {
     /// user has authenticated with.
     pub locale: std::option::Option<String>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OIDCProviderInfo {
+    pub provider_subject: String,
+    pub id_token: String,
+    pub access_token: String,
+    pub access_token_expires_in: i32,
+    pub scopes: std::vec::Vec<String>,
+    pub connection_id: String,
+    pub refresh_token: std::option::Option<String>,
+}
 /// Organization:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Organization {

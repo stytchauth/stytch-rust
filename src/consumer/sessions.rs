@@ -90,6 +90,7 @@ pub struct AuthenticationFactor {
     pub hubspot_oauth_factor: std::option::Option<HubspotOAuthFactor>,
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
+    pub github_oauth_exchange_factor: std::option::Option<GithubOAuthExchangeFactor>,
 }
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -154,6 +155,10 @@ pub struct GitLabOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GithubOAuthExchangeFactor {
+    pub email_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubOAuthFactor {
@@ -592,6 +597,8 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthExchangeSlack,
     #[serde(rename = "oauth_exchange_hubspot")]
     OAuthExchangeHubspot,
+    #[serde(rename = "oauth_exchange_github")]
+    OAuthExchangeGithub,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
