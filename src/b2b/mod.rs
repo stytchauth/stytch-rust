@@ -25,6 +25,7 @@ pub mod scim;
 pub mod scim_connection;
 pub mod sessions;
 pub mod sso;
+pub mod sso_external;
 pub mod sso_oidc;
 pub mod sso_saml;
 pub mod totps;

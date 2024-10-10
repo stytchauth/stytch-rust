@@ -443,7 +443,7 @@ pub struct GetResponse {
 /// MigrateRequest: Request type for `Sessions.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
-    /// session_token: The `session_token` associated with a User's existing Session.
+    /// session_token: The authorization token Stytch will pass in to the external userinfo endpoint.
     pub session_token: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,

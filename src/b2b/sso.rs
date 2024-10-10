@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sso_external::External;
 use crate::b2b::sso_oidc::OIDC;
 use crate::b2b::sso_saml::SAML;
 use serde::{Deserialize, Serialize};
@@ -24,13 +25,40 @@ pub struct Connection {
         std::vec::Vec<ConnectionImplicitRoleAssignment>,
     pub external_group_implicit_role_assignments: std::vec::Vec<GroupImplicitRoleAssignment>,
 }
+/// ConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectionImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.  
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
 }
+/// GroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.  
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
+    /// group: The name of the group that grants the specified role assignment.
     pub group: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -103,7 +131,7 @@ pub struct SAMLGroupImplicitRoleAssignment {
     ///
     ///
     pub role_id: String,
-    /// group: The name of the SAML group that grants the specified role assignment.
+    /// group: The name of the group that grants the specified role assignment.
     pub group: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -222,7 +250,7 @@ pub struct AuthenticateResponse {
 pub struct DeleteConnectionRequest {
     /// organization_id: The organization ID that the SSO connection belongs to.
     pub organization_id: String,
-    /// connection_id: The ID of the SSO connection. Both SAML and OIDC connection IDs can be provided.
+    /// connection_id: The ID of the SSO connection. SAML, OIDC, and External connection IDs can be provided.
     pub connection_id: String,
 }
 /// DeleteConnectionResponse: Response type for `SSO.delete_connection`.
@@ -260,6 +288,9 @@ pub struct GetConnectionsResponse {
     /// oidc_connections: The list of [OIDC Connections](https://stytch.com/docs/b2b/api/oidc-connection-object)
     /// owned by this organization.
     pub oidc_connections: std::vec::Vec<OIDCConnection>,
+    /// external_connections: The list of
+    /// [External Connections](https://stytch.com/docs/b2b/api/external-connection-object) owned by this
+    /// organization.
     pub external_connections: std::vec::Vec<Connection>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
@@ -283,6 +314,7 @@ pub struct SSO {
     http_client: crate::client::Client,
     pub oidc: OIDC,
     pub saml: SAML,
+    pub external: External,
 }
 
 impl SSO {
@@ -291,6 +323,7 @@ impl SSO {
             http_client: http_client.clone(),
             oidc: OIDC::new(http_client.clone()),
             saml: SAML::new(http_client.clone()),
+            external: External::new(http_client.clone()),
         }
     }
 
