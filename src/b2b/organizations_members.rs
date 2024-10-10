@@ -79,6 +79,8 @@ pub struct DangerouslyGetRequest {
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
+    /// include_deleted: Whether to include deleted Members in the response. Defaults to false.
+    pub include_deleted: std::option::Option<bool>,
 }
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
