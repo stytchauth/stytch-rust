@@ -249,6 +249,30 @@ pub struct OAuthRegistration {
     /// user has authenticated with.
     pub locale: std::option::Option<String>,
 }
+/// OIDCProviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OIDCProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// id_token: The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured
+    /// information about a user. The exact content of each ID Token varies from provider to provider. ID Tokens
+    /// are returned from OAuth providers that conform to the [OpenID Connect](https://openid.net/foundation/)
+    /// specification, which is based on OAuth.
+    pub id_token: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// access_token_expires_in: The number of seconds until the access token expires.
+    pub access_token_expires_in: i32,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+    /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+    pub connection_id: String,
+    /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
+    /// the provider's API.
+    pub refresh_token: std::option::Option<String>,
+}
 /// Organization:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Organization {
@@ -853,10 +877,10 @@ pub struct UpdateResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
-    #[serde(rename = "or")]
+    #[serde(rename = "OR")]
     #[default]
     OR,
-    #[serde(rename = "and")]
+    #[serde(rename = "AND")]
     AND,
 }
 

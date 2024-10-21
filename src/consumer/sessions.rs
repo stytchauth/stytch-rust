@@ -90,6 +90,7 @@ pub struct AuthenticationFactor {
     pub hubspot_oauth_factor: std::option::Option<HubspotOAuthFactor>,
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
+    pub github_oauth_exchange_factor: std::option::Option<GithubOAuthExchangeFactor>,
 }
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -154,6 +155,10 @@ pub struct GitLabOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GithubOAuthExchangeFactor {
+    pub email_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubOAuthFactor {
@@ -438,7 +443,7 @@ pub struct GetResponse {
 /// MigrateRequest: Request type for `Sessions.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MigrateRequest {
-    /// session_token: The `session_token` associated with a User's existing Session.
+    /// session_token: The authorization token Stytch will pass in to the external userinfo endpoint.
     pub session_token: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
@@ -592,6 +597,8 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthExchangeSlack,
     #[serde(rename = "oauth_exchange_hubspot")]
     OAuthExchangeHubspot,
+    #[serde(rename = "oauth_exchange_github")]
+    OAuthExchangeGithub,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {

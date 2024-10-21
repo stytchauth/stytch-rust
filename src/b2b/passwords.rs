@@ -7,6 +7,7 @@
 use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
+use crate::b2b::passwords_discovery::Discovery;
 use crate::b2b::passwords_email::Email;
 use crate::b2b::passwords_existing_password::ExistingPassword;
 use crate::b2b::passwords_session::Sessions;
@@ -87,9 +88,9 @@ pub struct AuthenticateRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// locale: If the Member needs to complete an MFA step, and the Member has a phone number, this endpoint
-    /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
-    /// be used to determine which language to use when sending the passcode.
+    /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
+    /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
+    /// used to determine which language to use when sending the passcode.
     ///
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
@@ -157,8 +158,8 @@ pub struct MigrateRequest {
     pub email_address: String,
     /// hash: The password hash. For a Scrypt or PBKDF2 hash, the hash needs to be a base64 encoded string.
     pub hash: String,
-    /// hash_type: The password hash used. Currently `bcrypt`, `scrypt`, `argon2i`, `argon2id`, `md_5`, `sha_1`,
-    /// and `pbkdf_2` are supported.
+    /// hash_type: The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon2_id`, `md_5`,
+    /// `sha_1`, and `pbkdf_2` are supported.
     pub hash_type: MigrateRequestHashType,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
@@ -315,6 +316,7 @@ pub struct Passwords {
     pub email: Email,
     pub sessions: Sessions,
     pub existing_password: ExistingPassword,
+    pub discovery: Discovery,
 }
 
 impl Passwords {
@@ -324,6 +326,7 @@ impl Passwords {
             email: Email::new(http_client.clone()),
             sessions: Sessions::new(http_client.clone()),
             existing_password: ExistingPassword::new(http_client.clone()),
+            discovery: Discovery::new(http_client.clone()),
         }
     }
 

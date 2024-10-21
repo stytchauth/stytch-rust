@@ -5,6 +5,7 @@
 // !!!
 
 use crate::b2b::organizations::Member;
+use crate::b2b::organizations::OIDCProviderInfo;
 use crate::b2b::organizations::Organization;
 use crate::b2b::organizations::ResultsMetadata;
 use crate::b2b::organizations::SearchQuery;
@@ -78,6 +79,8 @@ pub struct DangerouslyGetRequest {
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
+    /// include_deleted: Whether to include deleted Members in the response. Defaults to false.
+    pub include_deleted: std::option::Option<bool>,
 }
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -215,6 +218,35 @@ pub struct GetResponse {
     pub member: Member,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+/// OIDCProviderInformationRequest: Request type for `Members.oidc_providers`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct OIDCProviderInformationRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
+    pub member_id: String,
+    /// include_refresh_token: Whether to return the refresh token Stytch has stored for the OAuth Provider.
+    /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
+    /// able to automatically refresh access tokens in the future.
+    pub include_refresh_token: std::option::Option<bool>,
+}
+/// OIDCProvidersResponse: Response type for `Members.oidc_providers`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OIDCProvidersResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// registrations: A list of tokens the member is registered with.
+    pub registrations: std::vec::Vec<OIDCProviderInfo>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -564,6 +596,22 @@ impl Members {
     pub async fn dangerously_get(&self, body: DangerouslyGetRequest) -> crate::Result<GetResponse> {
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/organizations/members/dangerously_get/{member_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn oidc_providers(
+        &self,
+        body: OIDCProviderInformationRequest,
+    ) -> crate::Result<OIDCProvidersResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oidc_providers");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
