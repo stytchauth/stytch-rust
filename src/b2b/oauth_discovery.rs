@@ -58,8 +58,16 @@ pub struct AuthenticateResponse {
     ///   c) The Organization has at least one other Member with a verified email address with the same domain
     /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
+    /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
+    /// Microsoft, GitHub etc.
     pub provider_type: String,
+    /// provider_tenant_id: The tenant ID returned by the OAuth provider. This is typically used to identify the
+    /// organization. For example, for HubSpot this is the Hub ID, for Slack, this is the Workspace ID, and for
+    /// GitHub this is an organization ID.
     pub provider_tenant_id: String,
+    /// provider_tenant_ids: The IDs of tenants returned from a completed OAuth authentication. Some providers
+    /// do not return tenants.
+    pub provider_tenant_ids: std::vec::Vec<String>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.

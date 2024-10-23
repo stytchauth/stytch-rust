@@ -11,13 +11,13 @@ use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct DeleteRequest {
+pub struct RequireResetRequest {
     pub email_address: String,
     pub organization_id: std::option::Option<String>,
     pub member_id: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct DeleteResponse {
+pub struct RequireResetResponse {
     pub member: Member,
     pub organization: Organization,
     #[serde(with = "http_serde::status_code")]
@@ -251,8 +251,11 @@ impl Email {
             })
             .await
     }
-    pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let path = String::from("/v1/b2b/passwords/email/delete");
+    pub async fn require_reset(
+        &self,
+        body: RequireResetRequest,
+    ) -> crate::Result<RequireResetResponse> {
+        let path = String::from("/v1/b2b/passwords/email/require_reset");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
