@@ -164,7 +164,7 @@ pub struct CreateRequest {
     ///
     pub oauth_tenant_jit_provisioning: std::option::Option<String>,
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
-    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// CreateResponse: Response type for `Organizations.create`.

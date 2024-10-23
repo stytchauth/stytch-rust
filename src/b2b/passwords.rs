@@ -7,6 +7,7 @@
 use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
+use crate::b2b::passwords_discovery::Discovery;
 use crate::b2b::passwords_email::Email;
 use crate::b2b::passwords_existing_password::ExistingPassword;
 use crate::b2b::passwords_session::Sessions;
@@ -315,6 +316,7 @@ pub struct Passwords {
     pub email: Email,
     pub sessions: Sessions,
     pub existing_password: ExistingPassword,
+    pub discovery: Discovery,
 }
 
 impl Passwords {
@@ -324,6 +326,7 @@ impl Passwords {
             email: Email::new(http_client.clone()),
             sessions: Sessions::new(http_client.clone()),
             existing_password: ExistingPassword::new(http_client.clone()),
+            discovery: Discovery::new(http_client.clone()),
         }
     }
 

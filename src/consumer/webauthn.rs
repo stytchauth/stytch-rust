@@ -179,6 +179,9 @@ pub struct RegisterStartRequest {
     /// `"preferred"`.
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
+    pub override_id: std::option::Option<String>,
+    pub override_name: std::option::Option<String>,
+    pub override_display_name: std::option::Option<String>,
 }
 /// RegisterStartResponse: Response type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
