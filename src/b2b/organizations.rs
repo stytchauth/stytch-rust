@@ -45,6 +45,33 @@ pub struct EmailImplicitRoleAssignment {
     ///
     pub role_id: String,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GithubProviderInfo {
+    pub provider_subject: String,
+    pub provider_tenant_ids: std::vec::Vec<String>,
+    pub access_token: String,
+    pub scopes: std::vec::Vec<String>,
+}
+/// HubspOTPRoviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct HubspOTPRoviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// provider_tenant_id: The tenant ID returned by the OAuth provider. This is typically used to identify the
+    /// organization. For example, in HubSpot, this is the Hub ID, and for Slack, this is the Workspace ID.
+    pub provider_tenant_id: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// access_token_expires_in: The number of seconds until the access token expires.
+    pub access_token_expires_in: i32,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+    /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
+    /// the provider's API.
+    pub refresh_token: std::option::Option<String>,
+}
 /// Member:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Member {
@@ -451,6 +478,26 @@ pub struct SearchQuery {
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search query.
     pub operands: std::vec::Vec<serde_json::Value>,
+}
+/// SlackProviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SlackProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// provider_tenant_id: The tenant ID returned by the OAuth provider. This is typically used to identify the
+    /// organization. For example, in HubSpot, this is the Hub ID, and for Slack, this is the Workspace ID.
+    pub provider_tenant_id: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+    /// bot_access_token: The `access_token` that you may use to access data as a bot application in Slack. Use
+    /// in conjunction with `bot_scopes`.
+    pub bot_access_token: String,
+    /// bot_scopes: The scopes that the bot application has access to in Slack.
+    pub bot_scopes: std::vec::Vec<String>,
 }
 /// CreateRequest: Request type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

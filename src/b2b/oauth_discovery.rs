@@ -60,6 +60,7 @@ pub struct AuthenticateResponse {
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
     pub provider_type: String,
     pub provider_tenant_id: String,
+    pub provider_tenant_ids: std::vec::Vec<String>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
