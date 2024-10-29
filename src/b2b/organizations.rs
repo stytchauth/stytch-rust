@@ -64,9 +64,9 @@ pub struct GithubProviderInfo {
     /// scopes are included by default and how to add custom scopes.
     pub scopes: std::vec::Vec<String>,
 }
-/// HubspOTPRoviderInfo:
+/// HubspotProviderInfo:
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct HubspOTPRoviderInfo {
+pub struct HubspotProviderInfo {
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,

@@ -5,7 +5,7 @@
 // !!!
 
 use crate::b2b::organizations::GithubProviderInfo;
-use crate::b2b::organizations::HubspOTPRoviderInfo;
+use crate::b2b::organizations::HubspotProviderInfo;
 use crate::b2b::organizations::SlackProviderInfo;
 use serde::{Deserialize, Serialize};
 
@@ -72,7 +72,7 @@ pub struct HubspotResponse {
     /// Microsoft, GitHub etc.
     pub provider_type: String,
     /// registrations: A list of tokens the member is registered with.
-    pub registrations: std::vec::Vec<HubspOTPRoviderInfo>,
+    pub registrations: std::vec::Vec<HubspotProviderInfo>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.

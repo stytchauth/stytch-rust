@@ -161,27 +161,71 @@ pub struct UpdateConnectionResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum CreateConnectionRequestIdentityProvider {
-    #[serde(rename = "generic")]
+    #[serde(rename = "classlink")]
     #[default]
+    Classlink,
+    #[serde(rename = "cyberark")]
+    Cyberark,
+    #[serde(rename = "duo")]
+    Duo,
+    #[serde(rename = "generic")]
     Generic,
-    #[serde(rename = "okta")]
-    Okta,
-    #[serde(rename = "microsoftentra")]
-    Microsoftentra,
     #[serde(rename = "googleworkspace")]
     Googleworkspace,
+    #[serde(rename = "jumpcloud")]
+    Jumpcloud,
+    #[serde(rename = "keycloak")]
+    Keycloak,
+    #[serde(rename = "miniorange")]
+    Miniorange,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "onelogin")]
+    Onelogin,
+    #[serde(rename = "pingfederate")]
+    Pingfederate,
+    #[serde(rename = "rippling")]
+    Rippling,
+    #[serde(rename = "salesforce")]
+    Salesforce,
+    #[serde(rename = "shibboleth")]
+    Shibboleth,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateConnectionRequestIdentityProvider {
-    #[serde(rename = "generic")]
+    #[serde(rename = "classlink")]
     #[default]
+    Classlink,
+    #[serde(rename = "cyberark")]
+    Cyberark,
+    #[serde(rename = "duo")]
+    Duo,
+    #[serde(rename = "generic")]
     Generic,
-    #[serde(rename = "okta")]
-    Okta,
-    #[serde(rename = "microsoftentra")]
-    Microsoftentra,
     #[serde(rename = "googleworkspace")]
     Googleworkspace,
+    #[serde(rename = "jumpcloud")]
+    Jumpcloud,
+    #[serde(rename = "keycloak")]
+    Keycloak,
+    #[serde(rename = "miniorange")]
+    Miniorange,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "onelogin")]
+    Onelogin,
+    #[serde(rename = "pingfederate")]
+    Pingfederate,
+    #[serde(rename = "rippling")]
+    Rippling,
+    #[serde(rename = "salesforce")]
+    Salesforce,
+    #[serde(rename = "shibboleth")]
+    Shibboleth,
 }
 
 pub struct SAML {
