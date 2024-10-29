@@ -45,6 +45,49 @@ pub struct EmailImplicitRoleAssignment {
     ///
     pub role_id: String,
 }
+/// GithubProviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GithubProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// provider_tenant_ids: All tenant IDs returned by the OAuth provider. These is typically used to identify
+    /// organizations or groups within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack
+    /// this is the Workspace ID, and in GitHub this is an organization ID. Some OAuth providers do not return
+    /// tenant IDs, some providers are guaranteed to return one, and some may return multiple. This field will
+    /// always be populated if at least one tenant ID was returned from the OAuth provider and developers should
+    /// prefer this field over `provider_tenant_id`.
+    pub provider_tenant_ids: std::vec::Vec<String>,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+}
+/// HubspotProviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct HubspotProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// provider_tenant_id: The tenant ID returned by the OAuth provider. This is typically used to identify an
+    /// organization or group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack
+    /// this is the Workspace ID, and in GitHub this is an organization ID. This field will only be populated if
+    /// exactly one tenant ID is returned from a successful OAuth authentication and developers should prefer
+    /// `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+    /// multiple tenant IDs.
+    pub provider_tenant_id: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// access_token_expires_in: The number of seconds until the access token expires.
+    pub access_token_expires_in: i32,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+    /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
+    /// the provider's API.
+    pub refresh_token: std::option::Option<String>,
+}
 /// Member:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Member {
@@ -249,14 +292,28 @@ pub struct OAuthRegistration {
     /// user has authenticated with.
     pub locale: std::option::Option<String>,
 }
+/// OIDCProviderInfo:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
+    /// id_token: The `id_token` returned by the OAuth provider. ID Tokens are JWTs that contain structured
+    /// information about a user. The exact content of each ID Token varies from provider to provider. ID Tokens
+    /// are returned from OAuth providers that conform to the [OpenID Connect](https://openid.net/foundation/)
+    /// specification, which is based on OAuth.
     pub id_token: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
     pub access_token: String,
+    /// access_token_expires_in: The number of seconds until the access token expires.
     pub access_token_expires_in: i32,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
     pub scopes: std::vec::Vec<String>,
+    /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
     pub connection_id: String,
+    /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
+    /// the provider's API.
     pub refresh_token: std::option::Option<String>,
 }
 /// Organization:
@@ -381,7 +438,7 @@ pub struct Organization {
     /// [SCIM Connection references](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub scim_active_connection: std::option::Option<ActiveSCIMConnection>,
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
-    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// ResultsMetadata:
@@ -437,6 +494,30 @@ pub struct SearchQuery {
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search query.
     pub operands: std::vec::Vec<serde_json::Value>,
+}
+/// SlackProviderInfo:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SlackProviderInfo {
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
+    pub provider_subject: String,
+    /// provider_tenant_id: The tenant ID returned by the OAuth provider. This is typically used to identify an
+    /// organization or group within the provider's domain. For example, in HubSpot this is a Hub ID, in Slack
+    /// this is the Workspace ID, and in GitHub this is an organization ID. This field will only be populated if
+    /// exactly one tenant ID is returned from a successful OAuth authentication and developers should prefer
+    /// `provider_tenant_ids` over this since it accounts for the possibility of an OAuth provider yielding
+    /// multiple tenant IDs.
+    pub provider_tenant_id: String,
+    /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
+    pub access_token: String,
+    /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
+    /// scopes are included by default and how to add custom scopes.
+    pub scopes: std::vec::Vec<String>,
+    /// bot_access_token: The `access_token` that you may use to access data as a bot application in Slack. Use
+    /// in conjunction with `bot_scopes`.
+    pub bot_access_token: String,
+    /// bot_scopes: The scopes that the bot application has access to in Slack.
+    pub bot_scopes: std::vec::Vec<String>,
 }
 /// CreateRequest: Request type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -547,7 +628,7 @@ pub struct CreateRequest {
     ///
     pub oauth_tenant_jit_provisioning: std::option::Option<String>,
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
-    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
@@ -838,7 +919,7 @@ pub struct UpdateRequest {
     /// `stytch.organization` Resource.
     pub oauth_tenant_jit_provisioning: std::option::Option<String>,
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
-    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack" and "hubspot".
+    /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`

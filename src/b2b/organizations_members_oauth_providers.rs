@@ -4,8 +4,29 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::b2b::organizations::GithubProviderInfo;
+use crate::b2b::organizations::HubspotProviderInfo;
+use crate::b2b::organizations::SlackProviderInfo;
 use serde::{Deserialize, Serialize};
 
+/// GithubResponse: Response type for `OAuthProviders.github`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GithubResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
+    /// Microsoft, GitHub etc.
+    pub provider_type: String,
+    /// registrations: A list of tokens the member is registered with.
+    pub registrations: std::vec::Vec<GithubProviderInfo>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// GoogleResponse: Response type for `OAuthProviders.google`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleResponse {
@@ -39,6 +60,24 @@ pub struct GoogleResponse {
     /// refresh_token: The `refresh_token` that you may use to obtain a new `access_token` for the User within
     /// the provider's API.
     pub refresh_token: std::option::Option<String>,
+}
+/// HubspotResponse: Response type for `OAuthProviders.hubspot`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct HubspotResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
+    /// Microsoft, GitHub etc.
+    pub provider_type: String,
+    /// registrations: A list of tokens the member is registered with.
+    pub registrations: std::vec::Vec<HubspotProviderInfo>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
 }
 /// MicrosoftResponse: Response type for `OAuthProviders.microsoft`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -74,7 +113,8 @@ pub struct MicrosoftResponse {
     /// the provider's API.
     pub refresh_token: std::option::Option<String>,
 }
-/// ProviderInformationRequest: Request type for `OAuthProviders.google`, `OAuthProviders.microsoft`.
+/// ProviderInformationRequest: Request type for `OAuthProviders.github`, `OAuthProviders.google`,
+/// `OAuthProviders.hubspot`, `OAuthProviders.microsoft`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProviderInformationRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
@@ -87,6 +127,34 @@ pub struct ProviderInformationRequest {
     /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
     /// able to automatically refresh access tokens in the future.
     pub include_refresh_token: std::option::Option<bool>,
+}
+/// SlackRequest: Request type for `OAuthProviders.slack`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct SlackRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    pub organization_id: String,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
+    pub member_id: String,
+}
+/// SlackResponse: Response type for `OAuthProviders.slack`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SlackResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
+    /// Microsoft, GitHub etc.
+    pub provider_type: String,
+    /// registrations: A list of tokens the member is registered with.
+    pub registrations: std::vec::Vec<SlackProviderInfo>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
 }
 
 pub struct OAuthProviders {
@@ -122,6 +190,51 @@ impl OAuthProviders {
         let member_id = &body.member_id;
         let path = format!(
             "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn slack(&self, body: SlackRequest) -> crate::Result<SlackResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/slack"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn hubspot(
+        &self,
+        body: ProviderInformationRequest,
+    ) -> crate::Result<HubspotResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/hubspot"
+        );
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn github(&self, body: ProviderInformationRequest) -> crate::Result<GithubResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/github"
         );
         self.http_client
             .send(crate::Request {

@@ -126,8 +126,8 @@ pub struct UpdateConnectionRequest {
     /// connection and
     ///  belongs to the specified SAML group, they will be granted the associated Role. See the
     ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
-    /// assignment.
-    ///  Before adding any group implicit role assignments, you must add a "groups" key to your SAML connection's
+    /// assignment. Before adding any group implicit role assignments, you must add a "groups" key to your SAML
+    /// connection's
     ///  `attribute_mapping`. Make sure that your IdP is configured to correctly send the group information.
     pub saml_group_implicit_role_assignments:
         std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
@@ -161,27 +161,71 @@ pub struct UpdateConnectionResponse {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum CreateConnectionRequestIdentityProvider {
-    #[serde(rename = "generic")]
+    #[serde(rename = "classlink")]
     #[default]
+    Classlink,
+    #[serde(rename = "cyberark")]
+    Cyberark,
+    #[serde(rename = "duo")]
+    Duo,
+    #[serde(rename = "generic")]
     Generic,
-    #[serde(rename = "okta")]
-    Okta,
-    #[serde(rename = "microsoftentra")]
-    Microsoftentra,
     #[serde(rename = "googleworkspace")]
     Googleworkspace,
+    #[serde(rename = "jumpcloud")]
+    Jumpcloud,
+    #[serde(rename = "keycloak")]
+    Keycloak,
+    #[serde(rename = "miniorange")]
+    Miniorange,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "onelogin")]
+    Onelogin,
+    #[serde(rename = "pingfederate")]
+    Pingfederate,
+    #[serde(rename = "rippling")]
+    Rippling,
+    #[serde(rename = "salesforce")]
+    Salesforce,
+    #[serde(rename = "shibboleth")]
+    Shibboleth,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateConnectionRequestIdentityProvider {
-    #[serde(rename = "generic")]
+    #[serde(rename = "classlink")]
     #[default]
+    Classlink,
+    #[serde(rename = "cyberark")]
+    Cyberark,
+    #[serde(rename = "duo")]
+    Duo,
+    #[serde(rename = "generic")]
     Generic,
-    #[serde(rename = "okta")]
-    Okta,
-    #[serde(rename = "microsoftentra")]
-    Microsoftentra,
     #[serde(rename = "googleworkspace")]
     Googleworkspace,
+    #[serde(rename = "jumpcloud")]
+    Jumpcloud,
+    #[serde(rename = "keycloak")]
+    Keycloak,
+    #[serde(rename = "miniorange")]
+    Miniorange,
+    #[serde(rename = "microsoftentra")]
+    Microsoftentra,
+    #[serde(rename = "okta")]
+    Okta,
+    #[serde(rename = "onelogin")]
+    Onelogin,
+    #[serde(rename = "pingfederate")]
+    Pingfederate,
+    #[serde(rename = "rippling")]
+    Rippling,
+    #[serde(rename = "salesforce")]
+    Salesforce,
+    #[serde(rename = "shibboleth")]
+    Shibboleth,
 }
 
 pub struct SAML {

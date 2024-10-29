@@ -10,18 +10,31 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
+/// RequireResetRequest: Request type for `Email.require_reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct DeleteRequest {
+pub struct RequireResetRequest {
+    /// email_address: The email address of the Member to start the email reset process for.
     pub email_address: String,
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value.
     pub organization_id: std::option::Option<String>,
+    /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
+    /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: std::option::Option<String>,
 }
+/// RequireResetResponse: Response type for `Email.require_reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct DeleteResponse {
+pub struct RequireResetResponse {
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: std::option::Option<String>,
 }
 /// ResetRequest: Request type for `Email.reset`.
@@ -251,8 +264,11 @@ impl Email {
             })
             .await
     }
-    pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let path = String::from("/v1/b2b/passwords/email/delete");
+    pub async fn require_reset(
+        &self,
+        body: RequireResetRequest,
+    ) -> crate::Result<RequireResetResponse> {
+        let path = String::from("/v1/b2b/passwords/email/require_reset");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
