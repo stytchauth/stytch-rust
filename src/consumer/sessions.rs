@@ -24,7 +24,7 @@ pub struct AppleOAuthFactor {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
     /// type_: The type of authentication factor. The possible values are: `magic_link`, `otp`,
-    ///    `oauth`, `password`, or `sso`.
+    ///    `oauth`, `password`, `email_otp`, or `sso` .
     #[serde(rename = "type")]
     pub type_: AuthenticationFactorType,
     /// delivery_method: The method that was used to deliver the authentication factor. The possible values
@@ -32,7 +32,7 @@ pub struct AuthenticationFactor {
     ///
     ///   `magic_link` – Only `email`.
     ///
-    ///   `otp` – Only `sms`.
+    ///   `otp` –  Either `sms` or `email` .
     ///
     ///   `oauth` – Either `oauth_google` or `oauth_microsoft`.
     ///
@@ -625,6 +625,8 @@ pub enum AuthenticationFactorType {
     Imported,
     #[serde(rename = "recovery_codes")]
     RecoveryCodes,
+    #[serde(rename = "email_otp")]
+    EmailOTP,
 }
 
 pub struct Sessions {

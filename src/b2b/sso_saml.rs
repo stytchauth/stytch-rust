@@ -17,9 +17,11 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 /// CreateConnectionResponse: Response type for `SAML.create_connection`.
@@ -136,9 +138,11 @@ pub struct UpdateConnectionRequest {
     /// [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
     /// for more info.
     pub alternative_audience_uri: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.

@@ -93,11 +93,11 @@ pub struct SendRequest {
     pub session_jwt: std::option::Option<String>,
     /// login_template_id: Use a custom template for login emails. By default, it will use your default email
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// Magic links - Login.
+    /// OTP - Login.
     pub login_template_id: std::option::Option<String>,
     /// signup_template_id: Use a custom template for sign-up emails. By default, it will use your default email
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// Magic links - Sign-up.
+    /// OTP - Sign-up.
     pub signup_template_id: std::option::Option<String>,
 }
 /// SendResponse: Response type for `Email.send`.
