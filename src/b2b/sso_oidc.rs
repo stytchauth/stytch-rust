@@ -15,9 +15,11 @@ pub struct CreateConnectionRequest {
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: std::option::Option<CreateConnectionRequestIdentityProvider>,
 }
 /// CreateConnectionResponse: Response type for `OIDC.create_connection`.
@@ -68,9 +70,11 @@ pub struct UpdateConnectionRequest {
     /// jwks_url: The location of the IdP's JSON Web Key Set, used to verify credentials issued by the IdP. This
     /// will be provided by the IdP.
     pub jwks_url: std::option::Option<String>,
-    /// identity_provider: The identity provider of this connection. For OIDC, the accepted values are
-    /// `generic`, `okta`, and `microsoft-entra`. For SAML, the accepted values are `generic`, `okta`,
-    /// `microsoft-entra`, and `google-workspace`.
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
     /// custom_scopes: Include a space-separated list of custom scopes that you'd like to include. Note that
     /// this list must be URL encoded, e.g. the spaces must be expressed as %20.

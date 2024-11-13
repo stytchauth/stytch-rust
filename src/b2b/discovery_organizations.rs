@@ -28,19 +28,6 @@ pub struct CreateRequest {
     /// or the
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: String,
-    /// organization_name: The name of the Organization. If the name is not specified, a default name will be
-    /// created based on the email used to initiate the discovery flow. If the email domain is a common email
-    /// provider such as gmail.com, or if the email is a .edu email, the organization name will be generated
-    /// based on the name portion of the email. Otherwise, the organization name will be generated based on the
-    /// email domain.
-    pub organization_name: String,
-    /// organization_slug: The unique URL slug of the Organization. A minimum of two characters is required. The
-    /// slug only accepts alphanumeric characters and the following reserved characters: `-` `.` `_` `~`. If the
-    /// slug is not specified, a default slug will be created based on the email used to initiate the discovery
-    /// flow. If the email domain is a common email provider such as gmail.com, or if the email is a .edu email,
-    /// the organization slug will be generated based on the name portion of the email. Otherwise, the
-    /// organization slug will be generated based on the email domain.
-    pub organization_slug: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
@@ -64,6 +51,19 @@ pub struct CreateRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// organization_name: The name of the Organization. If the name is not specified, a default name will be
+    /// created based on the email used to initiate the discovery flow. If the email domain is a common email
+    /// provider such as gmail.com, or if the email is a .edu email, the organization name will be generated
+    /// based on the name portion of the email. Otherwise, the organization name will be generated based on the
+    /// email domain.
+    pub organization_name: std::option::Option<String>,
+    /// organization_slug: The unique URL slug of the Organization. A minimum of two characters is required. The
+    /// slug only accepts alphanumeric characters and the following reserved characters: `-` `.` `_` `~`. If the
+    /// slug is not specified, a default slug will be created based on the email used to initiate the discovery
+    /// flow. If the email domain is a common email provider such as gmail.com, or if the email is a .edu email,
+    /// the organization slug will be generated based on the name portion of the email. Otherwise, the
+    /// organization slug will be generated based on the email domain.
+    pub organization_slug: std::option::Option<String>,
     /// organization_logo_url: The image URL of the Organization logo.
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
