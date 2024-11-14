@@ -4,16 +4,19 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::b2b::otp_email::Email;
 use crate::b2b::otp_sms::Sms;
 
 pub struct OTPs {
     pub sms: Sms,
+    pub email: Email,
 }
 
 impl OTPs {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             sms: Sms::new(http_client.clone()),
+            email: Email::new(http_client.clone()),
         }
     }
 }
