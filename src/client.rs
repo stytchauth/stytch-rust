@@ -1,6 +1,6 @@
-use tokio::sync::OnceCell;
 use base64::{engine::general_purpose, Engine as _};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use tokio::sync::OnceCell;
 
 const LIVE_URL: &str = "https://api.stytch.com/";
 const TEST_URL: &str = "https://test.stytch.com/";
@@ -88,16 +88,18 @@ impl Client {
     }
 
     async fn fetch_jwks(&self) -> crate::Result<Jwks> {
-        self.jwks.get_or_try_init(move || async move {
-            self
-                .send::<_, Jwks>(crate::Request {
+        self.jwks
+            .get_or_try_init(move || async move {
+                self.send::<_, Jwks>(crate::Request {
                     method: http::Method::GET,
                     path: self.jwks_url.clone(),
                     body: (),
                 })
                 .await
                 .map_err(|_| crate::Error::FetchJwks)
-        }).await.map(Jwks::clone)
+            })
+            .await
+            .map(Jwks::clone)
     }
 
     pub async fn fetch_jwk(&self, kid: &str) -> crate::Result<Jwk> {
