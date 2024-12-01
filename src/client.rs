@@ -1,6 +1,6 @@
 use base64::{engine::general_purpose, Engine as _};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use std::sync::{Arc, Mutex};
+use tokio::sync::OnceCell;
 
 const LIVE_URL: &str = "https://api.stytch.com/";
 const TEST_URL: &str = "https://test.stytch.com/";
@@ -14,7 +14,7 @@ pub struct Client {
     // This would be very natural as a OnceCell, but get_or_try_init is unstable
     // and would require marking this library as only usable with nightly rust.
     // When that feature is stabilized, we should switch to using OnceCell.
-    jwks: Arc<Mutex<Option<Jwks>>>,
+    jwks: OnceCell<Jwks>,
 }
 
 impl std::fmt::Debug for Client {
@@ -83,34 +83,23 @@ impl Client {
             project_id: project_id.to_string(),
             base_url,
             jwks_url,
-            jwks: Arc::new(Mutex::new(None)),
+            jwks: OnceCell::new(),
         })
     }
 
     async fn fetch_jwks(&self) -> crate::Result<Jwks> {
-        // First see if we already have the jwks cached
-        {
-            let guard = self.jwks.lock().map_err(|_| crate::Error::FetchJwks)?;
-            if let Some(jwks) = &*guard {
-                return Ok(jwks.clone());
-            }
-        }
-
-        let fetched_jwks: Jwks = self
-            .send(crate::Request {
-                method: http::Method::GET,
-                path: self.jwks_url.clone(),
-                body: (),
+        self.jwks
+            .get_or_try_init(move || async move {
+                self.send::<_, Jwks>(crate::Request {
+                    method: http::Method::GET,
+                    path: self.jwks_url.clone(),
+                    body: (),
+                })
+                .await
+                .map_err(|_| crate::Error::FetchJwks)
             })
             .await
-            .map_err(|_| crate::Error::FetchJwks)?;
-
-        {
-            let mut guard = self.jwks.lock().map_err(|_| crate::Error::FetchJwks)?;
-            *guard = Some(fetched_jwks.clone());
-        }
-
-        Ok(fetched_jwks)
+            .map(Jwks::clone)
     }
 
     pub async fn fetch_jwk(&self, kid: &str) -> crate::Result<Jwk> {
