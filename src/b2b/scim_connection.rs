@@ -112,6 +112,8 @@ pub struct GetResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// connection: A [SCIM Connection](https://stytch.com/docs/b2b/api/scim-connection-object) connection
+    /// belonging to the organization (currently limited to one).
     pub connection: std::option::Option<SCIMConnection>,
 }
 /// RotateCancelRequest: Request type for `Connection.rotate_cancel`.

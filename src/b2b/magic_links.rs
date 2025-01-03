@@ -86,10 +86,7 @@ pub struct AuthenticateResponse {
     pub member_id: String,
     /// method_id: The email or device involved in the authentication.
     pub method_id: String,
-    /// reset_sessions: Indicates if all Sessions linked to the Member need to be reset. You should check this
-    /// field if you aren't using
-    /// Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
-    /// Sessions for you.
+    /// reset_sessions: This field is deprecated.
     pub reset_sessions: bool,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value.

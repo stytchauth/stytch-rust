@@ -33,7 +33,8 @@ pub struct DiscoveredOrganization {
 /// Membership:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Membership {
-    /// type_: Either `active_member`, `pending_member`, `invited_member`, or `eligible_to_join_by_email_domain`
+    /// type_: Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`,
+    /// or `eligible_to_join_by_oauth_tenant`
     #[serde(rename = "type")]
     pub type_: String,
     /// details: An object containing additional metadata about the membership, if available.

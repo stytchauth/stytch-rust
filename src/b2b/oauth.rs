@@ -111,6 +111,7 @@ pub struct AuthenticateResponse {
     pub organization_id: String,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
+    /// reset_sessions: This field is deprecated.
     pub reset_sessions: bool,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.

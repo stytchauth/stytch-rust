@@ -90,7 +90,8 @@ pub struct PhoneNumber {
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
-    /// total: The total number of results returned by your search query.
+    /// total: The total number of results returned by your search query. If totals have been disabled for your
+    /// Stytch Workspace to improve search performance, the value will always be -1.
     pub total: i32,
     /// next_cursor: The `next_cursor` string is returned when your search result contains more than one page of
     /// results. This value is passed into your next search call in the `cursor` field.
