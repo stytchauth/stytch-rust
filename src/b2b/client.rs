@@ -16,11 +16,13 @@ use crate::b2b::scim::SCIM;
 use crate::b2b::sessions::Sessions;
 use crate::b2b::sso::SSO;
 use crate::b2b::totps::TOTPs;
+use crate::consumer::fraud::Fraud;
 use crate::consumer::m2m::M2M;
 use crate::consumer::project::Project;
 
 pub struct Client {
     pub discovery: Discovery,
+    pub fraud: Fraud,
     pub m2m: M2M,
     pub magic_links: MagicLinks,
     pub oauth: OAuth,
@@ -40,12 +42,17 @@ impl Client {
     pub fn new(project_id: &str, secret: &str) -> crate::Result<Self> {
         Ok(Client::new_with_http_client(
             crate::client::Client::new_b2b(project_id, secret)?,
+            crate::client::Client::new_fraud(project_id, secret)?,
         ))
     }
 
-    pub fn new_with_http_client(http_client: crate::client::Client) -> Self {
+    pub fn new_with_http_client(
+        http_client: crate::client::Client,
+        fraud_http_client: crate::client::Client,
+    ) -> Self {
         Client {
             discovery: Discovery::new(http_client.clone()),
+            fraud: Fraud::new(fraud_http_client.clone()),
             m2m: M2M::new(http_client.clone()),
             magic_links: MagicLinks::new(http_client.clone()),
             oauth: OAuth::new(http_client.clone()),

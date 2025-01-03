@@ -5,6 +5,7 @@
 // !!!
 
 use crate::consumer::crypto_wallets::CryptoWallets;
+use crate::consumer::fraud::Fraud;
 use crate::consumer::m2m::M2M;
 use crate::consumer::magic_links::MagicLinks;
 use crate::consumer::oauth::OAuth;
@@ -18,6 +19,7 @@ use crate::consumer::webauthn::WebAuthn;
 
 pub struct Client {
     pub crypto_wallets: CryptoWallets,
+    pub fraud: Fraud,
     pub m2m: M2M,
     pub magic_links: MagicLinks,
     pub oauth: OAuth,
@@ -32,14 +34,19 @@ pub struct Client {
 
 impl Client {
     pub fn new(project_id: &str, secret: &str) -> crate::Result<Self> {
-        Ok(Client::new_with_http_client(crate::client::Client::new(
-            project_id, secret,
-        )?))
+        Ok(Client::new_with_http_client(
+            crate::client::Client::new(project_id, secret)?,
+            crate::client::Client::new_fraud(project_id, secret)?,
+        ))
     }
 
-    pub fn new_with_http_client(http_client: crate::client::Client) -> Self {
+    pub fn new_with_http_client(
+        http_client: crate::client::Client,
+        fraud_http_client: crate::client::Client,
+    ) -> Self {
         Client {
             crypto_wallets: CryptoWallets::new(http_client.clone()),
+            fraud: Fraud::new(fraud_http_client.clone()),
             m2m: M2M::new(http_client.clone()),
             magic_links: MagicLinks::new(http_client.clone()),
             oauth: OAuth::new(http_client.clone()),
