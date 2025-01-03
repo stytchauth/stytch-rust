@@ -215,10 +215,7 @@ pub struct AuthenticateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// reset_session: Indicates if all Sessions linked to the Member need to be reset. You should check this
-    /// field if you aren't using
-    /// Stytch's Session product. If you are using Stytch's Session product, we revoke the Member’s other
-    /// Sessions for you.
+    /// reset_session: This field is deprecated.
     pub reset_session: bool,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,

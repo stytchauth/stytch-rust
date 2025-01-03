@@ -91,6 +91,8 @@ pub struct AuthenticationFactor {
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
     pub github_oauth_exchange_factor: std::option::Option<GithubOAuthExchangeFactor>,
+    pub google_oauth_exchange_factor: std::option::Option<GoogleOAuthExchangeFactor>,
+    pub impersonated_factor: std::option::Option<ImpersonatedFactor>,
 }
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -166,6 +168,10 @@ pub struct GithubOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GoogleOAuthExchangeFactor {
+    pub email_id: String,
+}
 /// GoogleOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthFactor {
@@ -186,6 +192,11 @@ pub struct HubspotOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ImpersonatedFactor {
+    pub impersonator_id: String,
+    pub impersonator_email_address: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InstagramOAuthFactor {
@@ -599,6 +610,10 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthExchangeHubspot,
     #[serde(rename = "oauth_exchange_github")]
     OAuthExchangeGithub,
+    #[serde(rename = "oauth_exchange_google")]
+    OAuthExchangeGoogle,
+    #[serde(rename = "impersonation")]
+    Impersonation,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
@@ -627,6 +642,8 @@ pub enum AuthenticationFactorType {
     RecoveryCodes,
     #[serde(rename = "email_otp")]
     EmailOTP,
+    #[serde(rename = "impersonated")]
+    Impersonated,
 }
 
 pub struct Sessions {

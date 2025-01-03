@@ -33,7 +33,24 @@ pub struct ResetResponse {
     /// MFA flow and log in to the Organization. Password factors are not transferable between Organizations, so
     /// the intermediate session token is not valid for use with discovery endpoints.
     pub intermediate_session_token: String,
+    /// email_address: The email address.
     pub email_address: String,
+    /// discovered_organizations: An array of `discovered_organization` objects tied to the
+    /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
+    /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
+    /// complete details.
+    ///
+    ///   Note that Organizations will only appear here under any of the following conditions:
+    ///   1. The end user is already a Member of the Organization.
+    ///   2. The end user is invited to the Organization.
+    ///   3. The end user can join the Organization because:
+    ///
+    ///   a) The Organization allows JIT provisioning.
+    ///
+    ///   b) The Organizations' allowed domains list contains the Member's email domain.
+    ///
+    ///   c) The Organization has at least one other Member with a verified email address with the same domain
+    /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
