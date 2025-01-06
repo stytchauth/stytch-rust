@@ -142,8 +142,8 @@ pub struct PolicyResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
     /// policy: The RBAC Policy document that contains all defined Roles and Resources – which are managed in
-    /// the [Dashboard](/dashboard/rbac). Read more about these entities and how they work in our
-    /// [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
+    /// the [Dashboard](https://stytch.com/docs/dashboard/rbac). Read more about these entities and how they
+    /// work in our [RBAC overview](https://stytch.com/docs/b2b/guides/rbac/overview).
     pub policy: std::option::Option<Policy>,
 }
 
