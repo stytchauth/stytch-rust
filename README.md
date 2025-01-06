@@ -11,7 +11,7 @@ The minimum supported Rust version (MSRV) of this library is Rust 1.70.
 Use `cargo add stytch` to add this to your `Cargo.toml`:
 
 ```toml
-stytch = "5.1.0"
+stytch = "7.0.0"
 ```
 
 ## Usage
@@ -56,8 +56,8 @@ Create an API client:
 
 ```rust
 let client = stytch::consumer::client::Client::new(
-    String::from("project-live-c60c0abe-c25a-4472-a9ed-320c6667d317"),
-    String::from("secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I="),
+    &String::from("project-live-c60c0abe-c25a-4472-a9ed-320c6667d317"),
+    &String::from("secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I="),
 )?;
 ```
 
@@ -92,8 +92,8 @@ Create an API client:
 
 ```rust
 let client = stytch::b2b::client::Client::new(
-    project_id: "project-live-c60c0abe-c25a-4472-a9ed-320c6667d317",
-    secret: "secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I=",
+    &String::from("project-live-c60c0abe-c25a-4472-a9ed-320c6667d317"),
+    &String::from("secret-live-80JASucyk7z_G8Z-7dVwZVGXL5NT_qGAQ2I="),
 )?;
 ```
 
@@ -131,6 +131,8 @@ this will be the `stytch::Error::Response` variant, which always includes an `er
 you can use to identify it:
 
 ```rust
+use stytch::consumer::magic_links::AuthenticateRequest;
+
 let resp = client.magic_links.authenticate(AuthenticateRequest{
     token: String::from("not-a-token!"),
     ..Default::default()

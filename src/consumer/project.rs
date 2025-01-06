@@ -8,8 +8,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProjectMetric {
+    pub metric_type: ProjectMetricMetricType,
     pub count: u32,
-    pub metric_type: std::option::Option<ProjectMetricMetricType>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MetricsRequest {}
