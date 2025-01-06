@@ -56,7 +56,7 @@ impl Client {
     }
 
     pub fn new_fraud(project_id: &str, secret: &str) -> crate::Result<Self> {
-        let base_url = "https://telemetry.stytch.com";
+        let base_url = reqwest::Url::parse("https://telemetry.stytch.com").unwrap();
         Client::new_with_base_url(project_id, secret, base_url, Vertical::Consumer)
     }
 
