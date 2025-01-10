@@ -205,6 +205,8 @@ pub struct MigrateRequest {
     /// SSO
     ///   authentication factors with the affected SSO connection IDs will be revoked.
     pub preserve_existing_sessions: std::option::Option<bool>,
+    pub mfa_phone_number: std::option::Option<String>,
+    pub set_phone_number_verified: std::option::Option<bool>,
 }
 /// MigrateResponse: Response type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
