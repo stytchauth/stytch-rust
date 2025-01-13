@@ -3,6 +3,7 @@ pub mod client;
 pub mod discovery;
 pub mod discovery_intermediate_sessions;
 pub mod discovery_organizations;
+pub mod impersonation;
 pub mod magic_links;
 pub mod magic_links_discovery;
 pub mod magic_links_email;
