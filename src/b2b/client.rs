@@ -5,6 +5,7 @@
 // !!!
 
 use crate::b2b::discovery::Discovery;
+use crate::b2b::impersonation::Impersonation;
 use crate::b2b::magic_links::MagicLinks;
 use crate::b2b::oauth::OAuth;
 use crate::b2b::organizations::Organizations;
@@ -23,6 +24,7 @@ use crate::consumer::project::Project;
 pub struct Client {
     pub discovery: Discovery,
     pub fraud: Fraud,
+    pub impersonation: Impersonation,
     pub m2m: M2M,
     pub magic_links: MagicLinks,
     pub oauth: OAuth,
@@ -53,6 +55,7 @@ impl Client {
         Client {
             discovery: Discovery::new(http_client.clone()),
             fraud: Fraud::new(fraud_http_client.clone()),
+            impersonation: Impersonation::new(http_client.clone()),
             m2m: M2M::new(http_client.clone()),
             magic_links: MagicLinks::new(http_client.clone()),
             oauth: OAuth::new(http_client.clone()),
