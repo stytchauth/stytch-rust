@@ -92,6 +92,7 @@ pub struct AuthenticationFactor {
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
     pub github_oauth_exchange_factor: std::option::Option<GithubOAuthExchangeFactor>,
     pub google_oauth_exchange_factor: std::option::Option<GoogleOAuthExchangeFactor>,
+    /// impersonated_factor: Information about the impersonated factor, if one is present.
     pub impersonated_factor: std::option::Option<ImpersonatedFactor>,
 }
 /// AuthenticatorAppFactor:
@@ -193,9 +194,13 @@ pub struct HubspotOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+/// ImpersonatedFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ImpersonatedFactor {
+    /// impersonator_id: The unique UUID of the impersonator. For impersonation sessions initiated via the
+    /// Stytch dashboard, the `impersonator_id` will be the impersonator's Stytch workspace id.
     pub impersonator_id: String,
+    /// impersonator_email_address: The email address of the impersonator.
     pub impersonator_email_address: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
