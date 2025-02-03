@@ -113,6 +113,10 @@ pub enum LoginOrCreateRequestLocale {
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
@@ -123,6 +127,10 @@ pub enum SendRequestLocale {
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
 }
 
 pub struct Whatsapp {

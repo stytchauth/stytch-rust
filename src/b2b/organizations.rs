@@ -25,6 +25,7 @@ pub struct ActiveSSOConnection {
     pub connection_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    pub identity_provider: String,
 }
 /// EmailImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
