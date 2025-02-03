@@ -165,6 +165,10 @@ pub enum SendRequestLocale {
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
 }
 
 pub struct Sms {

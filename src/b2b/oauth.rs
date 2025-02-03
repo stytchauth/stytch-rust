@@ -158,6 +158,10 @@ pub enum AuthenticateRequestLocale {
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
+    #[serde(rename = "fr")]
+    Fr,
+    #[serde(rename = "it")]
+    It,
 }
 
 pub struct OAuth {
