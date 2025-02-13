@@ -258,7 +258,7 @@ pub struct GetJWKSRequest {
 /// GetJWKSResponse: Response type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetJWKSResponse {
-    /// keys: The JWK
+    /// keys: The list of JWKs associated with the project.
     pub keys: std::vec::Vec<JWK>,
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
