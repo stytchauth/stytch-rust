@@ -13,6 +13,7 @@ pub struct Policy {
     pub roles: std::vec::Vec<PolicyRole>,
     /// resources: An array of [Resource objects](https://stytch.com/docs/b2b/api/rbac-resource-object).
     pub resources: std::vec::Vec<PolicyResource>,
+    pub scopes: std::vec::Vec<PolicyScope>,
 }
 /// PolicyResource:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -124,6 +125,17 @@ pub struct PolicyRolePermission {
     pub resource_id: String,
     /// actions: A list of permitted actions the Role is authorized to take with the provided Resource. You can
     /// use `*` as a wildcard to grant a Role permission to use all possible actions related to the Resource.
+    pub actions: std::vec::Vec<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PolicyScope {
+    pub scope: String,
+    pub description: String,
+    pub permissions: std::vec::Vec<PolicyScopePermission>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PolicyScopePermission {
+    pub resource_id: String,
     pub actions: std::vec::Vec<String>,
 }
 /// PolicyRequest: Request type for `RBAC.policy`.
