@@ -141,6 +141,7 @@ pub struct X509Certificate {
     pub issuer: String,
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// AuthenticateRequest: Request type for `SSO.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
