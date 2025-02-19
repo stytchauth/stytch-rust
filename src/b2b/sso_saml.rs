@@ -144,6 +144,10 @@ pub struct UpdateConnectionRequest {
     ///
     /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: std::option::Option<UpdateConnectionRequestIdentityProvider>,
+    /// signing_private_key: A PKCS1 format RSA private key used for signing SAML requests. Only PKCS1 format
+    /// (starting with "-----BEGIN RSA PRIVATE KEY-----") is supported. When provided, Stytch will generate a
+    /// new x509 certificate from this key and return it in the signing_certificates array.
+    pub signing_private_key: std::option::Option<String>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
