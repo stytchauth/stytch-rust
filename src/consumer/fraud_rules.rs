@@ -10,33 +10,45 @@ use serde::{Deserialize, Serialize};
 /// SetRequest: Request type for `Rules.set`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SetRequest {
-    /// action: The action that should be returned by a fingerprint lookup for that fingerprint or ID with a
-    /// `RULE_MATCH` reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. If a
-    /// `NONE` action is specified, it will clear the stored rule.
+    /// action: The action that should be returned by a fingerprint lookup for that identifier with a
+    /// `RULE_MATCH` reason. The following values are valid: `ALLOW`, `BLOCK`, `CHALLENGE`, or `NONE`. For
+    /// country codes, `ALLOW` actions are not allowed. If a `NONE` action is specified, it will clear the
+    /// stored rule.
     pub action: RuleAction,
-    /// visitor_id: The visitor ID we want to set a rule for. Only one fingerprint or ID can be specified in the
+    /// visitor_id: The visitor ID we want to set a rule for. Only one identifier can be specified in the
     /// request.
     pub visitor_id: std::option::Option<String>,
-    /// browser_id: The browser ID we want to set a rule for. Only one fingerprint or ID can be specified in the
+    /// browser_id: The browser ID we want to set a rule for. Only one identifier can be specified in the
     /// request.
     pub browser_id: std::option::Option<String>,
-    /// visitor_fingerprint: The visitor fingerprint we want to set a rule for. Only one fingerprint or ID can
-    /// be specified in the request.
+    /// visitor_fingerprint: The visitor fingerprint we want to set a rule for. Only one identifier can be
+    /// specified in the request.
     pub visitor_fingerprint: std::option::Option<String>,
-    /// browser_fingerprint: The browser fingerprint we want to set a rule for. Only one fingerprint or ID can
-    /// be specified in the request.
+    /// browser_fingerprint: The browser fingerprint we want to set a rule for. Only one identifier can be
+    /// specified in the request.
     pub browser_fingerprint: std::option::Option<String>,
-    /// hardware_fingerprint: The hardware fingerprint we want to set a rule for. Only one fingerprint or ID can
-    /// be specified in the request.
+    /// hardware_fingerprint: The hardware fingerprint we want to set a rule for. Only one identifier can be
+    /// specified in the request.
     pub hardware_fingerprint: std::option::Option<String>,
-    /// network_fingerprint: The network fingerprint we want to set a rule for. Only one fingerprint or ID can
-    /// be specified in the request.
+    /// network_fingerprint: The network fingerprint we want to set a rule for. Only one identifier can be
+    /// specified in the request.
     pub network_fingerprint: std::option::Option<String>,
     /// expires_in_minutes: The number of minutes until this rule expires. If no `expires_in_minutes` is
     /// specified, then the rule is kept permanently.
     pub expires_in_minutes: std::option::Option<i32>,
     /// description: An optional description for the rule.
     pub description: std::option::Option<String>,
+    /// cidr_block: The CIDR block we want to set a rule for. You may pass either an IP address or a CIDR block.
+    /// The CIDR block prefix must be between 16 and 32, inclusive. If an end user's IP address is within this
+    /// CIDR block, this rule will be applied. Only one identifier can be specified in the request.
+    pub cidr_block: std::option::Option<String>,
+    /// country_code: The country code we want to set a rule for. The country code must be a valid ISO 3166-1
+    /// alpha-2 code. You may not set `ALLOW` rules for country codes. Only one identifier can be specified in
+    /// the request.
+    pub country_code: std::option::Option<String>,
+    /// asn: The ASN we want to set a rule for. The ASN must be the string representation of an integer between
+    /// 0 and 4294967295, inclusive. Only one identifier can be specified in the request.
+    pub asn: std::option::Option<String>,
 }
 /// SetResponse: Response type for `Rules.set`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -52,22 +64,28 @@ pub struct SetResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// visitor_id: The cookie stored on the user's device that uniquely identifies them.
+    /// visitor_id: The visitor ID that a rule was set for.
     pub visitor_id: std::option::Option<String>,
-    /// browser_id: Combination of VisitorID and NetworkFingerprint to create a clear identifier of a browser.
+    /// browser_id: The browser ID that a rule was set for.
     pub browser_id: std::option::Option<String>,
-    /// visitor_fingerprint: Cookie-less way of identifying a unique user.
+    /// visitor_fingerprint: The visitor fingerprint that a rule was set for.
     pub visitor_fingerprint: std::option::Option<String>,
-    /// browser_fingerprint: Combination of signals to identify a browser and its specific version.
+    /// browser_fingerprint: The browser fingerprint that a rule was set for.
     pub browser_fingerprint: std::option::Option<String>,
-    /// hardware_fingerprint: Combinations of signals to identify an operating system and architecture.
+    /// hardware_fingerprint: The hardware fingerprint that a rule was set for.
     pub hardware_fingerprint: std::option::Option<String>,
-    /// network_fingerprint: Combination of signals associated with a specific network commonly known as TLS
-    /// fingerprinting.
+    /// network_fingerprint: The network fingerprint that a rule was set for.
     pub network_fingerprint: std::option::Option<String>,
     /// expires_at: The timestamp when the rule expires. Values conform to the RFC 3339 standard and are
     /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// cidr_block: The CIDR block that a rule was set for. If an end user's IP address is within this CIDR
+    /// block, this rule will be applied.
+    pub cidr_block: std::option::Option<String>,
+    /// country_code: The country code that a rule was set for.
+    pub country_code: std::option::Option<String>,
+    /// asn: The ASN that a rule was set for.
+    pub asn: std::option::Option<String>,
 }
 
 pub struct Rules {

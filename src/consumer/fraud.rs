@@ -103,6 +103,12 @@ pub struct Verdict {
     /// is_authentic_device: The assessment of whether this is an authentic device. It will be false if hardware
     /// or browser deception is detected.
     pub is_authentic_device: bool,
+    /// rule_match_type: The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will
+    /// only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
+    pub rule_match_type: std::option::Option<RuleType>,
+    /// rule_match_identifier: The rule that was applied (e.g. a specific visitor ID value), if any. This field
+    /// will only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
+    pub rule_match_identifier: std::option::Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -116,6 +122,28 @@ pub enum RuleAction {
     BLOCK,
     #[serde(rename = "NONE")]
     NONE,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum RuleType {
+    #[serde(rename = "VISITOR_ID")]
+    #[default]
+    VISITORID,
+    #[serde(rename = "BROWSER_ID")]
+    BROWSERID,
+    #[serde(rename = "VISITOR_FINGERPRINT")]
+    VISITORFINGERPRINT,
+    #[serde(rename = "BROWSER_FINGERPRINT")]
+    BROWSERFINGERPRINT,
+    #[serde(rename = "HARDWARE_FINGERPRINT")]
+    HARDWAREFINGERPRINT,
+    #[serde(rename = "NETWORK_FINGERPRINT")]
+    NETWORKFINGERPRINT,
+    #[serde(rename = "CIDR_BLOCK")]
+    CIDRBLOCK,
+    #[serde(rename = "ASN")]
+    ASN,
+    #[serde(rename = "COUNTRY_CODE")]
+    COUNTRYCODE,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum VerdictAction {
