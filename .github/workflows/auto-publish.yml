@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dtolnay/rust-toolchain@1.73
+      - uses: dtolnay/rust-toolchain@1.80
 
       - name: Run release-plz
         uses: MarcoIeni/release-plz-action@v0.5
