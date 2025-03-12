@@ -25,10 +25,6 @@ pub struct RequireResetRequest {
 /// RequireResetResponse: Response type for `Email.require_reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RequireResetResponse {
-    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
-    pub member: Member,
-    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
-    pub organization: Organization,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -36,6 +32,10 @@ pub struct RequireResetResponse {
     pub status_code: http::StatusCode,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: std::option::Option<String>,
+    /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
+    pub member: std::option::Option<Member>,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+    pub organization: std::option::Option<Organization>,
 }
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

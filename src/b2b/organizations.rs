@@ -33,7 +33,7 @@ pub struct EmailImplicitRoleAssignment {
     /// domain: Email domain that grants the specified Role.
     pub domain: String,
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -178,7 +178,7 @@ pub struct Member {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -424,6 +424,7 @@ pub struct Organization {
     ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
     ///
     pub oauth_tenant_jit_provisioning: String,
+    pub claimed_email_domains: std::vec::Vec<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -527,6 +528,7 @@ pub struct SlackProviderInfo {
 pub struct CreateRequest {
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
     pub organization_name: String,
+    pub claimed_email_domains: std::vec::Vec<String>,
     /// organization_slug: The unique URL slug of the Organization. The slug only accepts alphanumeric
     /// characters and the following reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters
     /// in length.
@@ -930,6 +932,7 @@ pub struct UpdateRequest {
     /// permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
     /// Resource.
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
+    pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
