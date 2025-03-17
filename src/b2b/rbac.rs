@@ -85,7 +85,7 @@ pub struct PolicyResource {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PolicyRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
