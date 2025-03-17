@@ -29,7 +29,7 @@ pub struct Connection {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectionImplicitRoleAssignment {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -46,7 +46,7 @@ pub struct ConnectionImplicitRoleAssignment {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupImplicitRoleAssignment {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -102,7 +102,7 @@ pub struct SAMLConnection {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnectionImplicitRoleAssignment {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -119,7 +119,7 @@ pub struct SAMLConnectionImplicitRoleAssignment {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLGroupImplicitRoleAssignment {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///

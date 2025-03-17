@@ -33,7 +33,7 @@ pub struct EmailImplicitRoleAssignment {
     /// domain: Email domain that grants the specified Role.
     pub domain: String,
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -178,7 +178,7 @@ pub struct Member {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.  
+    /// human-readable.
     ///
     ///   Reserved `role_id`s that are predefined by Stytch include:
     ///
@@ -424,6 +424,7 @@ pub struct Organization {
     ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
     ///
     pub oauth_tenant_jit_provisioning: String,
+    pub claimed_email_domains: std::vec::Vec<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -634,6 +635,8 @@ pub struct CreateRequest {
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
     /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
+    /// claimed_email_domains: A list of email domains that are claimed by the Organization.
+    pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -930,6 +933,8 @@ pub struct UpdateRequest {
     /// permission to perform the `update.settings.allowed-oauth-tenants` action on the `stytch.organization`
     /// Resource.
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
+    /// claimed_email_domains: A list of email domains that are claimed by the Organization.
+    pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

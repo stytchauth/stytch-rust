@@ -94,6 +94,7 @@ pub struct AuthenticationFactor {
     pub google_oauth_exchange_factor: std::option::Option<GoogleOAuthExchangeFactor>,
     /// impersonated_factor: Information about the impersonated factor, if one is present.
     pub impersonated_factor: std::option::Option<ImpersonatedFactor>,
+    pub oauth_access_token_exchange_factor: std::option::Option<OAuthAccessTokenExchangeFactor>,
 }
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -239,6 +240,10 @@ pub struct MicrosoftOAuthFactor {
     pub provider_subject: String,
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OAuthAccessTokenExchangeFactor {
+    pub client_id: String,
 }
 /// OIDCSSOFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -619,6 +624,8 @@ pub enum AuthenticationFactorDeliveryMethod {
     OAuthExchangeGoogle,
     #[serde(rename = "impersonation")]
     Impersonation,
+    #[serde(rename = "oauth_access_token_exchange")]
+    OAuthAccessTokenExchange,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
