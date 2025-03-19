@@ -11,7 +11,7 @@ The minimum supported Rust version (MSRV) of this library is Rust 1.70.
 Use `cargo add stytch` to add this to your `Cargo.toml`:
 
 ```toml
-stytch = "7.0.0"
+stytch = "8.0.0"
 ```
 
 ## Usage
