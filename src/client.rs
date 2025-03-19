@@ -162,3 +162,50 @@ impl From<reqwest::Error> for crate::Error {
         crate::Error::Other(Box::new(err))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::env;
+
+    #[tokio::test]
+    async fn test_jwks_refreshes_after_300_seconds() -> crate::Result<()> {
+        let project_id = match env::var("STYTCH_PROJECT_ID") {
+            Ok(val) => val,
+            Err(_) => {
+                eprintln!("Skipping test: STYTCH_PROJECT_ID not set");
+                return Ok(());
+            }
+        };
+
+        let secret = match env::var("STYTCH_SECRET") {
+            Ok(val) => val,
+            Err(_) => {
+                eprintln!("Skipping test: STYTCH_SECRET not set");
+                return Ok(());
+            }
+        };
+
+        let client = Client::new(&project_id, &secret)?;
+        let first_jwks = client.fetch_jwks().await?;
+
+        // Simulate 300 seconds passing
+        {
+            let mut cache = client.jwks.lock().await;
+            if let Some((timestamp, _)) = cache.as_mut() {
+                *timestamp = Instant::now() - Duration::from_secs(301);
+            }
+        }
+
+        // Fetch JWKS again after expiration
+        let refreshed_jwks = client.fetch_jwks().await?;
+
+        // It's hard to make any great assertion here because JWKS only expire every six months.
+        // We're not going to write a unit test that sleeps for six months :)
+        // Instead, let's just check that the kty and alg match expected values.
+        assert_eq!(first_jwks.keys[0].kty, refreshed_jwks.keys[0].kty);
+        assert_eq!(first_jwks.keys[0].alg, refreshed_jwks.keys[0].alg);
+
+        Ok(())
+    }
+}
