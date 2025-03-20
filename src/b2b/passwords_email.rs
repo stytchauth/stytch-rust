@@ -191,6 +191,7 @@ pub struct ResetStartRequest {
     /// your default email template. The template must be a template using our built-in customizations or a
     /// custom HTML email for Magic Links - Reset Password.
     pub reset_password_template_id: std::option::Option<String>,
+    pub verify_email_template_id: std::option::Option<String>,
 }
 /// ResetStartResponse: Response type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
