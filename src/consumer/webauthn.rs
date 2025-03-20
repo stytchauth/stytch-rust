@@ -9,6 +9,13 @@ use crate::consumer::users::User;
 use crate::consumer::users::WebAuthnRegistration;
 use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct WebAuthnCredential {
+    pub credential_id: String,
+    pub webauthn_registration_id: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+}
 /// AuthenticateRequest: Request type for `WebAuthn.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -97,6 +104,17 @@ pub struct AuthenticateStartResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct CredentialsRequest {
+    pub user_id: String,
+    pub domain: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CredentialsResponse {
+    pub credentials: std::vec::Vec<WebAuthnCredential>,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -292,6 +310,19 @@ impl WebAuthn {
         self.http_client
             .send(crate::Request {
                 method: http::Method::PUT,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn credentials(
+        &self,
+        body: CredentialsRequest,
+    ) -> crate::Result<CredentialsResponse> {
+        let path = String::from("/v1/webauthn/credentials");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
                 path,
                 body,
             })
