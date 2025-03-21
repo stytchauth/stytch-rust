@@ -274,6 +274,14 @@ pub struct MigrateRequest {
     pub set_email_verified: std::option::Option<bool>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
+    /// phone_number: The phone number of the user. The phone number should be in E.164 format (i.e.
+    /// +1XXXXXXXXXX).
+    pub phone_number: std::option::Option<String>,
+    /// set_phone_number_verified: Whether to set the user's phone number as verified. This is a dangerous
+    /// field. This flag should only be set if you can attest that
+    ///    the user owns the phone number in question. Access to this field is restricted. To enable it, please
+    /// send us a note at support@stytch.com.
+    pub set_phone_number_verified: std::option::Option<bool>,
 }
 /// MigrateResponse: Response type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
