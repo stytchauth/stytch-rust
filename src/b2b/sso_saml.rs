@@ -148,6 +148,16 @@ pub struct UpdateConnectionRequest {
     /// (starting with "-----BEGIN RSA PRIVATE KEY-----") is supported. When provided, Stytch will generate a
     /// new x509 certificate from this key and return it in the signing_certificates array.
     pub signing_private_key: std::option::Option<String>,
+    /// nameid_format: The NameID format the SAML Connection expects to use. Defaults to
+    /// `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`.
+    pub nameid_format: std::option::Option<String>,
+    /// alternative_acs_url: An alternative URL to use for the `AssertionConsumerServiceURL` in SP initiated
+    /// SAML AuthNRequests. This value can be used when you wish to migrate an existing SAML integration to
+    /// Stytch with zero downtime. Note that you will be responsible for proxying requests sent to the
+    /// Alternative ACS URL to Stytch. Read our
+    /// [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+    /// for more info.
+    pub alternative_acs_url: std::option::Option<String>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

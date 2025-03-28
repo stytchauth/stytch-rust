@@ -96,6 +96,8 @@ pub struct SAMLConnection {
     pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,
     pub alternative_audience_uri: String,
     pub identity_provider: String,
+    pub nameid_format: String,
+    pub alternative_acs_url: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 /// SAMLConnectionImplicitRoleAssignment:
