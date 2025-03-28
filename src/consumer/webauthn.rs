@@ -9,10 +9,14 @@ use crate::consumer::users::User;
 use crate::consumer::users::WebAuthnRegistration;
 use serde::{Deserialize, Serialize};
 
+/// WebAuthnCredential:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAuthnCredential {
+    /// credential_id: The unique, public ID of the WebAuthn credential.
     pub credential_id: String,
+    /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
     pub webauthn_registration_id: String,
+    /// type_: The type of the WebAuthn credential. Examples include `public-key`.
     #[serde(rename = "type")]
     pub type_: String,
 }
@@ -107,14 +111,22 @@ pub struct AuthenticateStartResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
+/// CredentialsRequest: Request type for `WebAuthn.credentials`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CredentialsRequest {
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
     pub user_id: String,
+    /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
 }
+/// CredentialsResponse: Response type for `WebAuthn.credentials`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CredentialsResponse {
+    /// credentials: A list of WebAuthn credential objects.
     pub credentials: std::vec::Vec<WebAuthnCredential>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
