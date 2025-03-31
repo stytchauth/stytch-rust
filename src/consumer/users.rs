@@ -380,7 +380,7 @@ pub struct DeletePhoneNumberResponse {
 /// DeleteRequest: Request type for `Users.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: String,
 }
 /// DeleteResponse: Response type for `Users.delete`.
@@ -449,7 +449,7 @@ pub struct DeleteWebAuthnRegistrationResponse {
 /// ExchangePrimaryFactorRequest: Request type for `Users.exchange_primary_factor`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangePrimaryFactorRequest {
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: String,
     /// email_address: The email address to exchange to.
     pub email_address: std::option::Option<String>,
@@ -478,7 +478,7 @@ pub struct ExchangePrimaryFactorResponse {
 /// GetRequest: Request type for `Users.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: String,
 }
 /// GetResponse: Response type for `Users.get`.
@@ -570,7 +570,7 @@ pub struct SearchResponse {
 /// UpdateRequest: Request type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: String,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,

@@ -27,7 +27,8 @@ pub struct ExchangeRequest {
     /// [Create Organization via Discovery endpoint](https://stytch.com/docs/b2b/api/create-organization-via-discovery) to create a new Organization and Member.
     pub intermediate_session_token: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,

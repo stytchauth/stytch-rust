@@ -178,7 +178,7 @@ pub struct SendRequest {
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
     /// starts and ends on the same device.
     pub code_challenge: std::option::Option<String>,
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` of the user to associate the email with.
     pub session_token: std::option::Option<String>,

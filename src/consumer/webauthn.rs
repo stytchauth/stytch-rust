@@ -19,6 +19,8 @@ pub struct WebAuthnCredential {
     /// type_: The type of the WebAuthn credential. Examples include `public-key`.
     #[serde(rename = "type")]
     pub type_: String,
+    /// public_key: The public key for the WebAuthn credential in base64 format.
+    pub public_key: String,
 }
 /// AuthenticateRequest: Request type for `WebAuthn.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -87,7 +89,8 @@ pub struct AuthenticateResponse {
 pub struct AuthenticateStartRequest {
     /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
-    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
+    /// use an external_id here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// return_passkey_credential_options: If true, the `public_key_credential_creation_options` returned will
     /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
@@ -111,19 +114,23 @@ pub struct AuthenticateStartResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-/// CredentialsRequest: Request type for `WebAuthn.credentials`.
+/// ListCredentialsRequest: Request type for `WebAuthn.list_credentials`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct CredentialsRequest {
+pub struct ListCredentialsRequest {
     /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
     pub user_id: String,
     /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
 }
-/// CredentialsResponse: Response type for `WebAuthn.credentials`.
+/// ListCredentialsResponse: Response type for `WebAuthn.list_credentials`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct CredentialsResponse {
+pub struct ListCredentialsResponse {
     /// credentials: A list of WebAuthn credential objects.
     pub credentials: std::vec::Vec<WebAuthnCredential>,
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -133,7 +140,8 @@ pub struct CredentialsResponse {
 /// RegisterRequest: Request type for `WebAuthn.register`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterRequest {
-    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
+    /// use an external_id here if one is set for the user.
     pub user_id: String,
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
@@ -195,7 +203,8 @@ pub struct RegisterResponse {
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterStartRequest {
-    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to.
+    /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
+    /// use an external_id here if one is set for the user.
     pub user_id: String,
     /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
@@ -327,11 +336,13 @@ impl WebAuthn {
             })
             .await
     }
-    pub async fn credentials(
+    pub async fn list_credentials(
         &self,
-        body: CredentialsRequest,
-    ) -> crate::Result<CredentialsResponse> {
-        let path = String::from("/v1/webauthn/credentials");
+        body: ListCredentialsRequest,
+    ) -> crate::Result<ListCredentialsResponse> {
+        let user_id = &body.user_id;
+        let domain = &body.domain;
+        let path = format!("/v1/webauthn/credentials/{user_id}/{domain}");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

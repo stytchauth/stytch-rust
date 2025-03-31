@@ -114,7 +114,7 @@ pub struct AuthenticateStartRequest {
     pub crypto_wallet_type: String,
     /// crypto_wallet_address: The crypto wallet address to authenticate.
     pub crypto_wallet_address: String,
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,

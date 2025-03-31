@@ -15,7 +15,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// external_organization_id: Globally unique UUID that identifies a different Organization within your
     /// Project.
@@ -51,7 +52,8 @@ pub struct CreateConnectionResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// connection_id: Globally unique UUID that identifies a specific External SSO Connection.
     pub connection_id: String,

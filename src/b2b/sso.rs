@@ -248,7 +248,8 @@ pub struct AuthenticateResponse {
 /// DeleteConnectionRequest: Request type for `SSO.delete_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteConnectionRequest {
-    /// organization_id: The organization ID that the SSO connection belongs to.
+    /// organization_id: The organization ID that the SSO connection belongs to. You may also use the
+    /// organization_slug here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SSO connection. SAML, OIDC, and External connection IDs can be provided.
     pub connection_id: String,
@@ -272,7 +273,8 @@ pub struct DeleteConnectionResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetConnectionsRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
 }
 /// GetConnectionsResponse: Response type for `SSO.get_connections`.

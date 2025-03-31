@@ -101,7 +101,7 @@ pub struct AuthenticateResponse {
 /// CreateRequest: Request type for `MagicLinks.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: String,
     /// expiration_minutes: Set the expiration for the Magic Link `token` in minutes. By default, it expires in
     /// 1 hour. The minimum expiration is 5 minutes and the maximum is 7 days (10080 mins).
