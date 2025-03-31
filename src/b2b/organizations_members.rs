@@ -16,7 +16,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -86,10 +87,12 @@ pub struct DangerouslyGetRequest {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteMFAPhoneNumberRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// DeleteMFAPhoneNumberResponse: Response type for `Members.delete_mfa_phone_number`.
@@ -115,7 +118,8 @@ pub struct DeleteMFAPhoneNumberResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeletePasswordRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_password_id: Globally unique UUID that identifies a Member's password.
     pub member_password_id: String,
@@ -143,10 +147,12 @@ pub struct DeletePasswordResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// DeleteResponse: Response type for `Members.delete`.
@@ -168,10 +174,12 @@ pub struct DeleteResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteTOTPRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// DeleteTOTPResponse: Response type for `Members.delete_totp`.
@@ -197,10 +205,12 @@ pub struct DeleteTOTPResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: std::option::Option<String>,
     /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,
@@ -228,10 +238,12 @@ pub struct GetResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OIDCProviderInformationRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
     /// include_refresh_token: Whether to return the refresh token Stytch has stored for the OAuth Provider.
     /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
@@ -257,10 +269,12 @@ pub struct OIDCProvidersResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ReactivateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// ReactivateResponse: Response type for `Members.reactivate`.
@@ -329,10 +343,12 @@ pub struct SearchResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UnlinkRetiredEmailRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
     /// email_id: The globally unique UUID of a Member's email.
     pub email_id: std::option::Option<String>,
@@ -365,10 +381,12 @@ pub struct UnlinkRetiredEmailResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
     /// name: The name of the Member.
     ///

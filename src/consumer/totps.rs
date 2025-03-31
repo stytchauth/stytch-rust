@@ -22,7 +22,8 @@ pub struct TOTP {
 /// AuthenticateRequest: Request type for `TOTPs.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
-    /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
+    /// user_id: The `user_id` of an active user the TOTP registration should be tied to. You may use an
+    /// external_id here if one is set for the user.
     pub user_id: String,
     /// totp_code: The TOTP code to authenticate. The TOTP code should consist of 6 digits.
     pub totp_code: String,
@@ -85,7 +86,8 @@ pub struct AuthenticateResponse {
 /// CreateRequest: Request type for `TOTPs.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
-    /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
+    /// user_id: The `user_id` of an active user the TOTP registration should be tied to. You may use an
+    /// external_id here if one is set for the user.
     pub user_id: String,
     /// expiration_minutes: The expiration for the TOTP instance. If the newly created TOTP is not authenticated
     /// within this time frame the TOTP will be unusable. Defaults to 1440 (1 day) with a minimum of 5 and a
@@ -122,7 +124,8 @@ pub struct CreateResponse {
 /// RecoverRequest: Request type for `TOTPs.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoverRequest {
-    /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
+    /// user_id: The `user_id` of an active user the TOTP registration should be tied to. You may use an
+    /// external_id here if one is set for the user.
     pub user_id: String,
     /// recovery_code: The recovery code to authenticate.
     pub recovery_code: String,
@@ -185,7 +188,8 @@ pub struct RecoverResponse {
 /// RecoveryCodesRequest: Request type for `TOTPs.recovery_codes`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoveryCodesRequest {
-    /// user_id: The `user_id` of an active user the TOTP registration should be tied to.
+    /// user_id: The `user_id` of an active user the TOTP registration should be tied to. You may use an
+    /// external_id here if one is set for the user.
     pub user_id: String,
 }
 /// RecoveryCodesResponse: Response type for `TOTPs.recovery_codes`.

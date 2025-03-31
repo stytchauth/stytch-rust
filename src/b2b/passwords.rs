@@ -54,7 +54,8 @@ pub struct ZxcvbnFeedback {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -162,7 +163,8 @@ pub struct MigrateRequest {
     /// `sha_1`, and `pbkdf_2` are supported.
     pub hash_type: MigrateRequestHashType,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// md_5_config: Optional parameters for MD-5 hash types.
     pub md_5_config: std::option::Option<MD5Config>,

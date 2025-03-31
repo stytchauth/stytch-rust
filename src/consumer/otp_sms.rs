@@ -79,7 +79,7 @@ pub struct SendRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<SendRequestLocale>,
-    /// user_id: The unique ID of a specific User.
+    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,

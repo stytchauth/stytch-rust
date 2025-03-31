@@ -443,7 +443,8 @@ pub struct GetJWKSResponse {
 /// GetRequest: Request type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
-    /// user_id: The `user_id` to get active Sessions for.
+    /// user_id: The `user_id` to get active Sessions for. You may use an external_id here if one is set for the
+    /// user.
     pub user_id: String,
 }
 /// GetResponse: Response type for `Sessions.get`.
