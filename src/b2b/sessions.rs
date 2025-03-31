@@ -15,7 +15,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthorizationCheck {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
@@ -214,7 +215,8 @@ pub struct ExchangeAccessTokenResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangeRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// session_token: The `session_token` belonging to the member that you wish to associate the email with.
     pub session_token: std::option::Option<String>,
@@ -328,10 +330,12 @@ pub struct GetJWKSResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// GetResponse: Response type for `Sessions.get`.
@@ -355,7 +359,8 @@ pub struct MigrateRequest {
     /// session_token: The authorization token Stytch will pass in to the external userinfo endpoint.
     pub session_token: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,

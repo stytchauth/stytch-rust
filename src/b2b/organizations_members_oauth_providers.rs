@@ -118,10 +118,12 @@ pub struct MicrosoftResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProviderInformationRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
     /// include_refresh_token: Whether to return the refresh token Stytch has stored for the OAuth Provider.
     /// Defaults to false. **Important:** If your application exchanges the refresh token, Stytch may not be
@@ -132,10 +134,12 @@ pub struct ProviderInformationRequest {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SlackRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
 }
 /// SlackResponse: Response type for `OAuthProviders.slack`.

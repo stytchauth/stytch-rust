@@ -93,10 +93,12 @@ pub struct HubspotProviderInfo {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Member {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value.
+    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
+    /// one is set for the member.
     pub member_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -321,7 +323,8 @@ pub struct OIDCProviderInfo {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Organization {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
     pub organization_name: String,
@@ -329,7 +332,8 @@ pub struct Organization {
     pub organization_logo_url: String,
     /// organization_slug: The unique URL slug of the Organization. The slug only accepts alphanumeric
     /// characters and the following reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters
-    /// in length.
+    /// in length. Wherever an organization_id is expected in a path or request parameter, you may also use the
+    /// organization_slug as a convenience.
     pub organization_slug: String,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
@@ -530,7 +534,8 @@ pub struct CreateRequest {
     pub organization_name: String,
     /// organization_slug: The unique URL slug of the Organization. The slug only accepts alphanumeric
     /// characters and the following reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters
-    /// in length.
+    /// in length. Wherever an organization_id is expected in a path or request parameter, you may also use the
+    /// organization_slug as a convenience.
     pub organization_slug: std::option::Option<String>,
     /// organization_logo_url: The image URL of the Organization logo.
     pub organization_logo_url: std::option::Option<String>,
@@ -657,7 +662,8 @@ pub struct CreateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
 }
 /// DeleteResponse: Response type for `Organizations.delete`.
@@ -680,7 +686,8 @@ pub struct DeleteResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
 }
 /// GetResponse: Response type for `Organizations.get`.
@@ -750,7 +757,8 @@ pub struct SearchResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
-    /// critical to perform operations on an Organization, so be sure to preserve this value.
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
     ///
@@ -759,7 +767,8 @@ pub struct UpdateRequest {
     pub organization_name: std::option::Option<String>,
     /// organization_slug: The unique URL slug of the Organization. The slug only accepts alphanumeric
     /// characters and the following reserved characters: `-` `.` `_` `~`. Must be between 2 and 128 characters
-    /// in length.
+    /// in length. Wherever an organization_id is expected in a path or request parameter, you may also use the
+    /// organization_slug as a convenience.
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.info.slug` action on the `stytch.organization` Resource.
