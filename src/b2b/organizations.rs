@@ -175,6 +175,7 @@ pub struct Member {
     /// scim_registration: A scim member registration, referencing a [SCIM Connection](scim-connection-object)
     /// object in use for the Member creation.
     pub scim_registration: std::option::Option<SCIMRegistration>,
+    pub external_id: std::option::Option<String>,
 }
 /// MemberRole:
 #[derive(Serialize, Deserialize, Debug, Clone)]
