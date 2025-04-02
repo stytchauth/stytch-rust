@@ -158,6 +158,7 @@ pub struct User {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    pub external_id: std::option::Option<String>,
 }
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -529,6 +530,7 @@ pub struct GetResponse {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    pub external_id: std::option::Option<String>,
 }
 /// SearchRequest: Request type for `Users.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -585,6 +587,11 @@ pub struct UpdateRequest {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// external_id: An identifier that can be used in API calls wherever a user_id is expected. This is a
+    /// string consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+    /// External IDs must be unique within an organization, but may be reused across different organizations in
+    /// the same project.
+    pub external_id: std::option::Option<String>,
 }
 /// UpdateResponse: Response type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
