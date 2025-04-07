@@ -209,6 +209,11 @@ pub struct CreateRequest {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// external_id: An identifier that can be used in API calls wherever a user_id is expected. This is a
+    /// string consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
+    /// External IDs must be unique within an organization, but may be reused across different organizations in
+    /// the same project.
+    pub external_id: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
