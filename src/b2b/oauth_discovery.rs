@@ -75,6 +75,8 @@ pub struct AuthenticateResponse {
     /// always be populated if at least one tenant ID was returned from the OAuth provider and developers should
     /// prefer this field over `provider_tenant_id`.
     pub provider_tenant_ids: std::vec::Vec<String>,
+    /// full_name: The full name of the authenticated end user, if available.
+    pub full_name: String,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
