@@ -314,6 +314,12 @@ pub enum AuthenticateRequestLocale {
     Fr,
     #[serde(rename = "it")]
     It,
+    #[serde(rename = "deDE")]
+    DeDE,
+    #[serde(rename = "zhHans")]
+    ZhHans,
+    #[serde(rename = "caES")]
+    CaES,
 }
 
 pub struct SSO {

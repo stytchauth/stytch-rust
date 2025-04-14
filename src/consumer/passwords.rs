@@ -283,10 +283,10 @@ pub struct MigrateRequest {
     /// send us a note at support@stytch.com.
     pub set_phone_number_verified: std::option::Option<bool>,
     /// external_id: If a new user is created, this will set an identifier that can be used in API calls
-    /// wherever a user_id is expected. This is a string consisting of alphanumeric, `.`, `_`, or `-` characters
-    /// with a maximum length of 128 characters. External IDs must be unique within an organization, but may be
-    /// reused across different organizations in the same project. Note that if a user already exists, this
-    /// field will be ignored.
+    /// wherever a user_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
+    /// characters with a maximum length of 128 characters. External IDs must be unique within an organization,
+    /// but may be reused across different organizations in the same project. Note that if a user already
+    /// exists, this field will be ignored.
     pub external_id: std::option::Option<String>,
 }
 /// MigrateResponse: Response type for `Passwords.migrate`.
