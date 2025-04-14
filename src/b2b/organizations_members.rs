@@ -55,9 +55,9 @@ pub struct CreateRequest {
     ///    for more information about role assignment.
     pub roles: std::option::Option<std::vec::Vec<String>>,
     /// external_id: An identifier that can be used in API calls wherever a member_id is expected. This is a
-    /// string consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
-    /// External IDs must be unique within an organization, but may be reused across different organizations in
-    /// the same project.
+    /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
+    /// characters. External IDs must be unique within an organization, but may be reused across different
+    /// organizations in the same project.
     pub external_id: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Members.create`.
@@ -490,9 +490,9 @@ pub struct UpdateRequest {
     /// update their own email address.
     pub email_address: std::option::Option<String>,
     /// external_id: An identifier that can be used in API calls wherever a member_id is expected. This is a
-    /// string consisting of alphanumeric, `.`, `_`, or `-` characters with a maximum length of 128 characters.
-    /// External IDs must be unique within an organization, but may be reused across different organizations in
-    /// the same project.
+    /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
+    /// characters. External IDs must be unique within an organization, but may be reused across different
+    /// organizations in the same project.
     pub external_id: std::option::Option<String>,
 }
 /// UpdateResponse: Response type for `Members.update`.

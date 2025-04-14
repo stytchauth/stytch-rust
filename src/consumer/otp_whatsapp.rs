@@ -29,8 +29,8 @@ pub struct LoginOrCreateRequest {
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
-    /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-    /// (`"pt-br"`); if no value is provided, the copy defaults to English.
+    /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+    /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
     ///
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
@@ -72,8 +72,8 @@ pub struct SendRequest {
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
-    /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
-    /// (`"pt-br"`); if no value is provided, the copy defaults to English.
+    /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
+    /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
     ///
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
@@ -117,6 +117,12 @@ pub enum LoginOrCreateRequestLocale {
     Fr,
     #[serde(rename = "it")]
     It,
+    #[serde(rename = "deDE")]
+    DeDE,
+    #[serde(rename = "zhHans")]
+    ZhHans,
+    #[serde(rename = "caES")]
+    CaES,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
@@ -131,6 +137,12 @@ pub enum SendRequestLocale {
     Fr,
     #[serde(rename = "it")]
     It,
+    #[serde(rename = "deDE")]
+    DeDE,
+    #[serde(rename = "zhHans")]
+    ZhHans,
+    #[serde(rename = "caES")]
+    CaES,
 }
 
 pub struct Whatsapp {

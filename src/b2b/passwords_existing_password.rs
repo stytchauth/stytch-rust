@@ -115,6 +115,8 @@ pub enum ResetRequestLocale {
     Es,
     #[serde(rename = "ptbr")]
     Ptbr,
+    #[serde(rename = "fr")]
+    Fr,
 }
 
 pub struct ExistingPassword {
