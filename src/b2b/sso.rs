@@ -98,6 +98,7 @@ pub struct SAMLConnection {
     pub identity_provider: String,
     pub nameid_format: String,
     pub alternative_acs_url: String,
+    pub idp_initiated_auth_disabled: bool,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
 /// SAMLConnectionImplicitRoleAssignment:

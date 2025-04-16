@@ -162,6 +162,9 @@ pub struct UpdateConnectionRequest {
     /// [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
     /// for more info.
     pub alternative_acs_url: std::option::Option<String>,
+    /// idp_initiated_auth_disabled: Determines whether IDP initiated auth is allowed for a given SAML
+    /// connection. Defaults to false (IDP Initiated Auth is enabled).
+    pub idp_initiated_auth_disabled: std::option::Option<bool>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

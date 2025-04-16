@@ -77,6 +77,9 @@ pub struct PBKDF2Config {
     pub iteration_amount: i32,
     /// key_length: The key length, also known as the hash length.
     pub key_length: i32,
+    /// algorithm: The algorithm that was used to generate the HMAC hash. Accepted values are "sha512" and
+    /// sha256". Defaults to sha256.
+    pub algorithm: String,
 }
 /// SHA1Config:
 #[derive(Serialize, Deserialize, Debug, Clone)]
