@@ -133,8 +133,9 @@ pub struct ResetResponse {
     /// [OTP SMS Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-otp-sms),
     /// [TOTP Authenticate endpoint](https://stytch.com/docs/b2b/api/authenticate-totp), or
     /// [Recovery Codes Recover endpoint](https://stytch.com/docs/b2b/api/recovery-codes-recover) to complete an
-    /// MFA flow and log in to the Organization. Password factors are not transferable between Organizations, so
-    /// the intermediate session token is not valid for use with discovery endpoints.
+    /// MFA flow and log in to the Organization. The token has a default expiry of 10 minutes. Password factors
+    /// are not transferable between Organizations, so the intermediate session token is not valid for use with
+    /// discovery endpoints.
     pub intermediate_session_token: String,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.

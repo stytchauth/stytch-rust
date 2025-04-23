@@ -4,9 +4,42 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::consumer::fraud::Rule;
 use crate::consumer::fraud::RuleAction;
 use serde::{Deserialize, Serialize};
 
+/// ListRequest: Request type for `Rules.list`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct ListRequest {
+    /// cursor: The `cursor` field allows you to paginate through your results. Each result array is limited to
+    /// 100 results. If your query returns more than 100 results, you will need to paginate the responses using
+    /// the `cursor`. If you receive a response that includes a non-null `next_cursor`, repeat the request with
+    /// the `next_cursor` value set to the `cursor` field to retrieve the next page of results. Continue to make
+    /// requests until the `next_cursor` in the response is null.
+    pub cursor: std::option::Option<String>,
+    /// limit: The number of results to return per page. The default limit is 10. A maximum of 100 results can
+    /// be returned by a single get request. If the total size of your result set is greater than one page size,
+    /// you must paginate the response. See the `cursor` field.
+    pub limit: std::option::Option<i32>,
+}
+/// ListResponse: Response type for `Rules.list`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ListResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// next_cursor: The `next_cursor` string is returned when your result contains more than one page of
+    /// results. This value is passed into your next request in the `cursor` field.
+    pub next_cursor: String,
+    /// rules: A list of rules for the project
+    pub rules: std::vec::Vec<Rule>,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// SetRequest: Request type for `Rules.set`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SetRequest {
@@ -101,6 +134,16 @@ impl Rules {
 
     pub async fn set(&self, body: SetRequest) -> crate::Result<SetResponse> {
         let path = String::from("/v1/rules/set");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn list(&self, body: ListRequest) -> crate::Result<ListResponse> {
+        let path = String::from("/v1/rules/list");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
