@@ -494,6 +494,9 @@ pub struct UpdateRequest {
     /// characters. External IDs must be unique within an organization, but may be reused across different
     /// organizations in the same project.
     pub external_id: std::option::Option<String>,
+    /// unlink_email: If `unlink_email` is `true` and an `email_address` is provided, the Member's previous
+    /// email will be deleted instead of retired. Defaults to `false`.
+    pub unlink_email: std::option::Option<bool>,
 }
 /// UpdateResponse: Response type for `Members.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

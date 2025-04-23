@@ -187,7 +187,6 @@ pub struct CreateRequest {
     pub email: std::option::Option<String>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
-    /// attributes: Provided attributes help with fraud detection.
     pub attributes: std::option::Option<Attributes>,
     /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
     /// (i.e. +1XXXXXXXXXX). You may use +10000000000 to test this endpoint, see

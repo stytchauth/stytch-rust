@@ -81,6 +81,46 @@ pub struct Properties {
     pub network_properties: NetworkProperties,
     pub browser_properties: BrowserProperties,
 }
+/// Rule:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Rule {
+    /// rule_type: The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
+    /// `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
+    /// `COUNTRY_CODE`.
+    pub rule_type: RuleType,
+    /// action: The action (`ALLOW`, `BLOCK`, or `CHALLENGE`) that will be returned for this rule.
+    pub action: RuleAction,
+    /// created_at: The time when the rule was created. Values conform to the RFC 3339 standard and are
+    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub created_at: chrono::DateTime<chrono::Utc>,
+    /// visitor_id: The visitor ID that a rule was set for.
+    pub visitor_id: std::option::Option<String>,
+    /// browser_id: The browser ID that a rule was set for.
+    pub browser_id: std::option::Option<String>,
+    /// visitor_fingerprint: The visitor fingerprint that a rule was set for.
+    pub visitor_fingerprint: std::option::Option<String>,
+    /// browser_fingerprint: The browser fingerprint that a rule was set for.
+    pub browser_fingerprint: std::option::Option<String>,
+    /// hardware_fingerprint: The hardware fingerprint that a rule was set for.
+    pub hardware_fingerprint: std::option::Option<String>,
+    /// network_fingerprint: The network fingerprint that a rule was set for.
+    pub network_fingerprint: std::option::Option<String>,
+    /// cidr_block: The CIDR block that a rule was set for. If an end user's IP address is within this CIDR
+    /// block, this rule will be applied.
+    pub cidr_block: std::option::Option<String>,
+    /// country_code: The country code that a rule was set for.
+    pub country_code: std::option::Option<String>,
+    /// asn: The ASN that a rule was set for.
+    pub asn: std::option::Option<String>,
+    /// description: A description for the rule.
+    pub description: std::option::Option<String>,
+    /// expires_at: The timestamp when the rule expires. Values conform to the RFC 3339 standard and are
+    /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// last_updated_at: The time when the rule was last updated. Will be null if the rule has never been
+    /// updated. Values conform to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub last_updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
 /// Verdict:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Verdict {
