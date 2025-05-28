@@ -64,7 +64,7 @@ pub struct Metadata {
 /// NetworkProperties:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NetworkProperties {
-    /// ip_address: The IP address of the user.
+    /// ip_address: The IP address of the client.
     pub ip_address: String,
     /// asn: Information about the network's ASN (Autonomous System Number).
     pub asn: ASNProperties,

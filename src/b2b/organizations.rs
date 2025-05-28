@@ -145,6 +145,7 @@ pub struct Member {
     ///   using the [Unlink Retired Email endpoint](https://stytch.com/docs/b2b/api/unlink-retired-member-email).
     ///
     pub retired_email_addresses: std::vec::Vec<RetiredEmail>,
+    pub is_locked: bool,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
@@ -177,6 +178,17 @@ pub struct Member {
     pub scim_registration: std::option::Option<SCIMRegistration>,
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
+    pub lock_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MemberConnectedApp {
+    pub connected_app_id: String,
+    pub name: String,
+    pub description: String,
+    pub client_type: String,
+    pub scopes_granted: String,
+    pub logo_url: std::option::Option<String>,
 }
 /// MemberRole:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -431,6 +443,10 @@ pub struct Organization {
     ///
     pub oauth_tenant_jit_provisioning: String,
     pub claimed_email_domains: std::vec::Vec<String>,
+    pub first_party_connected_apps_allowed_type: String,
+    pub allowed_first_party_connected_apps: std::vec::Vec<String>,
+    pub third_party_connected_apps_allowed_type: String,
+    pub allowed_third_party_connected_apps: std::vec::Vec<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -449,6 +465,19 @@ pub struct Organization {
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
     /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OrganizationConnectedApp {
+    pub connected_app_id: String,
+    pub name: String,
+    pub description: String,
+    pub client_type: String,
+    pub logo_url: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OrganizationConnectedAppActiveMember {
+    pub member_id: String,
+    pub granted_scopes: std::vec::Vec<String>,
 }
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -528,6 +557,17 @@ pub struct SlackProviderInfo {
     pub bot_access_token: String,
     /// bot_scopes: The scopes that the bot application has access to in Slack.
     pub bot_scopes: std::vec::Vec<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct ConnectedAppsRequest {
+    pub organization_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ConnectedAppsResponse {
+    pub request_id: String,
+    pub connected_apps: std::vec::Vec<OrganizationConnectedApp>,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
 }
 /// CreateRequest: Request type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -644,6 +684,12 @@ pub struct CreateRequest {
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
     /// claimed_email_domains: A list of email domains that are claimed by the Organization.
     pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
+    pub first_party_connected_apps_allowed_type:
+        std::option::Option<CreateRequestFirstPartyConnectedAppsAllowedType>,
+    pub allowed_first_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
+    pub third_party_connected_apps_allowed_type:
+        std::option::Option<CreateRequestThirdPartyConnectedAppsAllowedType>,
+    pub allowed_third_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -683,6 +729,22 @@ pub struct DeleteResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct GetConnectedAppRequest {
+    pub organization_id: String,
+    pub connected_app_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GetConnectedAppResponse {
+    pub connected_app_id: String,
+    pub name: String,
+    pub description: String,
+    pub client_type: String,
+    pub active_members: std::vec::Vec<OrganizationConnectedAppActiveMember>,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    pub logo_url: std::option::Option<String>,
 }
 /// GetRequest: Request type for `Organizations.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -946,6 +1008,12 @@ pub struct UpdateRequest {
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
     /// claimed_email_domains: A list of email domains that are claimed by the Organization.
     pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
+    pub first_party_connected_apps_allowed_type:
+        std::option::Option<UpdateRequestFirstPartyConnectedAppsAllowedType>,
+    pub allowed_first_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
+    pub third_party_connected_apps_allowed_type:
+        std::option::Option<UpdateRequestThirdPartyConnectedAppsAllowedType>,
+    pub allowed_third_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -964,12 +1032,52 @@ pub struct UpdateResponse {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum CreateRequestFirstPartyConnectedAppsAllowedType {
+    #[serde(rename = "ALL_ALLOWED")]
+    #[default]
+    ALLALLOWED,
+    #[serde(rename = "RESTRICTED")]
+    RESTRICTED,
+    #[serde(rename = "NOT_ALLOWED")]
+    NOTALLOWED,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum CreateRequestThirdPartyConnectedAppsAllowedType {
+    #[serde(rename = "ALL_ALLOWED")]
+    #[default]
+    ALLALLOWED,
+    #[serde(rename = "RESTRICTED")]
+    RESTRICTED,
+    #[serde(rename = "NOT_ALLOWED")]
+    NOTALLOWED,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SearchQueryOperator {
     #[serde(rename = "OR")]
     #[default]
     OR,
     #[serde(rename = "AND")]
     AND,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum UpdateRequestFirstPartyConnectedAppsAllowedType {
+    #[serde(rename = "ALL_ALLOWED")]
+    #[default]
+    ALLALLOWED,
+    #[serde(rename = "RESTRICTED")]
+    RESTRICTED,
+    #[serde(rename = "NOT_ALLOWED")]
+    NOTALLOWED,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum UpdateRequestThirdPartyConnectedAppsAllowedType {
+    #[serde(rename = "ALL_ALLOWED")]
+    #[default]
+    ALLALLOWED,
+    #[serde(rename = "RESTRICTED")]
+    RESTRICTED,
+    #[serde(rename = "NOT_ALLOWED")]
+    NOTALLOWED,
 }
 
 pub struct Organizations {
@@ -1041,6 +1149,36 @@ impl Organizations {
     pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/metrics");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn connected_apps(
+        &self,
+        body: ConnectedAppsRequest,
+    ) -> crate::Result<ConnectedAppsResponse> {
+        let organization_id = &body.organization_id;
+        let path = format!("/v1/b2b/organizations/{organization_id}/connected_apps");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn get_connected_app(
+        &self,
+        body: GetConnectedAppRequest,
+    ) -> crate::Result<GetConnectedAppResponse> {
+        let organization_id = &body.organization_id;
+        let connected_app_id = &body.connected_app_id;
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/connected_apps/{connected_app_id}");
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

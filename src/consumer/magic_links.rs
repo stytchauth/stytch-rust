@@ -31,7 +31,8 @@ pub struct AuthenticateRequest {
     ///   In the redirect URL, the `stytch_token_type` will be `magic_link`. See
     /// [here](https://stytch.com/docs/workspace-management/redirect-urls) for more detail.
     pub token: String,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// options: Specify optional security settings.
     pub options: std::option::Option<Options>,
@@ -94,19 +95,20 @@ pub struct AuthenticateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
 /// CreateRequest: Request type for `MagicLinks.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: String,
     /// expiration_minutes: Set the expiration for the Magic Link `token` in minutes. By default, it expires in
     /// 1 hour. The minimum expiration is 5 minutes and the maximum is 7 days (10080 mins).
     pub expiration_minutes: std::option::Option<i32>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
 }
 /// CreateResponse: Response type for `MagicLinks.create`.

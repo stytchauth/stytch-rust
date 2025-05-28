@@ -5,10 +5,12 @@
 // !!!
 
 use crate::b2b::organizations::Member;
+use crate::b2b::organizations::MemberConnectedApp;
 use crate::b2b::organizations::OIDCProviderInfo;
 use crate::b2b::organizations::Organization;
 use crate::b2b::organizations::ResultsMetadata;
 use crate::b2b::organizations::SearchQuery;
+use crate::b2b::organizations_members_connected_apps::ConnectedApps;
 use crate::b2b::organizations_members_oauth_providers::OAuthProviders;
 use serde::{Deserialize, Serialize};
 
@@ -203,6 +205,18 @@ pub struct DeleteTOTPResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct GetConnectedAppsRequest {
+    pub organization_id: String,
+    pub member_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct GetConnectedAppsResponse {
+    pub request_id: String,
+    pub connected_apps: std::vec::Vec<MemberConnectedApp>,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -521,6 +535,7 @@ pub struct UpdateResponse {
 pub struct Members {
     http_client: crate::client::Client,
     pub oauth_providers: OAuthProviders,
+    pub connected_apps: ConnectedApps,
 }
 
 impl Members {
@@ -528,6 +543,7 @@ impl Members {
         Self {
             http_client: http_client.clone(),
             oauth_providers: OAuthProviders::new(http_client.clone()),
+            connected_apps: ConnectedApps::new(http_client.clone()),
         }
     }
 
@@ -663,6 +679,22 @@ impl Members {
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn get_connected_apps(
+        &self,
+        body: GetConnectedAppsRequest,
+    ) -> crate::Result<GetConnectedAppsResponse> {
+        let organization_id = &body.organization_id;
+        let member_id = &body.member_id;
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/connected_apps");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
                 path,
                 body,
             })

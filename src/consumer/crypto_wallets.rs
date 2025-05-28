@@ -99,7 +99,7 @@ pub struct AuthenticateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
     /// siwe_params: The parameters of the Sign In With Ethereum (SIWE) message that was signed.
@@ -114,7 +114,7 @@ pub struct AuthenticateStartRequest {
     pub crypto_wallet_type: String,
     /// crypto_wallet_address: The crypto wallet address to authenticate.
     pub crypto_wallet_address: String,
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
