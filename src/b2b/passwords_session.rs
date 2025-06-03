@@ -18,7 +18,7 @@ pub struct ResetRequest {
     /// the organization_slug here as a convenience.
     pub organization_id: String,
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,

@@ -16,7 +16,8 @@ pub struct LoginOrCreateRequest {
     /// expiration_minutes: Set the expiration for the one-time passcode, in minutes. The minimum expiration is
     /// 1 minute and the maximum is 10 minutes. The default expiration is 2 minutes.
     pub expiration_minutes: std::option::Option<i32>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
@@ -73,7 +74,8 @@ pub struct SendRequest {
     /// expiration_minutes: Set the expiration for the one-time passcode, in minutes. The minimum expiration is
     /// 1 minute and the maximum is 10 minutes. The default expiration is 2 minutes.
     pub expiration_minutes: std::option::Option<i32>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
@@ -85,7 +87,7 @@ pub struct SendRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<SendRequestLocale>,
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,

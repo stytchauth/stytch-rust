@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
     /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
-    /// characers, etc.
+    /// characters, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
@@ -64,7 +64,7 @@ pub struct ResetResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }

@@ -60,7 +60,7 @@ pub struct AuthenticateRequest {
     /// email_address: The email address of the Member.
     pub email_address: String,
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: std::option::Option<String>,
@@ -243,7 +243,7 @@ pub struct MigrateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
     /// email_address: The email address of the Member.
     pub email_address: std::option::Option<String>,

@@ -64,7 +64,7 @@ pub struct Metadata {
 /// NetworkProperties:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NetworkProperties {
-    /// ip_address: The IP address of the user.
+    /// ip_address: The IP address of the client.
     pub ip_address: String,
     /// asn: Information about the network's ASN (Autonomous System Number).
     pub asn: ASNProperties,
@@ -136,7 +136,8 @@ pub struct Verdict {
     ///
     pub action: VerdictAction,
     /// reasons: A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a
-    /// list of possible Reasons, please [contact support](mailto:support@stytch.com).
+    /// list of possible Reasons, see
+    /// [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
     pub reasons: std::vec::Vec<String>,
     /// detected_device_type: The operating system and architecture that took the fingerprint.
     pub detected_device_type: String,

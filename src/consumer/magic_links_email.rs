@@ -17,7 +17,8 @@ pub struct InviteRequest {
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
     /// Magic links - Invite.
     pub invite_template_id: std::option::Option<String>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
@@ -39,6 +40,15 @@ pub struct InviteRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<InviteRequestLocale>,
+    /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
+    /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
+    /// details.
+    pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// untrusted_metadata: The `untrusted_metadata` field contains an arbitrary JSON object of
+    /// application-specific data. Untrusted metadata can be edited by end users directly via the SDK, and
+    /// **cannot be used to store critical information.** See the
+    /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
+    pub untrusted_metadata: std::option::Option<serde_json::Value>,
 }
 /// InviteResponse: Response type for `Email.invite`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -86,7 +96,8 @@ pub struct LoginOrCreateRequest {
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
     /// Magic links - Sign-up.
     pub signup_template_id: std::option::Option<String>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// create_user_as_pending: Flag for whether or not to save a user as pending vs active in Stytch. Defaults
     /// to false.
@@ -157,7 +168,8 @@ pub struct SendRequest {
     /// template. The template must be a template using our built-in customizations or a custom HTML email for
     /// Magic links - Login.
     pub login_template_id: std::option::Option<String>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// login_magic_link_url: The URL the end user clicks from the login Email Magic Link. This should be a URL
     /// that your app receives and parses and subsequently send an API request to authenticate the Magic Link
@@ -178,7 +190,7 @@ pub struct SendRequest {
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
     /// starts and ends on the same device.
     pub code_challenge: std::option::Option<String>,
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` of the user to associate the email with.
     pub session_token: std::option::Option<String>,

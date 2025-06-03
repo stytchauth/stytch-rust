@@ -112,7 +112,7 @@ pub struct AuthenticateRequest {
     /// email: The email address of the end user.
     pub email: String,
     /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
-    /// characers, etc.
+    /// characters, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
@@ -164,7 +164,7 @@ pub struct AuthenticateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -174,7 +174,7 @@ pub struct CreateRequest {
     /// email: The email address of the end user.
     pub email: String,
     /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
-    /// characers, etc.
+    /// characters, etc.
     pub password: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
@@ -235,7 +235,7 @@ pub struct CreateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -287,9 +287,7 @@ pub struct MigrateRequest {
     pub set_phone_number_verified: std::option::Option<bool>,
     /// external_id: If a new user is created, this will set an identifier that can be used in API calls
     /// wherever a user_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
-    /// characters with a maximum length of 128 characters. External IDs must be unique within an organization,
-    /// but may be reused across different organizations in the same project. Note that if a user already
-    /// exists, this field will be ignored.
+    /// characters with a maximum length of 128 characters.
     pub external_id: std::option::Option<String>,
 }
 /// MigrateResponse: Response type for `Passwords.migrate`.
@@ -319,7 +317,7 @@ pub struct MigrateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct StrengthCheckRequest {
     /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
-    /// characers, etc.
+    /// characters, etc.
     pub password: String,
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,

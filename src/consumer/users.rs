@@ -142,6 +142,7 @@ pub struct User {
     /// biometric_registrations: An array that contains a list of all biometric registrations for a given User
     /// in the Stytch API.
     pub biometric_registrations: std::vec::Vec<BiometricRegistration>,
+    pub is_locked: bool,
     /// name: The name of the User. Each field in the `name` object is optional.
     pub name: std::option::Option<Name>,
     /// created_at: The timestamp of the User's creation. Values conform to the RFC 3339 standard and are
@@ -159,6 +160,25 @@ pub struct User {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     pub external_id: std::option::Option<String>,
+    pub lock_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
+/// UserConnectedApp:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UserConnectedApp {
+    /// connected_app_id: The ID of the Connected App.
+    pub connected_app_id: String,
+    /// name: The name of the Connected App.
+    pub name: String,
+    /// description: A description of the Connected App.
+    pub description: String,
+    /// client_type: The type of Connected App. Supported values are `first_party`, `first_party_public`,
+    /// `third_party`, and `third_party_public`.
+    pub client_type: String,
+    /// scopes_granted: The scopes granted to the Connected App at the completion of the last authorization flow.
+    pub scopes_granted: String,
+    /// logo_url: The logo URL of the Connected App, if any.
+    pub logo_url: std::option::Option<String>,
 }
 /// WebAuthnRegistration:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -179,6 +199,25 @@ pub struct WebAuthnRegistration {
     pub authenticator_type: String,
     /// name: The `name` of the Passkey or WebAuthn registration.
     pub name: String,
+}
+/// ConnectedAppsRequest: Request type for `Users.connected_apps`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct ConnectedAppsRequest {
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
+    pub user_id: String,
+}
+/// ConnectedAppsResponse: Response type for `Users.connected_apps`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ConnectedAppsResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// connected_apps: An array of Connected Apps with which the User has successfully completed an
+    /// authorization flow.
+    pub connected_apps: std::vec::Vec<UserConnectedApp>,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
 }
 /// CreateRequest: Request type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -210,8 +249,7 @@ pub struct CreateRequest {
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// external_id: An identifier that can be used in API calls wherever a user_id is expected. This is a
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
-    /// characters. External IDs must be unique within an organization, but may be reused across different
-    /// organizations in the same project.
+    /// characters.
     pub external_id: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Users.create`.
@@ -385,7 +423,7 @@ pub struct DeletePhoneNumberResponse {
 /// DeleteRequest: Request type for `Users.delete`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteRequest {
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: String,
 }
 /// DeleteResponse: Response type for `Users.delete`.
@@ -454,7 +492,7 @@ pub struct DeleteWebAuthnRegistrationResponse {
 /// ExchangePrimaryFactorRequest: Request type for `Users.exchange_primary_factor`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ExchangePrimaryFactorRequest {
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: String,
     /// email_address: The email address to exchange to.
     pub email_address: std::option::Option<String>,
@@ -483,7 +521,7 @@ pub struct ExchangePrimaryFactorResponse {
 /// GetRequest: Request type for `Users.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: String,
 }
 /// GetResponse: Response type for `Users.get`.
@@ -513,6 +551,7 @@ pub struct GetResponse {
     /// biometric_registrations: An array that contains a list of all biometric registrations for a given User
     /// in the Stytch API.
     pub biometric_registrations: std::vec::Vec<BiometricRegistration>,
+    pub is_locked: bool,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -535,6 +574,26 @@ pub struct GetResponse {
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     pub external_id: std::option::Option<String>,
+    pub lock_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
+/// RevokeRequest: Request type for `Users.revoke`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct RevokeRequest {
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
+    pub user_id: String,
+    /// connected_app_id: The ID of the Connected App.
+    pub connected_app_id: String,
+}
+/// RevokeResponse: Response type for `Users.revoke`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct RevokeResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
 }
 /// SearchRequest: Request type for `Users.search`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -576,11 +635,12 @@ pub struct SearchResponse {
 /// UpdateRequest: Request type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UpdateRequest {
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: String,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// trusted_metadata: The `trusted_metadata` field contains an arbitrary JSON object of application-specific
     /// data. See the [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior
@@ -593,8 +653,7 @@ pub struct UpdateRequest {
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// external_id: An identifier that can be used in API calls wherever a user_id is expected. This is a
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
-    /// characters. External IDs must be unique within an organization, but may be reused across different
-    /// organizations in the same project.
+    /// characters.
     pub external_id: std::option::Option<String>,
 }
 /// UpdateResponse: Response type for `Users.update`.
@@ -813,6 +872,32 @@ impl Users {
         self.http_client
             .send(crate::Request {
                 method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn connected_apps(
+        &self,
+        body: ConnectedAppsRequest,
+    ) -> crate::Result<ConnectedAppsResponse> {
+        let user_id = &body.user_id;
+        let path = format!("/v1/users/{user_id}/connected_apps");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
+        let user_id = &body.user_id;
+        let connected_app_id = &body.connected_app_id;
+        let path = format!("/v1/users/{user_id}/connected_apps/{connected_app_id}/revoke");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
                 path,
                 body,
             })

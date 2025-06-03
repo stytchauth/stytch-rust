@@ -80,7 +80,7 @@ pub struct AuthenticateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -90,7 +90,7 @@ pub struct AuthenticateStartRequest {
     /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
     /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
-    /// use an external_id here if one is set for the user.
+    /// use an `external_id` here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// return_passkey_credential_options: If true, the `public_key_credential_creation_options` returned will
     /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
@@ -141,7 +141,7 @@ pub struct ListCredentialsResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterRequest {
     /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
-    /// use an external_id here if one is set for the user.
+    /// use an `external_id` here if one is set for the user.
     pub user_id: String,
     /// public_key_credential: The response of the
     /// [navigator.credentials.create()](https://www.w3.org/TR/webauthn-2/#sctn-createCredential).
@@ -196,7 +196,7 @@ pub struct RegisterResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -204,11 +204,11 @@ pub struct RegisterResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RegisterStartRequest {
     /// user_id: The `user_id` of an active user the Passkey or WebAuthn registration should be tied to. You may
-    /// use an external_id here if one is set for the user.
+    /// use an `external_id` here if one is set for the user.
     pub user_id: String,
     /// domain: The domain for Passkeys or WebAuthn. Defaults to `window.location.hostname`.
     pub domain: String,
-    /// user_agent: The user agent of the User.
+    /// user_agent: The user agent of the client.
     pub user_agent: std::option::Option<String>,
     /// authenticator_type: The requested authenticator type of the Passkey or WebAuthn device. The two valid
     /// values are platform and cross-platform. If no value passed, we assume both values are allowed.
