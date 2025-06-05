@@ -13,7 +13,7 @@ pub struct ResetRequest {
     /// password_reset_token: The password reset token to authenticate.
     pub password_reset_token: String,
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
     pub pkce_code_verifier: std::option::Option<String>,
 }

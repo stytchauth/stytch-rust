@@ -304,6 +304,7 @@ pub struct ExchangeResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
 }
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.

@@ -21,7 +21,7 @@ pub struct ResetRequest {
     /// [here](https://stytch.com/docs/workspace-management/redirect-urls).
     pub token: String,
     /// password: The password for the user. Any UTF8 character is allowed, e.g. spaces, emojis, non-English
-    /// characers, etc.
+    /// characters, etc.
     pub password: String,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
@@ -51,7 +51,8 @@ pub struct ResetRequest {
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// options: Specify optional security settings.
     pub options: std::option::Option<Options>,
@@ -80,7 +81,7 @@ pub struct ResetResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -105,7 +106,8 @@ pub struct ResetStartRequest {
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
     /// starts and ends on the same device.
     pub code_challenge: std::option::Option<String>,
-    /// attributes: Provided attributes help with fraud detection.
+    /// attributes: Provided attributes to help with fraud detection. These values are pulled and passed into
+    /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// login_redirect_url: The URL Stytch redirects to after the OAuth flow is completed for a user that
     /// already exists. This URL should be a route in your application which will run `oauth.authenticate` (see

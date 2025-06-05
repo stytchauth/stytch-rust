@@ -160,9 +160,11 @@ pub struct SCIMConnectionWithToken {
 /// SCIMGroup:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMGroup {
-    /// group_id: Globally unique UUID that identifies a specific SCIM Group.
+    /// group_id: Stytch-issued, globally unique UUID that identifies a specific SCIM Group. The entity `id` in
+    /// the SCIM specification is issued by the Service Provider (SP) and returned to the Identity Provider
+    /// (IdP) to store and use for uniquely identify and updating the Group moving forward.
     pub group_id: String,
-    /// group_name: The name of the SCIM group.
+    /// group_name: The displayName of the SCIM group, sent from the Identity Provider (IdP).
     pub group_name: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The organization_id is
     /// critical to perform operations on an Organization, so be sure to preserve this value.
