@@ -95,6 +95,7 @@ pub struct AuthenticationFactor {
     /// impersonated_factor: Information about the impersonated factor, if one is present.
     pub impersonated_factor: std::option::Option<ImpersonatedFactor>,
     pub oauth_access_token_exchange_factor: std::option::Option<OAuthAccessTokenExchangeFactor>,
+    pub trusted_auth_token_factor: std::option::Option<TrustedAuthTokenFactor>,
 }
 /// AuthenticatorAppFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -198,8 +199,8 @@ pub struct HubspotOAuthFactor {
 /// ImpersonatedFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ImpersonatedFactor {
-    /// impersonator_id: The unique UUID of the impersonator. For impersonation sessions initiated via the
-    /// Stytch dashboard, the `impersonator_id` will be the impersonator's Stytch workspace id.
+    /// impersonator_id: For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id`
+    /// will be the impersonator's Stytch Dashboard `member_id`.
     pub impersonator_id: String,
     /// impersonator_email_address: The email address of the impersonator.
     pub impersonator_email_address: String,
@@ -348,6 +349,10 @@ pub struct TikTokOAuthFactor {
     pub email_id: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TrustedAuthTokenFactor {
+    pub token_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TwitchOAuthFactor {
     pub id: String,
     pub provider_subject: String,
@@ -403,7 +408,7 @@ pub struct AuthenticateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: Session,
     /// session_token: A secret token for a given Stytch Session.
@@ -470,7 +475,7 @@ pub struct ExchangeAccessTokenResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -498,8 +503,8 @@ pub struct GetJWKSResponse {
 /// GetRequest: Request type for `Sessions.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
-    /// user_id: The `user_id` to get active Sessions for. You may use an external_id here if one is set for the
-    /// user.
+    /// user_id: The `user_id` to get active Sessions for. You may use an `external_id` here if one is set for
+    /// the user.
     pub user_id: String,
 }
 /// GetResponse: Response type for `Sessions.get`.
@@ -509,7 +514,7 @@ pub struct GetResponse {
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
     /// debug an issue.
     pub request_id: String,
-    /// sessions: An array of Session objects.
+    /// sessions: An array of [Session objects](https://stytch.com/docs/api/session-object).
     pub sessions: std::vec::Vec<Session>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
@@ -565,7 +570,7 @@ pub struct MigrateResponse {
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
 }
@@ -682,6 +687,8 @@ pub enum AuthenticationFactorDeliveryMethod {
     Impersonation,
     #[serde(rename = "oauth_access_token_exchange")]
     OAuthAccessTokenExchange,
+    #[serde(rename = "trusted_token_exchange")]
+    TrustedTokenExchange,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
@@ -712,6 +719,8 @@ pub enum AuthenticationFactorType {
     EmailOTP,
     #[serde(rename = "impersonated")]
     Impersonated,
+    #[serde(rename = "trusted_auth_token")]
+    TrustedAuthToken,
 }
 
 pub struct Sessions {

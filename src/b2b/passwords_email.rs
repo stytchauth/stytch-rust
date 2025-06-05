@@ -45,7 +45,7 @@ pub struct ResetRequest {
     /// password_reset_token: The password reset token to authenticate.
     pub password_reset_token: String,
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
     /// session_token: Reuse an existing session instead of creating a new one. If you provide a
     /// `session_token`, Stytch will update the session.

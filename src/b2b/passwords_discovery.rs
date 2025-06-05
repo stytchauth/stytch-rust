@@ -14,7 +14,7 @@ pub struct AuthenticateRequest {
     /// email_address: The email address of the Member.
     pub email_address: String,
     /// password: The password to authenticate, reset, or set for the first time. Any UTF8 character is allowed,
-    /// e.g. spaces, emojis, non-English characers, etc.
+    /// e.g. spaces, emojis, non-English characters, etc.
     pub password: String,
 }
 /// AuthenticateResponse: Response type for `Discovery.authenticate`.

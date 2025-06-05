@@ -33,7 +33,7 @@ pub struct ProviderValues {
 pub struct AttachRequest {
     /// provider: The OAuth provider's name.
     pub provider: String,
-    /// user_id: The unique ID of a specific User. You may use an external_id here if one is set for the user.
+    /// user_id: The unique ID of a specific User. You may use an `external_id` here if one is set for the user.
     pub user_id: std::option::Option<String>,
     /// session_token: The `session_token` associated with a User's existing Session.
     pub session_token: std::option::Option<String>,
@@ -145,7 +145,7 @@ pub struct AuthenticateResponse {
     /// user_session: A `Session` object. For backwards compatibility reasons, the session from an OAuth
     /// authenticate call is labeled as `user_session`, but is otherwise just a standard stytch `Session` object.
     ///
-    ///   See [GET sessions](https://stytch.com/docs/api/session-get) for complete response fields.
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub user_session: std::option::Option<Session>,
 }
