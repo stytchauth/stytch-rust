@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
 /// ResetRequest: Request type for `ExistingPassword.reset`.
@@ -105,6 +106,8 @@ pub struct ResetResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// primary_required: Information about the primary authentication requirements of the Organization.
+    pub primary_required: std::option::Option<PrimaryRequired>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

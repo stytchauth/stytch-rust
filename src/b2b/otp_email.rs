@@ -9,6 +9,7 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::otp_email_discovery::Discovery;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `Email.authenticate`.
@@ -93,8 +94,6 @@ pub struct AuthenticateResponse {
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
     pub session_jwt: String,
-    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
-    pub member_session: MemberSession,
     /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
     pub organization: Organization,
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
@@ -118,9 +117,12 @@ pub struct AuthenticateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
+    pub member_session: std::option::Option<MemberSession>,
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    pub primary_required: std::option::Option<PrimaryRequired>,
 }
 /// LoginOrSignupRequest: Request type for `Email.login_or_signup`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
