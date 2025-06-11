@@ -269,8 +269,6 @@ pub struct ExchangeResponse {
     pub request_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
-    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
-    pub member_session: MemberSession,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
     /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
@@ -301,6 +299,8 @@ pub struct ExchangeResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
+    pub member_session: std::option::Option<MemberSession>,
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,

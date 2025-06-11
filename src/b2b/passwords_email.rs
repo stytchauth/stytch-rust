@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
 /// RequireResetRequest: Request type for `Email.require_reset`.
@@ -150,6 +151,8 @@ pub struct ResetResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// primary_required: Information about the primary authentication requirements of the Organization.
+    pub primary_required: std::option::Option<PrimaryRequired>,
 }
 /// ResetStartRequest: Request type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -196,7 +199,8 @@ pub struct ResetStartRequest {
     /// custom HTML email for Passwords - Reset Password.
     pub reset_password_template_id: std::option::Option<String>,
     /// verify_email_template_id: Use a custom template for verification emails sent during password reset
-    /// flows. This template will be used the first time a user sets a password via a
+    /// flows. When cross-organization passwords are enabled for your Project, this template will be used the
+    /// first time a user sets a password via a
     ///   password reset flow. By default, it will use your default email template. The template must be a
     /// template using our built-in customizations or a custom HTML email for Passwords - Email Verification.
     pub verify_email_template_id: std::option::Option<String>,

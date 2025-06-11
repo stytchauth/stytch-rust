@@ -12,6 +12,7 @@ use crate::b2b::passwords_email::Email;
 use crate::b2b::passwords_existing_password::ExistingPassword;
 use crate::b2b::passwords_session::Sessions;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sessions::PrimaryRequired;
 use crate::consumer::passwords::Argon2Config;
 use crate::consumer::passwords::MD5Config;
 use crate::consumer::passwords::PBKDF2Config;
@@ -152,6 +153,8 @@ pub struct AuthenticateResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// primary_required: Information about the primary authentication requirements of the Organization.
+    pub primary_required: std::option::Option<PrimaryRequired>,
 }
 /// MigrateRequest: Request type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

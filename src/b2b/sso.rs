@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::b2b::sessions::PrimaryRequired;
 use crate::b2b::sso_external::External;
 use crate::b2b::sso_oidc::OIDC;
 use crate::b2b::sso_saml::SAML;
@@ -246,6 +247,7 @@ pub struct AuthenticateResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    pub primary_required: std::option::Option<PrimaryRequired>,
 }
 /// DeleteConnectionRequest: Request type for `SSO.delete_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
