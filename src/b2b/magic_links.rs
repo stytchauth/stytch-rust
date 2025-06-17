@@ -13,6 +13,7 @@ use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
+
 /// AuthenticateRequest: Request type for `MagicLinks.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -38,12 +39,12 @@ pub struct AuthenticateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -59,16 +60,16 @@ pub struct AuthenticateRequest {
     /// locale: If the needs to complete an MFA step, and the Member has a phone number, this endpoint will
     /// pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will be
     /// used to determine which language to use when sending the passcode.
-    ///
+    /// 
     /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
     /// (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<AuthenticateRequestLocale>,
     /// intermediate_session_token: Adds this primary authentication factor to the intermediate session token.
     /// If the resulting set of factors satisfies the organization's primary authentication requirements and MFA
@@ -132,8 +133,7 @@ pub struct AuthenticateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticateRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -142,32 +142,30 @@ pub enum AuthenticateRequestLocale {
     Fr,
 }
 
+
+
 pub struct MagicLinks {
-    http_client: crate::client::Client,
-    pub email: Email,
-    pub discovery: Discovery,
+  http_client: crate::client::Client,
+  pub email: Email,
+  pub discovery: Discovery,
 }
 
 impl MagicLinks {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            email: Email::new(http_client.clone()),
-            discovery: Discovery::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        email: Email::new(http_client.clone()),
+        discovery: Discovery::new(http_client.clone()),
+      }
     }
 
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/magic_links/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

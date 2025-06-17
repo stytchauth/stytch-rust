@@ -12,7 +12,8 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::PrimaryRequired;
 use serde::{Deserialize, Serialize};
 
-/// DiscoveredOrganization:
+
+/// DiscoveredOrganization: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DiscoveredOrganization {
     /// member_authenticated: Indicates whether the Member has all of the factors needed to fully authenticate
@@ -30,7 +31,7 @@ pub struct DiscoveredOrganization {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
 }
-/// Membership:
+/// Membership: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Membership {
     /// type_: Either `active_member`, `pending_member`, `invited_member`, `eligible_to_join_by_email_domain`,
@@ -44,16 +45,21 @@ pub struct Membership {
     pub member: std::option::Option<Member>,
 }
 
+
+
+
 pub struct Discovery {
-    pub intermediate_sessions: IntermediateSessions,
-    pub organizations: Organizations,
+  pub intermediate_sessions: IntermediateSessions,
+  pub organizations: Organizations,
 }
 
 impl Discovery {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            intermediate_sessions: IntermediateSessions::new(http_client.clone()),
-            organizations: Organizations::new(http_client.clone()),
-        }
+      Self {
+        intermediate_sessions: IntermediateSessions::new(http_client.clone()),
+        organizations: Organizations::new(http_client.clone()),
+      }
     }
+
+
 }

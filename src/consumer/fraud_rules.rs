@@ -8,6 +8,7 @@ use crate::consumer::fraud::Rule;
 use crate::consumer::fraud::RuleAction;
 use serde::{Deserialize, Serialize};
 
+
 /// ListRequest: Request type for `Rules.list`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ListRequest {
@@ -121,35 +122,35 @@ pub struct SetResponse {
     pub asn: std::option::Option<String>,
 }
 
+
+
+
 pub struct Rules {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Rules {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn set(&self, body: SetRequest) -> crate::Result<SetResponse> {
         let path = String::from("/v1/rules/set");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn list(&self, body: ListRequest) -> crate::Result<ListResponse> {
         let path = String::from("/v1/rules/list");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

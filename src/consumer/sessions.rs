@@ -8,6 +8,7 @@ use crate::consumer::attribute::Attributes;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AmazonOAuthFactor {
     pub id: String,
@@ -20,7 +21,7 @@ pub struct AppleOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// AuthenticationFactor:
+/// AuthenticationFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
     /// type_: The type of authentication factor. The possible values are: `magic_link`, `otp`,
@@ -29,17 +30,17 @@ pub struct AuthenticationFactor {
     pub type_: AuthenticationFactorType,
     /// delivery_method: The method that was used to deliver the authentication factor. The possible values
     /// depend on the `type`:
-    ///
+    /// 
     ///   `magic_link` – Only `email`.
-    ///
+    /// 
     ///   `otp` –  Either `sms` or `email` .
-    ///
+    /// 
     ///   `oauth` – Either `oauth_google` or `oauth_microsoft`.
-    ///
+    /// 
     ///   `password` – Only `knowledge`.
-    ///
+    /// 
     ///   `sso` – Either `sso_saml` or `sso_oidc`.
-    ///
+    /// 
     pub delivery_method: AuthenticationFactorDeliveryMethod,
     /// last_authenticated_at: The timestamp when the factor was last authenticated.
     pub last_authenticated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
@@ -97,7 +98,7 @@ pub struct AuthenticationFactor {
     pub oauth_access_token_exchange_factor: std::option::Option<OAuthAccessTokenExchangeFactor>,
     pub trusted_auth_token_factor: std::option::Option<TrustedAuthTokenFactor>,
 }
-/// AuthenticatorAppFactor:
+/// AuthenticatorAppFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticatorAppFactor {
     /// totp_id: Globally unique UUID that identifies a TOTP instance.
@@ -131,7 +132,7 @@ pub struct DiscordOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// EmailFactor:
+/// EmailFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailFactor {
     /// email_id: The globally unique UUID of the Member's email.
@@ -175,7 +176,7 @@ pub struct GithubOAuthFactor {
 pub struct GoogleOAuthExchangeFactor {
     pub email_id: String,
 }
-/// GoogleOAuthFactor:
+/// GoogleOAuthFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthFactor {
     /// id: The unique ID of an OAuth registration.
@@ -196,7 +197,7 @@ pub struct HubspotOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// ImpersonatedFactor:
+/// ImpersonatedFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ImpersonatedFactor {
     /// impersonator_id: For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id`
@@ -231,7 +232,7 @@ pub struct LinkedInOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// MicrosoftOAuthFactor:
+/// MicrosoftOAuthFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MicrosoftOAuthFactor {
     /// id: The unique ID of an OAuth registration.
@@ -246,7 +247,7 @@ pub struct MicrosoftOAuthFactor {
 pub struct OAuthAccessTokenExchangeFactor {
     pub client_id: String,
 }
-/// OIDCSSOFactor:
+/// OIDCSSOFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OIDCSSOFactor {
     /// id: The unique ID of an SSO Registration.
@@ -256,7 +257,7 @@ pub struct OIDCSSOFactor {
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
-/// PhoneNumberFactor:
+/// PhoneNumberFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PhoneNumberFactor {
     /// phone_id: The globally unique UUID of the Member's phone number.
@@ -268,7 +269,7 @@ pub struct PhoneNumberFactor {
 pub struct RecoveryCodeFactor {
     pub totp_recovery_code_id: String,
 }
-/// SAMLSSOFactor:
+/// SAMLSSOFactor: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLSSOFactor {
     /// id: The unique ID of an SSO Registration.
@@ -284,7 +285,7 @@ pub struct SalesforceOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-/// Session:
+/// Session: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Session {
     /// session_id: A unique identifier for a specific Session.
@@ -393,7 +394,7 @@ pub struct AuthenticateRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -407,9 +408,9 @@ pub struct AuthenticateResponse {
     pub request_id: String,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: Session,
     /// session_token: A secret token for a given Stytch Session.
     pub session_token: String,
@@ -434,19 +435,19 @@ pub struct ExchangeAccessTokenRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -474,9 +475,9 @@ pub struct ExchangeAccessTokenResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
@@ -532,19 +533,19 @@ pub struct MigrateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -569,9 +570,9 @@ pub struct MigrateResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 /// RevokeRequest: Request type for `Sessions.revoke`.
@@ -601,8 +602,7 @@ pub struct RevokeResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorDeliveryMethod {
     #[serde(rename = "email")]
-    #[default]
-    Email,
+ #[default]     Email,
     #[serde(rename = "sms")]
     Sms,
     #[serde(rename = "whatsapp")]
@@ -693,8 +693,7 @@ pub enum AuthenticationFactorDeliveryMethod {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum AuthenticationFactorType {
     #[serde(rename = "magic_link")]
-    #[default]
-    MagicLink,
+ #[default]     MagicLink,
     #[serde(rename = "otp")]
     OTP,
     #[serde(rename = "oauth")]
@@ -723,82 +722,67 @@ pub enum AuthenticationFactorType {
     TrustedAuthToken,
 }
 
+
+
 pub struct Sessions {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Sessions {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let path = String::from("/v1/sessions");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/sessions/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
         let path = String::from("/v1/sessions/revoke");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
         let path = String::from("/v1/sessions/migrate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn exchange_access_token(
-        &self,
-        body: ExchangeAccessTokenRequest,
-    ) -> crate::Result<ExchangeAccessTokenResponse> {
+    pub async fn exchange_access_token(&self, body: ExchangeAccessTokenRequest) -> crate::Result<ExchangeAccessTokenResponse> {
         let path = String::from("/v1/sessions/exchange_access_token");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get_jwks(&self, body: GetJWKSRequest) -> crate::Result<GetJWKSResponse> {
         let project_id = &body.project_id;
         let path = format!("/v1/sessions/jwks/{project_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

@@ -6,6 +6,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// SendRequest: Request type for `Discovery.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
@@ -27,13 +28,13 @@ pub struct SendRequest {
     pub login_template_id: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<SendRequestLocale>,
     /// discovery_expiration_minutes: The expiration time, in minutes, for an discovery magic link email. If not
     /// accepted within this time frame, the email will need to be resent. Defaults to 60 (1 hour) with a
@@ -57,8 +58,7 @@ pub struct SendResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -67,25 +67,26 @@ pub enum SendRequestLocale {
     Fr,
 }
 
+
+
 pub struct Discovery {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Discovery {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
         let path = String::from("/v1/b2b/magic_links/email/discovery/send");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

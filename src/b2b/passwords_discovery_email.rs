@@ -7,6 +7,7 @@
 use crate::b2b::discovery::DiscoveredOrganization;
 use serde::{Deserialize, Serialize};
 
+
 /// ResetRequest: Request type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResetRequest {
@@ -40,16 +41,16 @@ pub struct ResetResponse {
     /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
     /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
     /// complete details.
-    ///
+    /// 
     ///   Note that Organizations will only appear here under any of the following conditions:
     ///   1. The end user is already a Member of the Organization.
-    ///   2. The end user is invited to the Organization.
-    ///   3. The end user can join the Organization because:
-    ///
+    ///   2. The end user is invited to the Organization. 
+    ///   3. The end user can join the Organization because: 
+    /// 
     ///   a) The Organization allows JIT provisioning.
-    ///
+    /// 
     ///   b) The Organizations' allowed domains list contains the Member's email domain.
-    ///
+    /// 
     ///   c) The Organization has at least one other Member with a verified email address with the same domain
     /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
@@ -82,18 +83,19 @@ pub struct ResetStartRequest {
     /// custom HTML email for Passwords - Reset Password.
     pub reset_password_template_id: std::option::Option<String>,
     /// reset_password_expiration_minutes: Sets a time limit after which the email link to reset the member's
-    /// password will no longer be valid.
+    /// password will no longer be valid. The minimum allowed expiration is 5 minutes and the maximum is 10080
+    /// minutes (7 days). By default, the expiration is 30 minutes.
     pub reset_password_expiration_minutes: std::option::Option<i32>,
     pub pkce_code_challenge: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<String>,
     /// verify_email_template_id: Use a custom template for verification emails sent during password reset
     /// flows. When cross-organization passwords are enabled for your Project, this template will be used the
@@ -116,35 +118,35 @@ pub struct ResetStartResponse {
     pub status_code: http::StatusCode,
 }
 
+
+
+
 pub struct Email {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Email {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn reset_start(&self, body: ResetStartRequest) -> crate::Result<ResetStartResponse> {
         let path = String::from("/v1/b2b/passwords/discovery/email/reset/start");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn reset(&self, body: ResetRequest) -> crate::Result<ResetResponse> {
         let path = String::from("/v1/b2b/passwords/discovery/email/reset");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

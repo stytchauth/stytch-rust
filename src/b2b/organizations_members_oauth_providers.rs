@@ -9,6 +9,7 @@ use crate::b2b::organizations::HubspotProviderInfo;
 use crate::b2b::organizations::SlackProviderInfo;
 use serde::{Deserialize, Serialize};
 
+
 /// GithubResponse: Response type for `OAuthProviders.github`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubResponse {
@@ -161,91 +162,69 @@ pub struct SlackResponse {
     pub status_code: http::StatusCode,
 }
 
+
+
+
 pub struct OAuthProviders {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl OAuthProviders {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn google(&self, body: ProviderInformationRequest) -> crate::Result<GoogleResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google"
-        );
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google");
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
-    pub async fn microsoft(
-        &self,
-        body: ProviderInformationRequest,
-    ) -> crate::Result<MicrosoftResponse> {
+    pub async fn microsoft(&self, body: ProviderInformationRequest) -> crate::Result<MicrosoftResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft"
-        );
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft");
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn slack(&self, body: SlackRequest) -> crate::Result<SlackResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/slack"
-        );
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/slack");
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
-    pub async fn hubspot(
-        &self,
-        body: ProviderInformationRequest,
-    ) -> crate::Result<HubspotResponse> {
+    pub async fn hubspot(&self, body: ProviderInformationRequest) -> crate::Result<HubspotResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/hubspot"
-        );
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/hubspot");
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn github(&self, body: ProviderInformationRequest) -> crate::Result<GithubResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/github"
-        );
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/github");
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

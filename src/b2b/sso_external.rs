@@ -11,6 +11,7 @@ use crate::b2b::sso::SAMLConnectionImplicitRoleAssignment;
 use crate::b2b::sso::SAMLGroupImplicitRoleAssignment;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateConnectionRequest: Request type for `External.create_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateConnectionRequest {
@@ -26,10 +27,8 @@ pub struct CreateConnectionRequest {
     pub external_connection_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
-    pub connection_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<SAMLConnectionImplicitRoleAssignment>>,
-    pub group_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
+    pub connection_implicit_role_assignments: std::option::Option<std::vec::Vec<SAMLConnectionImplicitRoleAssignment>>,
+    pub group_implicit_role_assignments: std::option::Option<std::vec::Vec<SAMLGroupImplicitRoleAssignment>>,
 }
 /// CreateConnectionResponse: Response type for `External.create_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -63,9 +62,8 @@ pub struct UpdateConnectionRequest {
     /// implicitly receive the specified Roles. See the
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
     /// assignment. Implicit role assignments are not supported for External connections if the underlying SSO
-    /// connection is an OIDC connection.
-    pub external_connection_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<ConnectionImplicitRoleAssignment>>,
+    /// connection is an OIDC connection. 
+    pub external_connection_implicit_role_assignments: std::option::Option<std::vec::Vec<ConnectionImplicitRoleAssignment>>,
     /// external_group_implicit_role_assignments: Defines the names of the groups
     ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this external
     /// connection and
@@ -76,8 +74,7 @@ pub struct UpdateConnectionRequest {
     ///  `attribute_mapping`. Make sure that the SAML connection IdP is configured to correctly send the group
     /// information. Implicit role assignments are not supported
     ///  for External connections if the underlying SSO connection is an OIDC connection.
-    pub external_group_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<GroupImplicitRoleAssignment>>,
+    pub external_group_implicit_role_assignments: std::option::Option<std::vec::Vec<GroupImplicitRoleAssignment>>,
 }
 /// UpdateConnectionResponse: Response type for `External.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -97,44 +94,38 @@ pub struct UpdateConnectionResponse {
     pub connection: std::option::Option<Connection>,
 }
 
+
+
+
 pub struct External {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl External {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
-    pub async fn create_connection(
-        &self,
-        body: CreateConnectionRequest,
-    ) -> crate::Result<CreateConnectionResponse> {
+    pub async fn create_connection(&self, body: CreateConnectionRequest) -> crate::Result<CreateConnectionResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/sso/external/{organization_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn update_connection(
-        &self,
-        body: UpdateConnectionRequest,
-    ) -> crate::Result<UpdateConnectionResponse> {
+    pub async fn update_connection(&self, body: UpdateConnectionRequest) -> crate::Result<UpdateConnectionResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/sso/external/{organization_id}/connections/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
+
 }

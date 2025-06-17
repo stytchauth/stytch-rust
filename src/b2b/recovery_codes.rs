@@ -9,6 +9,7 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
+
 /// GetRequest: Request type for `RecoveryCodes.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GetRequest {
@@ -78,12 +79,12 @@ pub struct RecoverRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -158,47 +159,45 @@ pub struct RotateResponse {
     pub status_code: http::StatusCode,
 }
 
+
+
+
 pub struct RecoveryCodes {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl RecoveryCodes {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn recover(&self, body: RecoverRequest) -> crate::Result<RecoverResponse> {
         let path = String::from("/v1/b2b/recovery_codes/recover");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let organization_id = &body.organization_id;
         let member_id = &body.member_id;
         let path = format!("/v1/b2b/recovery_codes/{organization_id}/{member_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn rotate(&self, body: RotateRequest) -> crate::Result<RotateResponse> {
         let path = String::from("/v1/b2b/recovery_codes/rotate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

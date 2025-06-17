@@ -8,7 +8,8 @@ use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
-/// ProviderValues:
+
+/// ProviderValues: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProviderValues {
     /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
@@ -60,10 +61,10 @@ pub struct AttachResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
     /// token: The OAuth `token` from the `?token=` query parameter in the URL.
-    ///
+    /// 
     ///   The redirect URL will look like
     /// `https://example.com/authenticate?stytch_token_type=oauth&token=rM_kw42CWBhsHLF62V75jELMbvJ87njMe3tFVj7Qupu7`
-    ///
+    /// 
     ///   In the redirect URL, the `stytch_token_type` will be `oauth`. See
     /// [here](https://stytch.com/docs/workspace-management/redirect-urls) for more detail.
     pub token: String,
@@ -77,12 +78,12 @@ pub struct AuthenticateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: Reuse an existing session instead of creating a new one. If you provide us with a
@@ -94,7 +95,7 @@ pub struct AuthenticateRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -124,7 +125,7 @@ pub struct AuthenticateResponse {
     /// provider_values: The `provider_values` object lists relevant identifiers, values, and scopes for a given
     /// OAuth provider. For example this object will include a provider's `access_token` that you can use to
     /// access the provider's API for a given user.
-    ///
+    /// 
     ///   Note that these values will vary based on the OAuth provider in question, e.g. `id_token` is only
     /// returned by OIDC compliant identity providers.
     pub provider_values: ProviderValues,
@@ -144,44 +145,41 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
     /// user_session: A `Session` object. For backwards compatibility reasons, the session from an OAuth
     /// authenticate call is labeled as `user_session`, but is otherwise just a standard stytch `Session` object.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub user_session: std::option::Option<Session>,
 }
 
+
+
+
 pub struct OAuth {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl OAuth {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn attach(&self, body: AttachRequest) -> crate::Result<AttachResponse> {
         let path = String::from("/v1/oauth/attach");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/oauth/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

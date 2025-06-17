@@ -6,7 +6,8 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Policy:
+
+/// Policy: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Policy {
     /// roles: An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
@@ -15,32 +16,32 @@ pub struct Policy {
     pub resources: std::vec::Vec<PolicyResource>,
     pub scopes: std::vec::Vec<PolicyScope>,
 }
-/// PolicyResource:
+/// PolicyResource: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PolicyResource {
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
-    ///
+    /// 
     ///   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
     /// default Resources with reserved  `resource_id`s. These include:
-    ///
+    /// 
     ///   * `stytch.organization`
     ///   * `stytch.member`
     ///   * `stytch.sso`
     ///   * `stytch.self`
-    ///
+    /// 
     ///   Check out the
     /// [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for a more
     /// detailed explanation.
-    ///
-    ///
+    /// 
+    /// 
     pub resource_id: String,
     /// description: The description of the RBAC Resource.
     pub description: String,
     /// actions: A list of all possible actions for a provided Resource.
-    ///
+    /// 
     ///   Reserved `actions` that are predefined by Stytch include:
-    ///
+    /// 
     ///   * `*`
     ///   * For the `stytch.organization` Resource:
     /// * `update.info.name`
@@ -78,24 +79,24 @@ pub struct PolicyResource {
     /// * `update.info.delete.password`
     /// * `update.settings.mfa_enrolled`
     /// * `delete`
-    ///
+    /// 
     pub actions: std::vec::Vec<String>,
 }
-/// PolicyRole:
+/// PolicyRole: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PolicyRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
     /// human-readable.
-    ///
+    /// 
     ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
+    /// 
     ///   * `stytch_member`
     ///   * `stytch_admin`
-    ///
+    /// 
     ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
     /// for a more detailed explanation.
-    ///
-    ///
+    /// 
+    /// 
     pub role_id: String,
     /// description: The description of the RBAC Role.
     pub description: String,
@@ -103,28 +104,28 @@ pub struct PolicyRole {
     /// [Resource](https://stytch.com/docs/b2b/api/rbac-resource-object) to a list of actions.
     pub permissions: std::vec::Vec<PolicyRolePermission>,
 }
-/// PolicyRolePermission:
+/// PolicyRolePermission: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PolicyRolePermission {
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
-    ///
+    /// 
     ///   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
     /// default Resources with reserved  `resource_id`s. These include:
-    ///
+    /// 
     ///   * `stytch.organization`
     ///   * `stytch.member`
     ///   * `stytch.sso`
     ///   * `stytch.self`
-    ///
+    /// 
     ///   Check out the
     /// [guide on Stytch default Resources](https://stytch.com/docs/docs/b2b/guides/rbac/stytch-default) for a
     /// more detailed explanation.
-    ///
-    ///
+    /// 
+    /// 
     pub resource_id: String,
     /// actions: A list of permitted actions the Scope is required to take with the provided Resource. You can
-    /// use `*` as a wildcard to require a Scope permission to use all possible actions related to the Resource.
+    /// use `*` as a wildcard to require a Scope permission to use all possible actions related to the Resource. 
     pub actions: std::vec::Vec<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -140,7 +141,8 @@ pub struct PolicyScopePermission {
 }
 /// PolicyRequest: Request type for `RBAC.policy`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct PolicyRequest {}
+pub struct PolicyRequest {
+}
 /// PolicyResponse: Response type for `RBAC.policy`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PolicyResponse {
@@ -159,25 +161,27 @@ pub struct PolicyResponse {
     pub policy: std::option::Option<Policy>,
 }
 
+
+
+
 pub struct RBAC {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl RBAC {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn policy(&self, body: PolicyRequest) -> crate::Result<PolicyResponse> {
         let path = String::from("/v1/b2b/rbac/policy");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

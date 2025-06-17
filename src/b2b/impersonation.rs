@@ -10,6 +10,7 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
+
 /// AuthenticateRequest: Request type for `Impersonation.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -54,28 +55,27 @@ pub struct AuthenticateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
 }
 
+
+
+
 pub struct Impersonation {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Impersonation {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/impersonation/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

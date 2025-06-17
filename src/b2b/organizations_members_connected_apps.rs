@@ -6,6 +6,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// RevokeRequest: Request type for `ConnectedApps.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RevokeRequest {
@@ -31,15 +32,18 @@ pub struct RevokeResponse {
     pub status_code: http::StatusCode,
 }
 
+
+
+
 pub struct ConnectedApps {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl ConnectedApps {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
@@ -47,12 +51,11 @@ impl ConnectedApps {
         let member_id = &body.member_id;
         let connected_app_id = &body.connected_app_id;
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/connected_apps/{connected_app_id}/revoke");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

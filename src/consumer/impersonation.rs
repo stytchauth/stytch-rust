@@ -8,6 +8,7 @@ use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
+
 /// AuthenticateRequest: Request type for `Impersonation.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -37,34 +38,33 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 
+
+
+
 pub struct Impersonation {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Impersonation {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/impersonation/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

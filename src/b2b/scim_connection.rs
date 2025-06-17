@@ -11,6 +11,7 @@ use crate::b2b::scim::SCIMGroup;
 use crate::b2b::scim::SCIMGroupImplicitRoleAssignments;
 use serde::{Deserialize, Serialize};
 
+
 /// CreateRequest: Request type for `Connection.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
@@ -215,8 +216,7 @@ pub struct UpdateRequest {
     pub identity_provider: std::option::Option<UpdateRequestIdentityProvider>,
     /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
     /// the array must contain a `group_id` and a `role_id`.
-    pub scim_group_implicit_role_assignments:
-        std::option::Option<std::vec::Vec<SCIMGroupImplicitRoleAssignments>>,
+    pub scim_group_implicit_role_assignments: std::option::Option<std::vec::Vec<SCIMGroupImplicitRoleAssignments>>,
 }
 /// UpdateResponse: Response type for `Connection.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -239,8 +239,7 @@ pub struct UpdateResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum CreateRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -259,8 +258,7 @@ pub enum CreateRequestIdentityProvider {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum UpdateRequestIdentityProvider {
     #[serde(rename = "generic")]
-    #[default]
-    Generic,
+ #[default]     Generic,
     #[serde(rename = "okta")]
     Okta,
     #[serde(rename = "microsoftentra")]
@@ -277,121 +275,96 @@ pub enum UpdateRequestIdentityProvider {
     Rippling,
 }
 
+
+
 pub struct Connection {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Connection {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::PUT,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::PUT,
+            path,
+            body,
+        }).await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::DELETE,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::DELETE,
+            path,
+            body,
+        }).await
     }
-    pub async fn rotate_start(
-        &self,
-        body: RotateStartRequest,
-    ) -> crate::Result<RotateStartResponse> {
+    pub async fn rotate_start(&self, body: RotateStartRequest) -> crate::Result<RotateStartResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
-        let path =
-            format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/start");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/start");
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn rotate_complete(
-        &self,
-        body: RotateCompleteRequest,
-    ) -> crate::Result<RotateCompleteResponse> {
+    pub async fn rotate_complete(&self, body: RotateCompleteRequest) -> crate::Result<RotateCompleteResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
-        let path =
-            format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/complete");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/complete");
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn rotate_cancel(
-        &self,
-        body: RotateCancelRequest,
-    ) -> crate::Result<RotateCancelResponse> {
+    pub async fn rotate_cancel(&self, body: RotateCancelRequest) -> crate::Result<RotateCancelResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
-        let path =
-            format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/cancel");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/cancel");
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get_groups(&self, body: GetGroupsRequest) -> crate::Result<GetGroupsResponse> {
         let organization_id = &body.organization_id;
         let connection_id = &body.connection_id;
         let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/scim/{organization_id}/connection");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
         let organization_id = &body.organization_id;
         let path = format!("/v1/b2b/scim/{organization_id}/connection");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::GET,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::GET,
+            path,
+            body,
+        }).await
     }
+
 }

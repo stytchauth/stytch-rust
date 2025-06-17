@@ -9,6 +9,7 @@ use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use serde::{Deserialize, Serialize};
 
+
 /// AuthenticateRequest: Request type for `Sms.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -44,12 +45,12 @@ pub struct AuthenticateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will be created with a
     /// 60 minute duration. If you don't want
     ///   to use the Stytch session product, you can ignore the session fields in the response.
@@ -65,13 +66,13 @@ pub struct AuthenticateRequest {
     /// set_mfa_enrollment: Optionally sets the Member’s MFA enrollment status upon a successful authentication.
     /// If the Organization’s MFA policy is `REQUIRED_FOR_ALL`, this field will be ignored. If this field is not
     /// passed in, the Member’s `mfa_enrolled` boolean will not be affected. The options are:
-    ///
+    /// 
     ///   `enroll` – sets the Member's `mfa_enrolled` boolean to `true`. The Member will be required to complete
     /// an MFA step upon subsequent logins to the Organization.
-    ///
+    /// 
     ///   `unenroll` –  sets the Member's `mfa_enrolled` boolean to `false`. The Member will no longer be
     /// required to complete MFA steps when logging in to the Organization.
-    ///
+    /// 
     pub set_mfa_enrollment: std::option::Option<String>,
     pub set_default_mfa: std::option::Option<bool>,
 }
@@ -116,13 +117,13 @@ pub struct SendRequest {
     pub mfa_phone_number: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<SendRequestLocale>,
     /// intermediate_session_token: The Intermediate Session Token. This token does not necessarily belong to a
     /// specific instance of a Member, but represents a bag of factors that may be converted to a member
@@ -165,8 +166,7 @@ pub struct SendResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -183,38 +183,34 @@ pub enum SendRequestLocale {
     CaES,
 }
 
+
+
 pub struct Sms {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Sms {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
         let path = String::from("/v1/b2b/otps/sms/send");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/otps/sms/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

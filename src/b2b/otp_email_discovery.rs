@@ -7,6 +7,7 @@
 use crate::b2b::discovery::DiscoveredOrganization;
 use serde::{Deserialize, Serialize};
 
+
 /// AuthenticateRequest: Request type for `Discovery.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -41,16 +42,16 @@ pub struct AuthenticateResponse {
     /// `intermediate_session_token`, `session_token`, or `session_jwt`. See the
     /// [Discovered Organization Object](https://stytch.com/docs/b2b/api/discovered-organization-object) for
     /// complete details.
-    ///
+    /// 
     ///   Note that Organizations will only appear here under any of the following conditions:
     ///   1. The end user is already a Member of the Organization.
-    ///   2. The end user is invited to the Organization.
-    ///   3. The end user can join the Organization because:
-    ///
+    ///   2. The end user is invited to the Organization. 
+    ///   3. The end user can join the Organization because: 
+    /// 
     ///   a) The Organization allows JIT provisioning.
-    ///
+    /// 
     ///   b) The Organizations' allowed domains list contains the Member's email domain.
-    ///
+    /// 
     ///   c) The Organization has at least one other Member with a verified email address with the same domain
     /// as the end user (to prevent phishing attacks).
     pub discovered_organizations: std::vec::Vec<DiscoveredOrganization>,
@@ -71,13 +72,13 @@ pub struct SendRequest {
     pub login_template_id: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
     /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
-    ///
+    /// 
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
-    ///
+    /// 
     /// Request support for additional languages
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
-    ///
+    /// 
     pub locale: std::option::Option<SendRequestLocale>,
     /// discovery_expiration_minutes: The expiration time, in minutes, for a discovery OTP email. If not
     /// accepted within this time frame, the OTP will need to be resent. Defaults to 10 with a minimum of 2 and
@@ -101,8 +102,7 @@ pub struct SendResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
     #[serde(rename = "en")]
-    #[default]
-    En,
+ #[default]     En,
     #[serde(rename = "es")]
     Es,
     #[serde(rename = "ptbr")]
@@ -111,38 +111,34 @@ pub enum SendRequestLocale {
     Fr,
 }
 
+
+
 pub struct Discovery {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Discovery {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn send(&self, body: SendRequest) -> crate::Result<SendResponse> {
         let path = String::from("/v1/b2b/otps/email/discovery/send");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/b2b/otps/email/discovery/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

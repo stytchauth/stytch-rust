@@ -12,7 +12,8 @@ use crate::consumer::users::Name;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
-/// Argon2Config:
+
+/// Argon2Config: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Argon2Config {
     /// salt: The salt value.
@@ -26,7 +27,7 @@ pub struct Argon2Config {
     /// key_length: The key length, also known as the hash length.
     pub key_length: i32,
 }
-/// Feedback:
+/// Feedback: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Feedback {
     /// warning: For `zxcvbn` validation, contains an end user consumable warning if the password is valid but
@@ -40,7 +41,7 @@ pub struct Feedback {
     /// how to improve the password.
     pub luds_requirements: std::option::Option<LUDSRequirements>,
 }
-/// LUDSRequirements:
+/// LUDSRequirements: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LUDSRequirements {
     /// has_lower_case: For LUDS validation, whether the password contains at least one lowercase letter.
@@ -60,7 +61,7 @@ pub struct LUDSRequirements {
     /// password to make it valid.
     pub missing_characters: i32,
 }
-/// MD5Config:
+/// MD5Config: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MD5Config {
     /// prepend_salt: The salt that should be prepended to the migrated password.
@@ -68,7 +69,7 @@ pub struct MD5Config {
     /// append_salt: The salt that should be appended to the migrated password.
     pub append_salt: String,
 }
-/// PBKDF2Config:
+/// PBKDF2Config: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PBKDF2Config {
     /// salt: The salt value, which should be in a base64 encoded string form.
@@ -81,7 +82,7 @@ pub struct PBKDF2Config {
     /// sha256". Defaults to sha256.
     pub algorithm: String,
 }
-/// SHA1Config:
+/// SHA1Config: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SHA1Config {
     /// prepend_salt: The salt that should be prepended to the migrated password.
@@ -89,7 +90,7 @@ pub struct SHA1Config {
     /// append_salt: The salt that should be appended to the migrated password.
     pub append_salt: String,
 }
-/// ScryptConfig:
+/// ScryptConfig: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ScryptConfig {
     /// salt: The salt value, which should be in a base64 encoded string form.
@@ -121,12 +122,12 @@ pub struct AuthenticateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
@@ -135,7 +136,7 @@ pub struct AuthenticateRequest {
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -163,9 +164,9 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 /// CreateRequest: Request type for `Passwords.create`.
@@ -181,19 +182,19 @@ pub struct CreateRequest {
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
     /// `session_jwt` will have a fixed lifetime of
     ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
-    ///
+    /// 
     ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
-    ///
+    /// 
     ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
     /// extend the session this many minutes.
-    ///
+    /// 
     ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
     pub session_duration_minutes: std::option::Option<i32>,
     /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
     /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
     /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
     /// value. To delete a key, supply a null value.
-    ///
+    /// 
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
@@ -234,9 +235,9 @@ pub struct CreateResponse {
     pub status_code: http::StatusCode,
     /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
     /// you'll receive a full Session object in the response.
-    ///
+    /// 
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
-    ///
+    /// 
     pub session: std::option::Option<Session>,
 }
 /// MigrateRequest: Request type for `Passwords.migrate`.
@@ -362,8 +363,7 @@ pub struct StrengthCheckResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MigrateRequestHashType {
     #[serde(rename = "bcrypt")]
-    #[default]
-    Bcrypt,
+ #[default]     Bcrypt,
     #[serde(rename = "md_5")]
     Md5,
     #[serde(rename = "argon_2i")]
@@ -380,67 +380,56 @@ pub enum MigrateRequestHashType {
     Pbkdf2,
 }
 
+
+
 pub struct Passwords {
-    http_client: crate::client::Client,
-    pub email: Email,
-    pub existing_password: ExistingPassword,
-    pub sessions: Sessions,
+  http_client: crate::client::Client,
+  pub email: Email,
+  pub existing_password: ExistingPassword,
+  pub sessions: Sessions,
 }
 
 impl Passwords {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            email: Email::new(http_client.clone()),
-            existing_password: ExistingPassword::new(http_client.clone()),
-            sessions: Sessions::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        email: Email::new(http_client.clone()),
+        existing_password: ExistingPassword::new(http_client.clone()),
+        sessions: Sessions::new(http_client.clone()),
+      }
     }
 
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
         let path = String::from("/v1/passwords");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn authenticate(
-        &self,
-        body: AuthenticateRequest,
-    ) -> crate::Result<AuthenticateResponse> {
+    pub async fn authenticate(&self, body: AuthenticateRequest) -> crate::Result<AuthenticateResponse> {
         let path = String::from("/v1/passwords/authenticate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
-    pub async fn strength_check(
-        &self,
-        body: StrengthCheckRequest,
-    ) -> crate::Result<StrengthCheckResponse> {
+    pub async fn strength_check(&self, body: StrengthCheckRequest) -> crate::Result<StrengthCheckResponse> {
         let path = String::from("/v1/passwords/strength_check");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
     pub async fn migrate(&self, body: MigrateRequest) -> crate::Result<MigrateResponse> {
         let path = String::from("/v1/passwords/migrate");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }

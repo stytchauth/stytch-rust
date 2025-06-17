@@ -6,9 +6,11 @@
 
 use crate::consumer::fraud_fingerprint::Fingerprint;
 use crate::consumer::fraud_rules::Rules;
+use crate::consumer::fraud_verdict_reasons::VerdictReasons;
 use serde::{Deserialize, Serialize};
 
-/// ASNProperties:
+
+/// ASNProperties: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ASNProperties {
     /// asn: The Autonomous System Number of the user's network.
@@ -18,17 +20,17 @@ pub struct ASNProperties {
     /// network: The CIDR block associated with the ASN.
     pub network: String,
 }
-/// BrowserProperties:
+/// BrowserProperties: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BrowserProperties {
     /// user_agent: The user agent of the user's browser.
     pub user_agent: String,
 }
-/// Fingerprints:
+/// Fingerprints: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Fingerprints {
     /// network_fingerprint: Combination of signals associated with a specific network commonly known as TLS
-    /// fingerprinting.
+    /// fingerprinting. 
     pub network_fingerprint: String,
     /// hardware_fingerprint: Combinations of signals to identify an operating system and architecture.
     pub hardware_fingerprint: String,
@@ -41,7 +43,7 @@ pub struct Fingerprints {
     /// browser_id: Combination of VisitorID and NetworkFingerprint to create a clear identifier of a browser.
     pub browser_id: std::option::Option<String>,
 }
-/// IPGeoProperties:
+/// IPGeoProperties: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct IPGeoProperties {
     /// city: The city where the IP is located.
@@ -51,7 +53,7 @@ pub struct IPGeoProperties {
     /// country: The country where the IP is located.
     pub country: String,
 }
-/// Metadata:
+/// Metadata: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Metadata {
     /// external_id: An external ID, such as a user ID, that you wish to associate with the telemetry ID.
@@ -61,7 +63,7 @@ pub struct Metadata {
     /// user_action: The user action, such as 'login', that you wish to associate with the telemetry ID.
     pub user_action: std::option::Option<String>,
 }
-/// NetworkProperties:
+/// NetworkProperties: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NetworkProperties {
     /// ip_address: The IP address of the client.
@@ -75,13 +77,13 @@ pub struct NetworkProperties {
     /// is_vpn: Whether the user is using a VPN.
     pub is_vpn: bool,
 }
-/// Properties:
+/// Properties: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Properties {
     pub network_properties: NetworkProperties,
     pub browser_properties: BrowserProperties,
 }
-/// Rule:
+/// Rule: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Rule {
     /// rule_type: The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
@@ -121,7 +123,7 @@ pub struct Rule {
     /// updated. Values conform to the RFC 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub last_updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-/// Verdict:
+/// Verdict: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Verdict {
     /// action: The suggested action based on the fingerprint review. The available actions are:
@@ -133,7 +135,7 @@ pub struct Verdict {
     ///   * `CHALLENGE` - This is an unknown or potentially malicious device that should be put through
     /// increased friction such as 2FA or other forms of extended user verification before allowing the
     /// privileged action to proceed
-    ///
+    /// 
     pub action: VerdictAction,
     /// reasons: A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a
     /// list of possible Reasons, see
@@ -144,6 +146,8 @@ pub struct Verdict {
     /// is_authentic_device: The assessment of whether this is an authentic device. It will be false if hardware
     /// or browser deception is detected.
     pub is_authentic_device: bool,
+    /// verdict_reason_overrides: A list of verdict reason overrides that were applied, if any.
+    pub verdict_reason_overrides: std::vec::Vec<VerdictReasonOverride>,
     /// rule_match_type: The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will
     /// only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
     pub rule_match_type: std::option::Option<RuleType>,
@@ -151,12 +155,36 @@ pub struct Verdict {
     /// will only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
     pub rule_match_identifier: std::option::Option<String>,
 }
+/// VerdictReasonAction: 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct VerdictReasonAction {
+    /// verdict_reason: The verdict reason.
+    pub verdict_reason: String,
+    /// default_action: The default action returned for the specified verdict reason in a fingerprint lookup
+    /// when no overrides are specified.
+    pub default_action: VerdictReasonActionAction,
+    /// override_action: If not null, this action will be returned for the specified verdict reason in a
+    /// fingerprint lookup, in place of the default action.
+    pub override_action: std::option::Option<VerdictReasonActionAction>,
+    /// override_created_at: The time when the override was created, if one exists. Values conform to the RFC
+    /// 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub override_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// override_description: A description of the override, if one exists.
+    pub override_description: std::option::Option<String>,
+}
+/// VerdictReasonOverride: 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct VerdictReasonOverride {
+    /// verdict_reason: The verdict reason that was overridden.
+    pub verdict_reason: String,
+    /// override_action: The action that was applied for the given verdict reason.
+    pub override_action: std::option::Option<VerdictReasonOverrideAction>,
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum RuleAction {
     #[serde(rename = "ALLOW")]
-    #[default]
-    ALLOW,
+ #[default]     ALLOW,
     #[serde(rename = "CHALLENGE")]
     CHALLENGE,
     #[serde(rename = "BLOCK")]
@@ -167,8 +195,7 @@ pub enum RuleAction {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum RuleType {
     #[serde(rename = "VISITOR_ID")]
-    #[default]
-    VISITORID,
+ #[default]     VISITORID,
     #[serde(rename = "BROWSER_ID")]
     BROWSERID,
     #[serde(rename = "VISITOR_FINGERPRINT")]
@@ -189,24 +216,47 @@ pub enum RuleType {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum VerdictAction {
     #[serde(rename = "ALLOW")]
-    #[default]
-    ALLOW,
+ #[default]     ALLOW,
+    #[serde(rename = "CHALLENGE")]
+    CHALLENGE,
+    #[serde(rename = "BLOCK")]
+    BLOCK,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum VerdictReasonActionAction {
+    #[serde(rename = "ALLOW")]
+ #[default]     ALLOW,
+    #[serde(rename = "CHALLENGE")]
+    CHALLENGE,
+    #[serde(rename = "BLOCK")]
+    BLOCK,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum VerdictReasonOverrideAction {
+    #[serde(rename = "ALLOW")]
+ #[default]     ALLOW,
     #[serde(rename = "CHALLENGE")]
     CHALLENGE,
     #[serde(rename = "BLOCK")]
     BLOCK,
 }
 
+
+
 pub struct Fraud {
-    pub fingerprint: Fingerprint,
-    pub rules: Rules,
+  pub fingerprint: Fingerprint,
+  pub rules: Rules,
+  pub verdict_reasons: VerdictReasons,
 }
 
 impl Fraud {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            fingerprint: Fingerprint::new(http_client.clone()),
-            rules: Rules::new(http_client.clone()),
-        }
+      Self {
+        fingerprint: Fingerprint::new(http_client.clone()),
+        rules: Rules::new(http_client.clone()),
+        verdict_reasons: VerdictReasons::new(http_client.clone()),
+      }
     }
+
+
 }

@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
 
-/// M2MClient:
+/// M2MClient: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClient {
     /// client_id: The ID of the client.
@@ -30,7 +30,7 @@ pub struct M2MClient {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-/// M2MClientWithClientSecret:
+/// M2MClientWithClientSecret: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClientWithClientSecret {
     /// client_id: The ID of the client.
@@ -55,7 +55,7 @@ pub struct M2MClientWithClientSecret {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-/// M2MClientWithNextClientSecret:
+/// M2MClientWithNextClientSecret: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MClientWithNextClientSecret {
     /// client_id: The ID of the client.
@@ -81,20 +81,20 @@ pub struct M2MClientWithNextClientSecret {
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,
 }
-/// M2MSearchQuery:
+/// M2MSearchQuery: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct M2MSearchQuery {
     /// operator: The action to perform on the operands. The accepted value are:
-    ///
+    /// 
     ///   `AND` – all the operand values provided must match.
-    ///
+    /// 
     ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
     pub operator: M2MSearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search search query.
     pub operands: std::vec::Vec<serde_json::Value>,
 }
-/// ResultsMetadata:
+/// ResultsMetadata: 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query. If totals have been disabled for your
@@ -108,8 +108,7 @@ pub struct ResultsMetadata {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum M2MSearchQueryOperator {
     #[serde(rename = "OR")]
-    #[default]
-    OR,
+ #[default]     OR,
     #[serde(rename = "AND")]
     AND,
 }
@@ -153,6 +152,7 @@ pub struct AuthenticateTokenResponse {
 }
 // ENDMANUAL(authentication_token_types)
 
+
 // MANUAL(perform_authorization_check)(FREE_FUNCTION)
 fn perform_authorization_check(params: &AuthorizationCheckParams) -> bool {
     let mut client_scopes: std::collections::HashMap<String, std::collections::HashSet<String>> =
@@ -185,18 +185,20 @@ fn split_scope(scope: &str) -> (String, String) {
 }
 // ENDMANUAL(perform_authorization_check)
 
+
 pub struct M2M {
-    http_client: crate::client::Client,
-    pub clients: Clients,
+  http_client: crate::client::Client,
+  pub clients: Clients,
 }
 
 impl M2M {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-            clients: Clients::new(http_client.clone()),
-        }
+      Self {
+        http_client: http_client.clone(),
+        clients: Clients::new(http_client.clone()),
+      }
     }
+
 
     // MANUAL(m2m.token)(SERVICE_METHOD)
     pub async fn token(&self, body: TokenRequest) -> crate::Result<TokenResponse> {
@@ -283,4 +285,5 @@ impl M2M {
         })
     }
     // ENDMANUAL(m2m.authenticate_token)
+
 }

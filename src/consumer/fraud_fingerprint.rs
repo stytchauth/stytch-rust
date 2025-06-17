@@ -10,6 +10,7 @@ use crate::consumer::fraud::Properties;
 use crate::consumer::fraud::Verdict;
 use serde::{Deserialize, Serialize};
 
+
 /// LookupRequest: Request type for `Fingerprint.lookup`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LookupRequest {
@@ -54,25 +55,27 @@ pub struct LookupResponse {
     pub properties: std::option::Option<Properties>,
 }
 
+
+
+
 pub struct Fingerprint {
-    http_client: crate::client::Client,
+  http_client: crate::client::Client,
 }
 
 impl Fingerprint {
     pub fn new(http_client: crate::client::Client) -> Self {
-        Self {
-            http_client: http_client.clone(),
-        }
+      Self {
+        http_client: http_client.clone(),
+      }
     }
 
     pub async fn lookup(&self, body: LookupRequest) -> crate::Result<LookupResponse> {
         let path = String::from("/v1/fingerprint/lookup");
-        self.http_client
-            .send(crate::Request {
-                method: http::Method::POST,
-                path,
-                body,
-            })
-            .await
+        self.http_client.send(crate::Request{
+            method: http::Method::POST,
+            path,
+            body,
+        }).await
     }
+
 }
