@@ -5,6 +5,7 @@ pub mod crypto_wallets;
 pub mod fraud;
 pub mod fraud_fingerprint;
 pub mod fraud_rules;
+pub mod fraud_verdict_reasons;
 pub mod impersonation;
 pub mod m2m;
 pub mod m2m_clients;
