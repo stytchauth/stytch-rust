@@ -6,6 +6,7 @@
 
 use crate::consumer::fraud_fingerprint::Fingerprint;
 use crate::consumer::fraud_rules::Rules;
+use crate::consumer::fraud_verdict_reasons::VerdictReasons;
 use serde::{Deserialize, Serialize};
 
 /// ASNProperties:
@@ -144,12 +145,39 @@ pub struct Verdict {
     /// is_authentic_device: The assessment of whether this is an authentic device. It will be false if hardware
     /// or browser deception is detected.
     pub is_authentic_device: bool,
+    /// verdict_reason_overrides: A list of verdict reason overrides that were applied, if any.
+    pub verdict_reason_overrides: std::vec::Vec<VerdictReasonOverride>,
     /// rule_match_type: The type of rule match that was applied (e.g. `VISITOR_ID`), if any. This field will
     /// only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
     pub rule_match_type: std::option::Option<RuleType>,
     /// rule_match_identifier: The rule that was applied (e.g. a specific visitor ID value), if any. This field
     /// will only be present if there is a `RULE_MATCH` reason in the list of verdict reasons.
     pub rule_match_identifier: std::option::Option<String>,
+}
+/// VerdictReasonAction:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct VerdictReasonAction {
+    /// verdict_reason: The verdict reason.
+    pub verdict_reason: String,
+    /// default_action: The default action returned for the specified verdict reason in a fingerprint lookup
+    /// when no overrides are specified.
+    pub default_action: VerdictReasonActionAction,
+    /// override_action: If not null, this action will be returned for the specified verdict reason in a
+    /// fingerprint lookup, in place of the default action.
+    pub override_action: std::option::Option<VerdictReasonActionAction>,
+    /// override_created_at: The time when the override was created, if one exists. Values conform to the RFC
+    /// 3339 standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
+    pub override_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// override_description: A description of the override, if one exists.
+    pub override_description: std::option::Option<String>,
+}
+/// VerdictReasonOverride:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct VerdictReasonOverride {
+    /// verdict_reason: The verdict reason that was overridden.
+    pub verdict_reason: String,
+    /// override_action: The action that was applied for the given verdict reason.
+    pub override_action: VerdictReasonOverrideAction,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -196,10 +224,31 @@ pub enum VerdictAction {
     #[serde(rename = "BLOCK")]
     BLOCK,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum VerdictReasonActionAction {
+    #[serde(rename = "ALLOW")]
+    #[default]
+    ALLOW,
+    #[serde(rename = "CHALLENGE")]
+    CHALLENGE,
+    #[serde(rename = "BLOCK")]
+    BLOCK,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum VerdictReasonOverrideAction {
+    #[serde(rename = "ALLOW")]
+    #[default]
+    ALLOW,
+    #[serde(rename = "CHALLENGE")]
+    CHALLENGE,
+    #[serde(rename = "BLOCK")]
+    BLOCK,
+}
 
 pub struct Fraud {
     pub fingerprint: Fingerprint,
     pub rules: Rules,
+    pub verdict_reasons: VerdictReasons,
 }
 
 impl Fraud {
@@ -207,6 +256,7 @@ impl Fraud {
         Self {
             fingerprint: Fingerprint::new(http_client.clone()),
             rules: Rules::new(http_client.clone()),
+            verdict_reasons: VerdictReasons::new(http_client.clone()),
         }
     }
 }

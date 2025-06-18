@@ -170,7 +170,8 @@ pub struct ResetStartRequest {
     ///   If you have not set a default `reset_password_redirect_url`, an error is returned.
     pub reset_password_redirect_url: std::option::Option<String>,
     /// reset_password_expiration_minutes: Sets a time limit after which the email link to reset the member's
-    /// password will no longer be valid.
+    /// password will no longer be valid. The minimum allowed expiration is 5 minutes and the maximum is 10080
+    /// minutes (7 days). By default, the expiration is 30 minutes.
     pub reset_password_expiration_minutes: std::option::Option<i32>,
     /// code_challenge: A base64url encoded SHA256 hash of a one time secret used to validate that the request
     /// starts and ends on the same device.

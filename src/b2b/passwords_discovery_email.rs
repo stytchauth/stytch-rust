@@ -82,7 +82,8 @@ pub struct ResetStartRequest {
     /// custom HTML email for Passwords - Reset Password.
     pub reset_password_template_id: std::option::Option<String>,
     /// reset_password_expiration_minutes: Sets a time limit after which the email link to reset the member's
-    /// password will no longer be valid.
+    /// password will no longer be valid. The minimum allowed expiration is 5 minutes and the maximum is 10080
+    /// minutes (7 days). By default, the expiration is 30 minutes.
     pub reset_password_expiration_minutes: std::option::Option<i32>,
     pub pkce_code_challenge: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is

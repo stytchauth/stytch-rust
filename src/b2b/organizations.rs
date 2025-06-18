@@ -729,11 +729,37 @@ pub struct CreateRequest {
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
     /// claimed_email_domains: A list of email domains that are claimed by the Organization.
     pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
+    /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
+    /// towards first party Connected Apps. The accepted values are:
+    ///
+    ///   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+    ///
+    ///   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+    /// used by Members.
+    ///
+    ///   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+    ///
     pub first_party_connected_apps_allowed_type:
         std::option::Option<CreateRequestFirstPartyConnectedAppsAllowedType>,
+    /// allowed_first_party_connected_apps: An array of first party Connected App IDs that are allowed for the
+    /// Organization. Only used when the Organization's `first_party_connected_apps_allowed_type` is
+    /// `RESTRICTED`.
     pub allowed_first_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
+    /// third_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
+    /// towards third party Connected Apps. The accepted values are:
+    ///
+    ///   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+    ///
+    ///   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+    /// used by Members.
+    ///
+    ///   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+    ///
     pub third_party_connected_apps_allowed_type:
         std::option::Option<CreateRequestThirdPartyConnectedAppsAllowedType>,
+    /// allowed_third_party_connected_apps: An array of third party Connected App IDs that are allowed for the
+    /// Organization. Only used when the Organization's `third_party_connected_apps_allowed_type` is
+    /// `RESTRICTED`.
     pub allowed_third_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
@@ -1065,11 +1091,37 @@ pub struct UpdateRequest {
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
     /// claimed_email_domains: A list of email domains that are claimed by the Organization.
     pub claimed_email_domains: std::option::Option<std::vec::Vec<String>>,
+    /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
+    /// towards first party Connected Apps. The accepted values are:
+    ///
+    ///   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+    ///
+    ///   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+    /// used by Members.
+    ///
+    ///   `NOT_ALLOWED` – no first party Connected Apps are permitted.
+    ///
     pub first_party_connected_apps_allowed_type:
         std::option::Option<UpdateRequestFirstPartyConnectedAppsAllowedType>,
+    /// allowed_first_party_connected_apps: An array of first party Connected App IDs that are allowed for the
+    /// Organization. Only used when the Organization's `first_party_connected_apps_allowed_type` is
+    /// `RESTRICTED`.
     pub allowed_first_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
+    /// third_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
+    /// towards third party Connected Apps. The accepted values are:
+    ///
+    ///   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+    ///
+    ///   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
+    /// used by Members.
+    ///
+    ///   `NOT_ALLOWED` – no third party Connected Apps are permitted.
+    ///
     pub third_party_connected_apps_allowed_type:
         std::option::Option<UpdateRequestThirdPartyConnectedAppsAllowedType>,
+    /// allowed_third_party_connected_apps: An array of third party Connected App IDs that are allowed for the
+    /// Organization. Only used when the Organization's `third_party_connected_apps_allowed_type` is
+    /// `RESTRICTED`.
     pub allowed_third_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
 }
 /// UpdateResponse: Response type for `Organizations.update`.
