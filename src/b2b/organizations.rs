@@ -150,7 +150,8 @@ pub struct Member {
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
     /// step if the Organization's MFA policy is set to `REQUIRED_FOR_ALL`.
     pub mfa_enrolled: bool,
-    /// mfa_phone_number: The Member's phone number. A Member may only have one phone number.
+    /// mfa_phone_number: The Member's phone number. A Member may only have one phone number. The phone number
+    /// should be in E.164 format (i.e. +1XXXXXXXXXX).
     pub mfa_phone_number: String,
     pub default_mfa_method: String,
     /// roles: Explicit or implicit Roles assigned to this Member, along with details about the role assignment

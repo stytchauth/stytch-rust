@@ -211,7 +211,12 @@ pub struct MigrateRequest {
     /// SSO
     ///   authentication factors with the affected SSO connection IDs will be revoked.
     pub preserve_existing_sessions: std::option::Option<bool>,
+    /// mfa_phone_number: The Member's phone number. A Member may only have one phone number. The phone number
+    /// should be in E.164 format (i.e. +1XXXXXXXXXX).
     pub mfa_phone_number: std::option::Option<String>,
+    /// set_phone_number_verified: Whether to set the user's phone number as verified. This is a dangerous
+    /// field. This flag should only be set if you can attest that
+    ///    the user owns the phone number in question.
     pub set_phone_number_verified: std::option::Option<bool>,
     /// external_id: If a new member is created, this will set an identifier that can be used in API calls
     /// wherever a member_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
