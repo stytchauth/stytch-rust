@@ -269,11 +269,11 @@ pub struct MigrateRequest {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
-    /// set_email_verified: Whether to set the user's email as verified. This is a dangerous field. Incorrect
+    /// set_email_verified: Whether to set the user's email as verified. This is a dangerous field, incorrect
     /// use may lead to users getting erroneously
-    /// deduplicated into one user object. This flag should only be set if you can attest that the user owns the
+    /// deduplicated into one User object. This flag should only be set if you can attest that the user owns the
     /// email address in question.
-    /// Access to this field is restricted. To enable it, please send us a note at support@stytch.com.
+    ///
     pub set_email_verified: std::option::Option<bool>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
@@ -281,9 +281,8 @@ pub struct MigrateRequest {
     /// +1XXXXXXXXXX).
     pub phone_number: std::option::Option<String>,
     /// set_phone_number_verified: Whether to set the user's phone number as verified. This is a dangerous
-    /// field. This flag should only be set if you can attest that
-    ///    the user owns the phone number in question. Access to this field is restricted. To enable it, please
-    /// send us a note at support@stytch.com.
+    /// field, this flag should only be set if you can attest that
+    ///    the user owns the phone number in question.
     pub set_phone_number_verified: std::option::Option<bool>,
     /// external_id: If a new user is created, this will set an identifier that can be used in API calls
     /// wherever a user_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`

@@ -78,6 +78,28 @@ pub struct PrimaryRequired {
     /// token, you must pass it into that primary authentication step.
     pub allowed_auth_methods: std::vec::Vec<String>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct AttestRequest {
+    pub organization_id: String,
+    pub profile_id: String,
+    pub token: String,
+    pub session_duration_minutes: std::option::Option<i32>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
+    pub session_token: std::option::Option<String>,
+    pub session_jwt: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AttestResponse {
+    pub request_id: String,
+    pub member_id: String,
+    pub member_session: MemberSession,
+    pub session_token: String,
+    pub session_jwt: String,
+    pub member: Member,
+    pub organization: Organization,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -518,6 +540,16 @@ impl Sessions {
         body: ExchangeAccessTokenRequest,
     ) -> crate::Result<ExchangeAccessTokenResponse> {
         let path = String::from("/v1/b2b/sessions/exchange_access_token");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn attest(&self, body: AttestRequest) -> crate::Result<AttestResponse> {
+        let path = String::from("/v1/b2b/sessions/attest");
         self.http_client
             .send(crate::Request {
                 method: http::Method::POST,

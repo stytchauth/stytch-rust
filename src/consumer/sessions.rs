@@ -376,6 +376,26 @@ pub struct YahooOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct AttestRequest {
+    pub profile_id: String,
+    pub token: String,
+    pub session_duration_minutes: std::option::Option<i32>,
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
+    pub session_token: std::option::Option<String>,
+    pub session_jwt: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AttestResponse {
+    pub request_id: String,
+    pub user_id: String,
+    pub session_token: String,
+    pub session_jwt: String,
+    pub user: User,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    pub session: std::option::Option<Session>,
+}
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -796,6 +816,16 @@ impl Sessions {
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn attest(&self, body: AttestRequest) -> crate::Result<AttestResponse> {
+        let path = String::from("/v1/sessions/attest");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
                 path,
                 body,
             })
