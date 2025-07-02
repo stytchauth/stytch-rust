@@ -143,6 +143,7 @@ pub struct User {
     /// in the Stytch API.
     pub biometric_registrations: std::vec::Vec<BiometricRegistration>,
     pub is_locked: bool,
+    pub roles: std::vec::Vec<String>,
     /// name: The name of the User. Each field in the `name` object is optional.
     pub name: std::option::Option<Name>,
     /// created_at: The timestamp of the User's creation. Values conform to the RFC 3339 standard and are
@@ -222,6 +223,7 @@ pub struct ConnectedAppsResponse {
 /// CreateRequest: Request type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
+    pub roles: std::vec::Vec<String>,
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,
     /// name: The name of the user. Each field in the name object is optional.
@@ -552,6 +554,7 @@ pub struct GetResponse {
     /// in the Stytch API.
     pub biometric_registrations: std::vec::Vec<BiometricRegistration>,
     pub is_locked: bool,
+    pub roles: std::vec::Vec<String>,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -655,6 +658,7 @@ pub struct UpdateRequest {
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
     /// characters.
     pub external_id: std::option::Option<String>,
+    pub roles: std::option::Option<std::vec::Vec<String>>,
 }
 /// UpdateResponse: Response type for `Users.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -221,6 +221,7 @@ pub struct RegisterStartRequest {
     pub override_id: std::option::Option<String>,
     pub override_name: std::option::Option<String>,
     pub override_display_name: std::option::Option<String>,
+    pub use_base64_url_encoding: std::option::Option<bool>,
 }
 /// RegisterStartResponse: Response type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
