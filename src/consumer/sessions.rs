@@ -376,6 +376,69 @@ pub struct YahooOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+/// AttestRequest: Request type for `Sessions.attest`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct AttestRequest {
+    /// profile_id: The ID of the trusted auth token profile to use for attestation.
+    pub profile_id: String,
+    /// token: The trusted auth token to authenticate.
+    pub token: String,
+    /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
+    /// new session if one doesn't already exist,
+    ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
+    /// `session_jwt` will have a fixed lifetime of
+    ///   five minutes regardless of the underlying session duration, and will need to be refreshed over time.
+    ///
+    ///   This value must be a minimum of 5 and a maximum of 527040 minutes (366 days).
+    ///
+    ///   If a `session_token` or `session_jwt` is provided then a successful authentication will continue to
+    /// extend the session this many minutes.
+    ///
+    ///   If the `session_duration_minutes` parameter is not specified, a Stytch session will not be created.
+    pub session_duration_minutes: std::option::Option<i32>,
+    /// session_custom_claims: Add a custom claims map to the Session being authenticated. Claims are only
+    /// created if a Session is initialized by providing a value in `session_duration_minutes`. Claims will be
+    /// included on the Session object and in the JWT. To update a key in an existing Session, supply a new
+    /// value. To delete a key, supply a null value.
+    ///
+    ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
+    /// ignored. Total custom claims size cannot exceed four kilobytes.
+    pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// session_token: The `session_token` for the session that you wish to add the trusted auth token
+    /// authentication factor to.
+    pub session_token: std::option::Option<String>,
+    /// session_jwt: The `session_jwt` for the session that you wish to add the trusted auth token
+    /// authentication factor to.
+    pub session_jwt: std::option::Option<String>,
+}
+/// AttestResponse: Response type for `Sessions.attest`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AttestResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// user_id: The unique ID of the affected User.
+    pub user_id: String,
+    /// session_token: A secret token for a given Stytch Session.
+    pub session_token: String,
+    /// session_jwt: The JSON Web Token (JWT) for a given Stytch Session.
+    pub session_jwt: String,
+    /// user: The `user` object affected by this API call. See the
+    /// [Get user endpoint](https://stytch.com/docs/api/get-user) for complete response field details.
+    pub user: User,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+    /// session: If you initiate a Session, by including `session_duration_minutes` in your authenticate call,
+    /// you'll receive a full Session object in the response.
+    ///
+    ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
+    ///
+    pub session: std::option::Option<Session>,
+}
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
@@ -796,6 +859,16 @@ impl Sessions {
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn attest(&self, body: AttestRequest) -> crate::Result<AttestResponse> {
+        let path = String::from("/v1/sessions/attest");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::POST,
                 path,
                 body,
             })
