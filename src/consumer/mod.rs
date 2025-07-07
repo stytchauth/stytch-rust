@@ -1,6 +1,9 @@
 pub mod client;
 
 pub mod attribute;
+pub mod connected_apps;
+pub mod connected_apps_clients;
+pub mod connected_apps_clients_secrets;
 pub mod crypto_wallets;
 pub mod fraud;
 pub mod fraud_fingerprint;
