@@ -4,7 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
-use crate::consumer::connected_apps::ConnectedApp;
+use crate::consumer::connected_apps::ConnectedAppClient;
 use crate::consumer::connected_apps::ConnectedAppWithClientSecret;
 use crate::consumer::connected_apps::ResultsMetadata;
 use crate::consumer::connected_apps_clients_secrets::Secrets;
@@ -85,7 +85,7 @@ pub struct GetResponse {
     /// debug an issue.
     pub request_id: String,
     /// connected_app: The Connected App affected by this operation.
-    pub connected_app: ConnectedApp,
+    pub connected_app: ConnectedAppClient,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
@@ -114,7 +114,7 @@ pub struct SearchResponse {
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
     /// debug an issue.
     pub request_id: String,
-    pub connected_apps: std::vec::Vec<ConnectedApp>,
+    pub connected_apps: std::vec::Vec<ConnectedAppClient>,
     /// results_metadata: The search `results_metadata` object contains metadata relevant to your specific query
     /// like total and `next_cursor`.
     pub results_metadata: ResultsMetadata,
@@ -162,7 +162,7 @@ pub struct UpdateResponse {
     /// debug an issue.
     pub request_id: String,
     /// connected_app: The Connected App affected by this operation.
-    pub connected_app: ConnectedApp,
+    pub connected_app: ConnectedAppClient,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.

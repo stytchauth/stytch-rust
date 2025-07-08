@@ -7,9 +7,9 @@
 use crate::consumer::connected_apps_clients::Clients;
 use serde::{Deserialize, Serialize};
 
-/// ConnectedApp:
+/// ConnectedAppClient:
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ConnectedApp {
+pub struct ConnectedAppClient {
     /// client_id: The ID of the Connected App client.
     pub client_id: String,
     /// client_name: A human-readable name for the client.
