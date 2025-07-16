@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 /// AuthenticateRequest: Request type for `Impersonation.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticateRequest {
-    /// impersonation_token: The User Impersonation token to authenticate.
+    /// impersonation_token: The Member Impersonation token to authenticate. Expires in 5 minutes by default.
     pub impersonation_token: String,
 }
 /// AuthenticateResponse: Response type for `Impersonation.authenticate`.

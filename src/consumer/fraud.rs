@@ -138,7 +138,7 @@ pub struct Verdict {
     pub action: VerdictAction,
     /// reasons: A set of contextual clues to inform why a `CHALLENGE` or `BLOCK` action was suggested. For a
     /// list of possible Reasons, see
-    /// [Warning Flags (Verdict Reasons)](/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
+    /// [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons).
     pub reasons: std::vec::Vec<String>,
     /// detected_device_type: The operating system and architecture that took the fingerprint.
     pub detected_device_type: String,
