@@ -33,7 +33,7 @@ pub struct ListResponse {
 pub struct OverrideRequest {
     /// verdict_reason: The verdict reason that you wish to override. For a list of possible reasons to
     /// override, see
-    /// [Warning Flags (Verdict Reasons)](/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons). You may not override the `RULE_MATCH` reason.
+    /// [Warning Flags (Verdict Reasons)](https://stytch.com/docs/docs/fraud/guides/device-fingerprinting/reference/warning-flags-verdict-reasons). You may not override the `RULE_MATCH` reason.
     pub verdict_reason: String,
     /// override_action: The action that you want to be returned for the specified verdict reason. The override
     /// action must be one of `ALLOW`, `BLOCK`, or `CHALLENGE`.
