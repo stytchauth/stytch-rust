@@ -14,6 +14,7 @@ use crate::consumer::oauth::OAuth;
 use crate::consumer::otp::OTPs;
 use crate::consumer::passwords::Passwords;
 use crate::consumer::project::Project;
+use crate::consumer::rbac::RBAC;
 use crate::consumer::sessions::Sessions;
 use crate::consumer::totps::TOTPs;
 use crate::consumer::users::Users;
@@ -30,6 +31,7 @@ pub struct Client {
     pub otps: OTPs,
     pub passwords: Passwords,
     pub project: Project,
+    pub rbac: RBAC,
     pub sessions: Sessions,
     pub totps: TOTPs,
     pub users: Users,
@@ -59,6 +61,7 @@ impl Client {
             otps: OTPs::new(http_client.clone()),
             passwords: Passwords::new(http_client.clone()),
             project: Project::new(http_client.clone()),
+            rbac: RBAC::new(http_client.clone()),
             sessions: Sessions::new(http_client.clone()),
             totps: TOTPs::new(http_client.clone()),
             users: Users::new(http_client.clone()),

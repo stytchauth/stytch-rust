@@ -114,7 +114,7 @@ pub struct ResetStartRequest {
     /// below) and finish the login.
     ///
     ///   The URL must be configured as a Login URL in the
-    /// [Redirect URL page](https://stytch.com/docs/dashboard/redirect-urls). If the field is not specified, the
+    /// [Redirect URL page](https://stytch.com/dashboard/redirect-urls). If the field is not specified, the
     /// default Login URL will be used.
     pub login_redirect_url: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is

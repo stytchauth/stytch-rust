@@ -383,7 +383,7 @@ pub struct StartEmailUpdateRequest {
     /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
     /// one is set for the member.
     pub member_id: String,
-    /// email_address: The email address of the Member.
+    /// email_address: The new email address for the Member.
     pub email_address: String,
     /// login_redirect_url: The URL that the Member clicks from the login Email Magic Link. This URL should be
     /// an endpoint in the backend server that
