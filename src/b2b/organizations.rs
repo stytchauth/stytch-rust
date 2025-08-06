@@ -361,8 +361,8 @@ pub struct Organization {
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-    /// of the Organization's `sso_active_connections`.
+    ///   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+    /// authentication via any of the Organization's `sso_active_connections`.
     ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -392,7 +392,7 @@ pub struct Organization {
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
     ///
     pub email_jit_provisioning: String,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
@@ -448,14 +448,15 @@ pub struct Organization {
     ///
     ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
     ///
     pub oauth_tenant_jit_provisioning: String,
     pub claimed_email_domains: std::vec::Vec<String>,
     /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards first party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.
@@ -470,7 +471,8 @@ pub struct Organization {
     /// third_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards third party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.
@@ -633,8 +635,8 @@ pub struct CreateRequest {
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-    /// of the Organization's `sso_active_connections`.
+    ///   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+    /// authentication via any of the Organization's `sso_active_connections`.
     ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -655,7 +657,7 @@ pub struct CreateRequest {
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
     ///
     pub email_jit_provisioning: std::option::Option<String>,
     /// email_invites: The authentication setting that controls how a new Member can be invited to an
@@ -722,7 +724,7 @@ pub struct CreateRequest {
     ///
     ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
     ///
     pub oauth_tenant_jit_provisioning: std::option::Option<String>,
     /// allowed_oauth_tenants: A map of allowed OAuth tenants. If this field is not passed in, the Organization
@@ -733,7 +735,8 @@ pub struct CreateRequest {
     /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards first party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.
@@ -749,7 +752,8 @@ pub struct CreateRequest {
     /// third_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards third party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.
@@ -942,8 +946,8 @@ pub struct UpdateRequest {
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – new Members will be automatically provisioned upon successful authentication via any
-    /// of the Organization's `sso_active_connections`.
+    ///   `ALL_ALLOWED` – the default setting, new Members will be automatically provisioned upon successful
+    /// authentication via any of the Organization's `sso_active_connections`.
     ///
     ///   `RESTRICTED` – only new Members with SSO logins that comply with
     /// `sso_jit_provisioning_allowed_connections` can be provisioned upon authentication.
@@ -980,7 +984,7 @@ pub struct UpdateRequest {
     ///   `RESTRICTED` – only new Members with verified emails that comply with `email_allowed_domains` can be
     /// provisioned upon authentication via Email Magic Link or OAuth.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning via Email Magic Link and OAuth.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning via Email Magic Link and OAuth.
     ///
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
@@ -1076,7 +1080,7 @@ pub struct UpdateRequest {
     ///
     ///   `RESTRICTED` – only new Members with tenants in `allowed_oauth_tenants` can JIT provision via tenant.
     ///
-    ///   `NOT_ALLOWED` – disable JIT provisioning by OAuth Tenant.
+    ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
     ///
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
@@ -1095,7 +1099,8 @@ pub struct UpdateRequest {
     /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards first party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any first party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any first party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only first party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.
@@ -1111,7 +1116,8 @@ pub struct UpdateRequest {
     /// third_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards third party Connected Apps. The accepted values are:
     ///
-    ///   `ALL_ALLOWED` – any third party Connected App in the Project is permitted for use by Members.
+    ///   `ALL_ALLOWED` – the default setting, any third party Connected App in the Project is permitted for use
+    /// by Members.
     ///
     ///   `RESTRICTED` – only third party Connected Apps with IDs in `allowed_first_party_connected_apps` can be
     /// used by Members.

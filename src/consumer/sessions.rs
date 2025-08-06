@@ -23,22 +23,48 @@ pub struct AppleOAuthFactor {
 /// AuthenticationFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AuthenticationFactor {
-    /// type_: The type of authentication factor. The possible values are: `magic_link`, `otp`,
-    ///    `oauth`, `password`, `email_otp`, or `sso` .
+    /// type_: The type of authentication factor. The possible values are: `email_otp`, `impersonated`,
+    /// `imported`,
+    ///    `magic_link`, `oauth`, `otp`, `password`, `recovery_codes`, `sso`, `trusted_auth_token`, or `totp`.
     #[serde(rename = "type")]
     pub type_: AuthenticationFactorType,
     /// delivery_method: The method that was used to deliver the authentication factor. The possible values
     /// depend on the `type`:
     ///
+    ///   `email_otp` – Only `email`.
+    ///
+    ///   `impersonated` – Only `impersonation`.
+    ///
+    ///   `imported` – Only `imported_auth0`.
+    ///
     ///   `magic_link` – Only `email`.
     ///
-    ///   `otp` –  Either `sms` or `email` .
+    ///   `oauth` – The delivery method is determined by the specific OAuth provider used. The possible values
+    /// are `oauth_google`, `oauth_microsoft`, `oauth_hubspot`, `oauth_slack`, or `oauth_github`.
     ///
-    ///   `oauth` – Either `oauth_google` or `oauth_microsoft`.
+    /// In addition, you may see an 'exchange' delivery method when a non-email-verifying OAuth factor
+    /// originally authenticated in one organization is exchanged for a factor in another organization.
+    /// This can happen during authentication flows such as
+    /// [session exchange](https://stytch.com/docs/b2b/api/exchange-session).
+    /// The non-email-verifying OAuth providers are Hubspot, Slack, and Github.
+    /// Google is also considered non-email-verifying when the HD claim is empty.
+    /// The possible exchange values are `oauth_exchange_google`, `oauth_exchange_hubspot`,
+    /// `oauth_exchange_slack`, or `oauth_exchange_github`.
+    ///
+    /// The final possible value is `oauth_access_token_exchange`, if this factor came from an
+    /// [access token exchange flow](https://stytch.com/docs/b2b/api/connected-app-access-token-exchange).
+    ///
+    ///   `otp` –  Only `sms`.
     ///
     ///   `password` – Only `knowledge`.
     ///
+    ///   `recovery_codes` – Only `recovery_code`.
+    ///
     ///   `sso` – Either `sso_saml` or `sso_oidc`.
+    ///
+    ///   `trusted_auth_token` – Only `trusted_token_exchange`.
+    ///
+    ///   `totp` – Only `authenticator_app`.
     ///
     pub delivery_method: AuthenticationFactorDeliveryMethod,
     /// last_authenticated_at: The timestamp when the factor was last authenticated.
@@ -59,6 +85,7 @@ pub struct AuthenticationFactor {
     pub webauthn_factor: std::option::Option<WebAuthnFactor>,
     /// authenticator_app_factor: Information about the TOTP-backed Authenticator App factor, if one is present.
     pub authenticator_app_factor: std::option::Option<AuthenticatorAppFactor>,
+    /// github_oauth_factor: Information about the Github OAuth factor, if one is present.
     pub github_oauth_factor: std::option::Option<GithubOAuthFactor>,
     pub recovery_code_factor: std::option::Option<RecoveryCodeFactor>,
     pub facebook_oauth_factor: std::option::Option<FacebookOAuthFactor>,
@@ -72,6 +99,7 @@ pub struct AuthenticationFactor {
     pub instagram_oauth_factor: std::option::Option<InstagramOAuthFactor>,
     pub linked_in_oauth_factor: std::option::Option<LinkedInOAuthFactor>,
     pub shopify_oauth_factor: std::option::Option<ShopifyOAuthFactor>,
+    /// slack_oauth_factor: Information about the Slack OAuth factor, if one is present.
     pub slack_oauth_factor: std::option::Option<SlackOAuthFactor>,
     pub snapchat_oauth_factor: std::option::Option<SnapchatOAuthFactor>,
     pub spotify_oauth_factor: std::option::Option<SpotifyOAuthFactor>,
@@ -87,14 +115,22 @@ pub struct AuthenticationFactor {
     pub oidc_sso_factor: std::option::Option<OIDCSSOFactor>,
     pub salesforce_oauth_factor: std::option::Option<SalesforceOAuthFactor>,
     pub yahoo_oauth_factor: std::option::Option<YahooOAuthFactor>,
+    /// hubspot_oauth_factor: Information about the Hubspot OAuth factor, if one is present.
     pub hubspot_oauth_factor: std::option::Option<HubspotOAuthFactor>,
+    /// slack_oauth_exchange_factor: Information about the Slack OAuth Exchange factor, if one is present.
     pub slack_oauth_exchange_factor: std::option::Option<SlackOAuthExchangeFactor>,
+    /// hubspot_oauth_exchange_factor: Information about the Hubspot OAuth Exchange factor, if one is present.
     pub hubspot_oauth_exchange_factor: std::option::Option<HubspotOAuthExchangeFactor>,
+    /// github_oauth_exchange_factor: Information about the Github OAuth Exchange factor, if one is present.
     pub github_oauth_exchange_factor: std::option::Option<GithubOAuthExchangeFactor>,
+    /// google_oauth_exchange_factor: Information about the Google OAuth Exchange factor, if one is present.
     pub google_oauth_exchange_factor: std::option::Option<GoogleOAuthExchangeFactor>,
     /// impersonated_factor: Information about the impersonated factor, if one is present.
     pub impersonated_factor: std::option::Option<ImpersonatedFactor>,
+    /// oauth_access_token_exchange_factor: Information about the access token exchange factor, if one is
+    /// present.
     pub oauth_access_token_exchange_factor: std::option::Option<OAuthAccessTokenExchangeFactor>,
+    /// trusted_auth_token_factor: Information about the trusted auth token factor, if one is present.
     pub trusted_auth_token_factor: std::option::Option<TrustedAuthTokenFactor>,
 }
 /// AuthenticatorAppFactor:
@@ -102,6 +138,29 @@ pub struct AuthenticationFactor {
 pub struct AuthenticatorAppFactor {
     /// totp_id: Globally unique UUID that identifies a TOTP instance.
     pub totp_id: String,
+}
+/// AuthorizationCheck:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AuthorizationCheck {
+    /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
+    /// human-readable.
+    ///
+    ///   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+    /// default Resources with reserved `resource_id`s.
+    ///
+    pub resource_id: String,
+    /// action: An action to take on a Resource.
+    pub action: String,
+}
+/// AuthorizationVerdict:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AuthorizationVerdict {
+    /// authorized: Whether the User was authorized to perform the specified action on the specified Resource.
+    /// Always true if the request succeeds.
+    pub authorized: bool,
+    /// granting_roles: The complete list of Roles that gave the User permission to perform the specified action
+    /// on the specified Resource.
+    pub granting_roles: std::vec::Vec<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BiometricFactor {
@@ -161,18 +220,27 @@ pub struct GitLabOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+/// GithubOAuthExchangeFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubOAuthExchangeFactor {
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
+/// GithubOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GithubOAuthFactor {
+    /// id: The unique ID of an OAuth registration.
     pub id: String,
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
+/// GoogleOAuthExchangeFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoogleOAuthExchangeFactor {
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
 /// GoogleOAuthFactor:
@@ -186,14 +254,21 @@ pub struct GoogleOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
+/// HubspotOAuthExchangeFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HubspotOAuthExchangeFactor {
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
+/// HubspotOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HubspotOAuthFactor {
+    /// id: The unique ID of an OAuth registration.
     pub id: String,
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
 /// ImpersonatedFactor:
@@ -242,8 +317,10 @@ pub struct MicrosoftOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
+/// OAuthAccessTokenExchangeFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OAuthAccessTokenExchangeFactor {
+    /// client_id: The ID of the Connected App client.
     pub client_id: String,
 }
 /// OIDCSSOFactor:
@@ -314,14 +391,21 @@ pub struct ShopifyOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+/// SlackOAuthExchangeFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SlackOAuthExchangeFactor {
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
+/// SlackOAuthFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SlackOAuthFactor {
+    /// id: The unique ID of an OAuth registration.
     pub id: String,
+    /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
+    /// the `sub` or "Subject field" in OAuth protocols.
     pub provider_subject: String,
+    /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -348,8 +432,10 @@ pub struct TikTokOAuthFactor {
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
+/// TrustedAuthTokenFactor:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TrustedAuthTokenFactor {
+    /// token_id: The ID of the trusted auth token.
     pub token_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -460,6 +546,15 @@ pub struct AuthenticateRequest {
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// authorization_check: If an `authorization_check` object is passed in, this endpoint will also check if
+    /// the User is
+    ///   authorized to perform the given action on the given Resource. A User is authorized if they are
+    /// assigned a Role with adequate permissions.
+    ///
+    ///   If the User is not authorized to perform the specified action on the specified Resource, a 403 error
+    /// will be thrown.
+    ///   Otherwise, the response will contain a list of Roles that satisfied the authorization check.
+    pub authorization_check: std::option::Option<AuthorizationCheck>,
 }
 /// AuthenticateResponse: Response type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -486,6 +581,10 @@ pub struct AuthenticateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// verdict: If an `authorization_check` is provided in the request and the check succeeds, this field will
+    /// return
+    ///   information about why the User was granted permission.
+    pub verdict: std::option::Option<AuthorizationVerdict>,
 }
 /// ExchangeAccessTokenRequest: Request type for `Sessions.exchange_access_token`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
