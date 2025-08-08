@@ -288,7 +288,7 @@ pub struct ExchangeAccessTokenResponse {
 pub struct ExchangeRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// session_token: The `session_token` belonging to the member that you wish to associate the email with.
     pub session_token: std::option::Option<String>,
@@ -405,7 +405,7 @@ pub struct GetJWKSResponse {
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
@@ -434,7 +434,7 @@ pub struct MigrateRequest {
     pub session_token: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,

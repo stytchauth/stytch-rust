@@ -18,7 +18,7 @@ pub struct RequireResetRequest {
     pub email_address: String,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: std::option::Option<String>,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
@@ -163,7 +163,7 @@ pub struct ResetResponse {
 pub struct ResetStartRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// email_address: The email address of the Member to start the email reset process for.
     pub email_address: String,

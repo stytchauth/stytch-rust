@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 pub struct CreateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
@@ -46,7 +46,7 @@ pub struct CreateConnectionResponse {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteVerificationCertificateRequest {
     /// organization_id: The organization ID that the SAML connection belongs to. You may also use the
-    /// organization_slug here as a convenience.
+    /// organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SAML connection.
     pub connection_id: String,
@@ -73,7 +73,7 @@ pub struct DeleteVerificationCertificateResponse {
 pub struct UpdateByURLRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
     pub connection_id: String,
@@ -102,7 +102,7 @@ pub struct UpdateByURLResponse {
 pub struct UpdateConnectionRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
     pub connection_id: String,
