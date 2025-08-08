@@ -17,7 +17,7 @@ use serde::{Deserialize, Serialize};
 pub struct AuthenticateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
@@ -129,7 +129,7 @@ pub struct AuthenticateResponse {
 pub struct LoginOrSignupRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,

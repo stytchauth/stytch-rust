@@ -94,7 +94,7 @@ pub struct HubspotProviderInfo {
 pub struct Member {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
     /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
@@ -347,7 +347,7 @@ pub struct OIDCProviderInfo {
 pub struct Organization {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
     pub organization_name: String,
@@ -493,6 +493,8 @@ pub struct Organization {
     /// updated_at: The timestamp of when the Organization was last updated. Values conform to the RFC 3339
     /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// organization_external_id: A unique identifier for the organization.
+    pub organization_external_id: std::option::Option<String>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     pub sso_default_connection_id: std::option::Option<String>,
@@ -603,7 +605,7 @@ pub struct SlackProviderInfo {
 pub struct ConnectedAppsRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
 }
 /// ConnectedAppsResponse: Response type for `Organizations.connected_apps`.
@@ -632,6 +634,11 @@ pub struct CreateRequest {
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// organization_external_id: An identifier that can be used in API calls wherever a organization_id is
+    /// expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum
+    /// length of 128 characters. External IDs must be unique within a project, but may be reused across
+    /// different projects in the same workspace.
+    pub organization_external_id: std::option::Option<String>,
     /// sso_jit_provisioning: The authentication setting that controls the JIT provisioning of Members when
     /// authenticating via SSO. The accepted values are:
     ///
@@ -787,7 +794,7 @@ pub struct CreateResponse {
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
 }
 /// DeleteResponse: Response type for `Organizations.delete`.
@@ -811,7 +818,7 @@ pub struct DeleteResponse {
 pub struct GetConnectedAppRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connected_app_id: The ID of the Connected App.
     pub connected_app_id: String,
@@ -839,7 +846,7 @@ pub struct GetConnectedAppResponse {
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
 }
 /// GetResponse: Response type for `Organizations.get`.
@@ -910,7 +917,7 @@ pub struct SearchResponse {
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// organization_name: The name of the Organization. Must be between 1 and 128 characters in length.
     ///
@@ -936,6 +943,11 @@ pub struct UpdateRequest {
     /// cannot
     ///   update trusted metadata when acting as a Member.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
+    /// organization_external_id: An identifier that can be used in API calls wherever a organization_id is
+    /// expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum
+    /// length of 128 characters. External IDs must be unique within a project, but may be reused across
+    /// different projects in the same workspace.
+    pub organization_external_id: std::option::Option<String>,
     /// sso_default_connection_id: The default connection used for SSO when there are multiple active
     /// connections.
     ///

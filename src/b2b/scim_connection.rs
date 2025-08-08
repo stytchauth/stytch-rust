@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 pub struct CreateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// display_name: A human-readable display name for the connection.
     pub display_name: std::option::Option<String>,
@@ -44,7 +44,7 @@ pub struct CreateResponse {
 pub struct DeleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -69,7 +69,7 @@ pub struct DeleteResponse {
 pub struct GetGroupsRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -101,7 +101,7 @@ pub struct GetGroupsResponse {
 pub struct GetRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
 }
 /// GetResponse: Response type for `Connection.get`.
@@ -125,7 +125,7 @@ pub struct GetResponse {
 pub struct RotateCancelRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -152,7 +152,7 @@ pub struct RotateCancelResponse {
 pub struct RotateCompleteRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -179,7 +179,7 @@ pub struct RotateCompleteResponse {
 pub struct RotateStartRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -206,7 +206,7 @@ pub struct RotateStartResponse {
 pub struct UpdateRequest {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
-    /// the organization_slug here as a convenience.
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
