@@ -5,6 +5,7 @@
 // !!!
 
 use crate::consumer::attribute::Attributes;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
@@ -524,6 +525,10 @@ pub struct AttestResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -640,6 +645,10 @@ pub struct ExchangeAccessTokenResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -735,6 +744,10 @@ pub struct MigrateResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// RevokeRequest: Request type for `Sessions.revoke`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

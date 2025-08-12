@@ -13,6 +13,7 @@ use crate::b2b::passwords_existing_password::ExistingPassword;
 use crate::b2b::passwords_session::Sessions;
 use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::passwords::Argon2Config;
 use crate::consumer::passwords::MD5Config;
 use crate::consumer::passwords::PBKDF2Config;
@@ -155,6 +156,10 @@ pub struct AuthenticateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// MigrateRequest: Request type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

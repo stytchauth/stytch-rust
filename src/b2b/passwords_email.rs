@@ -9,6 +9,7 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// RequireResetRequest: Request type for `Email.require_reset`.
@@ -157,6 +158,10 @@ pub struct ResetResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// ResetStartRequest: Request type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

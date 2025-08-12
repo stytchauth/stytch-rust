@@ -7,6 +7,7 @@
 use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::sessions::AuthenticationFactor;
 use crate::consumer::sessions::JWK;
 use serde::{Deserialize, Serialize};
@@ -150,6 +151,10 @@ pub struct AttestResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -282,6 +287,10 @@ pub struct ExchangeAccessTokenResponse {
     pub status_code: http::StatusCode,
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// ExchangeRequest: Request type for `Sessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -378,6 +387,10 @@ pub struct ExchangeResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

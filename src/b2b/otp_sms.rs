@@ -7,6 +7,7 @@
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `Sms.authenticate`.
@@ -99,6 +100,10 @@ pub struct AuthenticateResponse {
     pub status_code: http::StatusCode,
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// SendRequest: Request type for `Sms.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

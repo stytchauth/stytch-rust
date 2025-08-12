@@ -11,6 +11,7 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// AuthenticateRequest: Request type for `MagicLinks.authenticate`.
@@ -127,6 +128,10 @@ pub struct AuthenticateResponse {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

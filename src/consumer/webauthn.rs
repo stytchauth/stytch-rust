@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use crate::consumer::users::WebAuthnRegistration;
@@ -83,6 +84,10 @@ pub struct AuthenticateResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// AuthenticateStartRequest: Request type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -199,6 +204,10 @@ pub struct RegisterResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// RegisterStartRequest: Request type for `WebAuthn.register_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
