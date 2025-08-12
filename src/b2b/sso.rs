@@ -12,6 +12,7 @@ use crate::b2b::sessions::PrimaryRequired;
 use crate::b2b::sso_external::External;
 use crate::b2b::sso_oidc::OIDC;
 use crate::b2b::sso_saml::SAML;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -201,6 +202,11 @@ pub struct AuthenticateRequest {
     /// requirements, the intermediate session token will be consumed and converted to a member session. If not,
     /// the same intermediate session token will be returned.
     pub intermediate_session_token: std::option::Option<String>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// AuthenticateResponse: Response type for `SSO.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -248,6 +254,10 @@ pub struct AuthenticateResponse {
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// DeleteConnectionRequest: Request type for `SSO.delete_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

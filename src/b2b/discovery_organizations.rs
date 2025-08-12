@@ -11,6 +11,7 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use crate::b2b::sessions::PrimaryRequired;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Organizations.create`.
@@ -202,6 +203,11 @@ pub struct CreateRequest {
     /// Organization. Only used when the Organization's `third_party_connected_apps_allowed_type` is
     /// `RESTRICTED`.
     pub allowed_third_party_connected_apps: std::option::Option<std::vec::Vec<String>>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Organizations.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -248,6 +254,10 @@ pub struct CreateResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// ListRequest: Request type for `Organizations.list`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

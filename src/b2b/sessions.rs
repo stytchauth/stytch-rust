@@ -7,6 +7,7 @@
 use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::sessions::AuthenticationFactor;
 use crate::consumer::sessions::JWK;
 use serde::{Deserialize, Serialize};
@@ -125,6 +126,11 @@ pub struct AttestRequest {
     /// session_jwt: The `session_jwt` for the session that you wish to add the trusted auth token
     /// authentication factor to.
     pub session_jwt: std::option::Option<String>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// AttestResponse: Response type for `Sessions.attest`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -150,6 +156,10 @@ pub struct AttestResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// AuthenticateRequest: Request type for `Sessions.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -257,6 +267,11 @@ pub struct ExchangeAccessTokenRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// ExchangeAccessTokenResponse: Response type for `Sessions.exchange_access_token`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -282,6 +297,10 @@ pub struct ExchangeAccessTokenResponse {
     pub status_code: http::StatusCode,
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// ExchangeRequest: Request type for `Sessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -331,6 +350,11 @@ pub struct ExchangeRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<ExchangeRequestLocale>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// ExchangeResponse: Response type for `Sessions.exchange`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -378,6 +402,10 @@ pub struct ExchangeResponse {
     pub mfa_required: std::option::Option<MfaRequired>,
     /// primary_required: Information about the primary authentication requirements of the Organization.
     pub primary_required: std::option::Option<PrimaryRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// GetJWKSRequest: Request type for `Sessions.get_jwks`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

@@ -5,6 +5,7 @@
 // !!!
 
 use crate::consumer::attribute::Attributes;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::magic_links::Options;
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
@@ -56,6 +57,11 @@ pub struct ResetRequest {
     pub attributes: std::option::Option<Attributes>,
     /// options: Specify optional security settings.
     pub options: std::option::Option<Options>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// ResetResponse: Response type for `Email.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -84,6 +90,10 @@ pub struct ResetResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// ResetStartRequest: Request type for `Email.reset_start`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

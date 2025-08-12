@@ -5,6 +5,7 @@
 // !!!
 
 use crate::consumer::attribute::Attributes;
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::magic_links_email::Email;
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
@@ -64,6 +65,11 @@ pub struct AuthenticateRequest {
     /// code_verifier: A base64url encoded one time secret used to validate that the request starts and ends on
     /// the same device.
     pub code_verifier: std::option::Option<String>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// AuthenticateResponse: Response type for `MagicLinks.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -98,6 +104,10 @@ pub struct AuthenticateResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// CreateRequest: Request type for `MagicLinks.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
