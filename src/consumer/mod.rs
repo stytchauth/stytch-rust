@@ -5,6 +5,7 @@ pub mod connected_apps;
 pub mod connected_apps_clients;
 pub mod connected_apps_clients_secrets;
 pub mod crypto_wallets;
+pub mod device_history;
 pub mod fraud;
 pub mod fraud_fingerprint;
 pub mod fraud_rules;

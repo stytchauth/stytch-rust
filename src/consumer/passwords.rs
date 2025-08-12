@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::passwords_email::Email;
 use crate::consumer::passwords_existing_password::ExistingPassword;
 use crate::consumer::passwords_session::Sessions;
@@ -139,6 +140,11 @@ pub struct AuthenticateRequest {
     ///   Custom claims made with reserved claims ("iss", "sub", "aud", "exp", "nbf", "iat", "jti") will be
     /// ignored. Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// AuthenticateResponse: Response type for `Passwords.authenticate`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -167,6 +173,10 @@ pub struct AuthenticateResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// CreateRequest: Request type for `Passwords.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -208,6 +218,11 @@ pub struct CreateRequest {
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
     /// name: The name of the user. Each field in the name object is optional.
     pub name: std::option::Option<Name>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the User. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Passwords.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -238,6 +253,10 @@ pub struct CreateResponse {
     ///   See [Session object](https://stytch.com/docs/api/session-object) for complete response fields.
     ///
     pub session: std::option::Option<Session>,
+    /// user_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `user_device` response field will contain information about the user's device attributes.
+    pub user_device: std::option::Option<DeviceInfo>,
 }
 /// MigrateRequest: Request type for `Passwords.migrate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

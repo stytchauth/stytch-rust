@@ -7,6 +7,7 @@
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// GetRequest: Request type for `RecoveryCodes.get`.
@@ -96,6 +97,11 @@ pub struct RecoverRequest {
     /// `exp`, `nbf`, `iat`, `jti`) will be ignored.
     ///   Total custom claims size cannot exceed four kilobytes.
     pub session_custom_claims: std::option::Option<serde_json::Value>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// RecoverResponse: Response type for `RecoveryCodes.recover`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -123,6 +129,10 @@ pub struct RecoverResponse {
     pub status_code: http::StatusCode,
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 /// RotateRequest: Request type for `RecoveryCodes.rotate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]

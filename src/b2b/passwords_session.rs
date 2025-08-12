@@ -8,6 +8,7 @@ use crate::b2b::mfa::MfaRequired;
 use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
+use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// ResetRequest: Request type for `Sessions.reset`.
@@ -57,6 +58,11 @@ pub struct ResetRequest {
     /// [here](https://docs.google.com/forms/d/e/1FAIpQLScZSpAu_m2AmLXRT3F3kap-s_mcV6UTBitYn6CdyWP0-o7YjQ/viewform?usp=sf_link")!
     ///
     pub locale: std::option::Option<ResetRequestLocale>,
+    /// telemetry_id: If the `telemetry_id` is passed, as part of this request, Stytch will call the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) and store the associated
+    /// fingerprints and IPGEO information for the Member. Your workspace must be enabled for Device
+    /// Fingerprinting to use this feature.
+    pub telemetry_id: std::option::Option<String>,
 }
 /// ResetResponse: Response type for `Sessions.reset`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -101,6 +107,10 @@ pub struct ResetResponse {
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,
+    /// member_device: If a valid `telemetry_id` was passed in the request and the
+    /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
+    /// `member_device` response field will contain information about the member's device attributes.
+    pub member_device: std::option::Option<DeviceInfo>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
