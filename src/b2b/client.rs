@@ -5,6 +5,7 @@
 // !!!
 
 use crate::b2b::discovery::Discovery;
+use crate::b2b::idp::IDP;
 use crate::b2b::impersonation::Impersonation;
 use crate::b2b::magic_links::MagicLinks;
 use crate::b2b::oauth::OAuth;
@@ -26,6 +27,7 @@ pub struct Client {
     pub connected_app: ConnectedApp,
     pub discovery: Discovery,
     pub fraud: Fraud,
+    pub idp: IDP,
     pub impersonation: Impersonation,
     pub m2m: M2M,
     pub magic_links: MagicLinks,
@@ -58,6 +60,7 @@ impl Client {
             connected_app: ConnectedApp::new(http_client.clone()),
             discovery: Discovery::new(http_client.clone()),
             fraud: Fraud::new(fraud_http_client.clone()),
+            idp: IDP::new(http_client.clone()),
             impersonation: Impersonation::new(http_client.clone()),
             m2m: M2M::new(http_client.clone()),
             magic_links: MagicLinks::new(http_client.clone()),

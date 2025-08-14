@@ -307,6 +307,9 @@ pub struct MigrateRequest {
     /// wherever a user_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
     /// characters with a maximum length of 128 characters.
     pub external_id: std::option::Option<String>,
+    /// roles: Roles to explicitly assign to this User.
+    ///    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+    /// role assignment.
     pub roles: std::option::Option<std::vec::Vec<String>>,
 }
 /// MigrateResponse: Response type for `Passwords.migrate`.

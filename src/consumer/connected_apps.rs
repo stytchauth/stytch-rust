@@ -41,6 +41,14 @@ pub struct ConnectedAppClient {
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ConnectedAppPublic {
+    pub client_id: String,
+    pub client_name: String,
+    pub client_description: String,
+    pub client_type: String,
+    pub logo_url: std::option::Option<String>,
+}
 /// ConnectedAppWithClientSecret:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectedAppWithClientSecret {

@@ -91,12 +91,12 @@ pub struct PrimaryRequired {
 /// AttestRequest: Request type for `Sessions.attest`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AttestRequest {
-    /// organization_id: The organization ID that the session should be authenticated in.
-    pub organization_id: String,
     /// profile_id: The ID of the trusted auth token profile to use for attestation.
     pub profile_id: String,
     /// token: The trusted auth token to authenticate.
     pub token: String,
+    /// organization_id: The organization ID that the session should be authenticated in.
+    pub organization_id: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
     ///   returning both an opaque `session_token` and `session_jwt` for this session. Remember that the
