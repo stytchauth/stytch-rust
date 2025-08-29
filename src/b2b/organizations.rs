@@ -106,14 +106,16 @@ pub struct Member {
     pub status: String,
     /// name: The name of the Member.
     pub name: String,
-    /// sso_registrations: An array of registered [SAML Connection](saml-connection-object) or
-    /// [OIDC Connection](oidc-connection-object) objects the Member has authenticated with.
+    /// sso_registrations: An array of registered
+    /// [SAML Connection](https://stytch.com/docs/b2b/api/saml-connection-object) or
+    /// [OIDC Connection](https://stytch.com/docs/b2b/api/oidc-connection-object) objects the Member has
+    /// authenticated with.
     pub sso_registrations: std::vec::Vec<SSORegistration>,
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the
-    /// [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-    /// more details.
+    /// [Organization object](https://stytch.com/docs/b2b/api/organization-object) and its `auth_methods` and
+    /// `allowed_auth_methods` fields for more details.
     pub is_breakglass: bool,
     /// member_password_id: Globally unique UUID that identifies a Member's password.
     pub member_password_id: String,
@@ -174,8 +176,9 @@ pub struct Member {
     /// updated_at: The timestamp of when the Member was last updated. Values conform to the RFC 3339 standard
     /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
-    /// scim_registration: A scim member registration, referencing a [SCIM Connection](scim-connection-object)
-    /// object in use for the Member creation.
+    /// scim_registration: A scim member registration, referencing a
+    /// [SCIM Connection](https://stytch.com/docs/b2b/api/scim-connection-object) object in use for the Member
+    /// creation.
     pub scim_registration: std::option::Option<SCIMRegistration>,
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
@@ -566,11 +569,13 @@ pub struct SSORegistration {
 /// SearchQuery:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SearchQuery {
-    /// operator: The action to perform on the operands. The accepted value are:
+    /// operator: The action to perform on the operands. The accepted values are:
     ///
     ///   `AND` – all the operand values provided must match.
     ///
-    ///   `OR` – the operator will return any matches to at least one of the operand values you supply.
+    ///   `OR` – **[DEPRECATED]** the operator will return any matches to at least one of the operand values you
+    /// supply. This parameter is retained for legacy use cases only and is no longer supported. We strongly
+    /// recommend breaking down complex queries into multiple search queries instead.
     pub operator: SearchQueryOperator,
     /// operands: An array of operand objects that contains all of the filters and values to apply to your
     /// search query.

@@ -16,17 +16,15 @@ pub struct CreateRequest {
     /// client_type: The type of Connected App. Supported values are `first_party`, `first_party_public`,
     /// `third_party`, and `third_party_public`.
     pub client_type: CreateRequestClientType,
-    /// redirect_urls: Array of redirect URI values for use in OAuth Authorization flows.
-    pub redirect_urls: std::vec::Vec<String>,
-    /// full_access_allowed: Valid for first party clients only. If `true`, an authorization token granted to
-    /// this Client can be exchanged for a full Stytch session.
-    pub full_access_allowed: bool,
-    /// post_logout_redirect_urls: Array of redirect URI values for use in OIDC Logout flows.
-    pub post_logout_redirect_urls: std::vec::Vec<String>,
     /// client_name: A human-readable name for the client.
     pub client_name: std::option::Option<String>,
     /// client_description: A human-readable description for the client.
     pub client_description: std::option::Option<String>,
+    /// redirect_urls: Array of redirect URI values for use in OAuth Authorization flows.
+    pub redirect_urls: std::option::Option<std::vec::Vec<String>>,
+    /// full_access_allowed: Valid for first party clients only. If `true`, an authorization token granted to
+    /// this Client can be exchanged for a full Stytch session.
+    pub full_access_allowed: std::option::Option<bool>,
     /// access_token_expiry_minutes: The number of minutes before the access token expires. The default is 60
     /// minutes.
     pub access_token_expiry_minutes: std::option::Option<i32>,
@@ -35,6 +33,8 @@ pub struct CreateRequest {
     /// access_token_template_content: The content of the access token custom claims template. The template must
     /// be a valid JSON object.
     pub access_token_template_content: std::option::Option<String>,
+    /// post_logout_redirect_urls: Array of redirect URI values for use in OIDC Logout flows.
+    pub post_logout_redirect_urls: std::option::Option<std::vec::Vec<String>>,
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
     /// bypass_consent_for_offline_access: Valid for first party clients only. If true, the client does not need

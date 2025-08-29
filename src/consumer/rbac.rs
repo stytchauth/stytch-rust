@@ -37,8 +37,8 @@ pub struct PolicyRole {
     /// human-readable.
     ///
     ///   The `stytch_user` `role_id` is predefined by Stytch.
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/guides/rbac/stytch-default) for
-    /// a more detailed explanation.
+    ///   Check out the [RBAC guide](https://stytch.com/docs/guides/rbac/overview) for a more detailed
+    /// explanation.
     ///
     pub role_id: String,
     /// description: The description of the RBAC Role.
