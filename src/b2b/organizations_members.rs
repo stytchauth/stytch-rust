@@ -43,8 +43,8 @@ pub struct CreateRequest {
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the
-    /// [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-    /// more details.
+    /// [Organization object](https://stytch.com/docs/b2b/api/organization-object) and its `auth_methods` and
+    /// `allowed_auth_methods` fields for more details.
     pub is_breakglass: std::option::Option<bool>,
     /// mfa_phone_number: The Member's phone number. A Member may only have one phone number. The phone number
     /// should be in E.164 format (i.e. +1XXXXXXXXXX).
@@ -57,7 +57,7 @@ pub struct CreateRequest {
     /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment)
     ///    for more information about role assignment.
     pub roles: std::option::Option<std::vec::Vec<String>>,
-    /// external_id: An identifier that can be used in API calls wherever a member_id is expected. This is a
+    /// external_id: An identifier that can be used in most API calls where a `member_id` is expected. This is a
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
     /// characters. External IDs must be unique within an organization, but may be reused across different
     /// organizations in the same project.
@@ -306,8 +306,7 @@ pub struct ReactivateRequest {
     /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
     /// member_id: Globally unique UUID that identifies a specific Member. The `member_id` is critical to
-    /// perform operations on a Member, so be sure to preserve this value. You may use an external_id here if
-    /// one is set for the member.
+    /// perform operations on a Member, so be sure to preserve this value.
     pub member_id: String,
 }
 /// ReactivateResponse: Response type for `Members.reactivate`.
@@ -357,7 +356,7 @@ pub struct SearchResponse {
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
     /// debug an issue.
     pub request_id: String,
-    /// members: An array of [Member objects](member-object).
+    /// members: An array of [Member objects](https://stytch.com/docs/b2b/api/member-object).
     pub members: std::vec::Vec<Member>,
     /// results_metadata: The search `results_metadata` object contains metadata relevant to your specific query
     /// like `total` and `next_cursor`.
@@ -504,8 +503,8 @@ pub struct UpdateRequest {
     /// is_breakglass: Identifies the Member as a break glass user - someone who has permissions to authenticate
     /// into an Organization by bypassing the Organization's settings. A break glass account is typically used
     /// for emergency purposes to gain access outside of normal authentication procedures. Refer to the
-    /// [Organization object](organization-object) and its `auth_methods` and `allowed_auth_methods` fields for
-    /// more details.
+    /// [Organization object](https://stytch.com/docs/b2b/api/organization-object) and its `auth_methods` and
+    /// `allowed_auth_methods` fields for more details.
     ///
     /// If this field is provided and a session header is passed into the request, the Member Session must have
     /// permission to perform the `update.settings.is-breakglass` action on the `stytch.member` Resource.
@@ -572,7 +571,7 @@ pub struct UpdateRequest {
     /// permission to perform the `update.info.email` action on the `stytch.member` Resource. Members cannot
     /// update their own email address.
     pub email_address: std::option::Option<String>,
-    /// external_id: An identifier that can be used in API calls wherever a member_id is expected. This is a
+    /// external_id: An identifier that can be used in most API calls where a `member_id` is expected. This is a
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
     /// characters. External IDs must be unique within an organization, but may be reused across different
     /// organizations in the same project.

@@ -42,6 +42,33 @@ pub struct CreateConnectionResponse {
     /// field details.
     pub connection: std::option::Option<SAMLConnection>,
 }
+/// DeleteEncryptionPrivateKeyRequest: Request type for `SAML.delete_encryption_private_key`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteEncryptionPrivateKeyRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
+    pub organization_id: String,
+    /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
+    pub connection_id: String,
+    /// private_key_id: The ID of the encryption private key to be deleted.
+    pub private_key_id: String,
+}
+/// DeleteEncryptionPrivateKeyResponse: Response type for `SAML.delete_encryption_private_key`.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteEncryptionPrivateKeyResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
+    pub request_id: String,
+    /// private_key_id: The ID of the encryption private key.
+    pub private_key_id: String,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// DeleteVerificationCertificateRequest: Request type for `SAML.delete_verification_certificate`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteVerificationCertificateRequest {
@@ -165,6 +192,9 @@ pub struct UpdateConnectionRequest {
     /// idp_initiated_auth_disabled: Determines whether IDP initiated auth is allowed for a given SAML
     /// connection. Defaults to false (IDP Initiated Auth is enabled).
     pub idp_initiated_auth_disabled: std::option::Option<bool>,
+    /// saml_encryption_private_key: A PKCS1 format RSA private key used to decrypt encrypted SAML assertions.
+    /// Only PKCS1 format (starting with "-----BEGIN RSA PRIVATE KEY-----") is supported.
+    pub saml_encryption_private_key: std::option::Option<String>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -316,6 +346,22 @@ impl SAML {
         let connection_id = &body.connection_id;
         let certificate_id = &body.certificate_id;
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/verification_certificates/{certificate_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn delete_encryption_private_key(
+        &self,
+        body: DeleteEncryptionPrivateKeyRequest,
+    ) -> crate::Result<DeleteEncryptionPrivateKeyResponse> {
+        let organization_id = &body.organization_id;
+        let connection_id = &body.connection_id;
+        let private_key_id = &body.private_key_id;
+        let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/encryption_private_keys/{private_key_id}");
         self.http_client
             .send(crate::Request {
                 method: http::Method::DELETE,

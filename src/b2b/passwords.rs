@@ -228,8 +228,8 @@ pub struct MigrateRequest {
     /// field. This flag should only be set if you can attest that
     ///    the user owns the phone number in question.
     pub set_phone_number_verified: std::option::Option<bool>,
-    /// external_id: If a new member is created, this will set an identifier that can be used in API calls
-    /// wherever a member_id is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
+    /// external_id: If a new member is created, this will set an identifier that can be used in most API calls
+    /// where a `member_id` is expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|`
     /// characters with a maximum length of 128 characters. External IDs must be unique within an organization,
     /// but may be reused across different organizations in the same project. Note that if a member already
     /// exists, this field will be ignored.
@@ -275,10 +275,10 @@ pub struct StrengthCheckResponse {
     pub request_id: String,
     /// valid_password: Returns `true` if the password passes our password validation. We offer two validation
     /// options,
-    ///   [zxcvbn](https://stytch.com/docs/passwords#strength-requirements) is the default option which offers a
-    /// high level of sophistication.
-    ///   We also offer [LUDS](https://stytch.com/docs/passwords#strength-requirements). If an email address is
-    /// included in the call we also
+    ///   [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) is the default option which offers
+    /// a high level of sophistication.
+    ///   We also offer [LUDS](https://stytch.com/docs/b2b/guides/passwords/strength-policy). If an email
+    /// address is included in the call we also
     ///   require that the password hasn't been compromised using built-in breach detection powered by
     /// [HaveIBeenPwned](https://haveibeenpwned.com/)
     pub valid_password: bool,
@@ -302,10 +302,10 @@ pub struct StrengthCheckResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
     /// luds_feedback: Feedback for how to improve the password's strength using
-    /// [luds](https://stytch.com/docs/passwords#strength-requirements).
+    /// [luds](https://stytch.com/docs/guides/passwords/strength-policy).
     pub luds_feedback: std::option::Option<LudsFeedback>,
     /// zxcvbn_feedback: Feedback for how to improve the password's strength using
-    /// [zxcvbn](https://stytch.com/docs/passwords#strength-requirements).
+    /// [zxcvbn](https://stytch.com/docs/b2b/guides/passwords/strength-policy).
     pub zxcvbn_feedback: std::option::Option<ZxcvbnFeedback>,
 }
 

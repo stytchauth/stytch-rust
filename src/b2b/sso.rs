@@ -44,6 +44,12 @@ pub struct ConnectionImplicitRoleAssignment {
     ///
     pub role_id: String,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct EncryptionPrivateKey {
+    pub private_key_id: String,
+    pub private_key: String,
+    pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+}
 /// GroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupImplicitRoleAssignment {
@@ -93,6 +99,7 @@ pub struct SAMLConnection {
     pub audience_uri: String,
     pub signing_certificates: std::vec::Vec<X509Certificate>,
     pub verification_certificates: std::vec::Vec<X509Certificate>,
+    pub encryption_private_keys: std::vec::Vec<EncryptionPrivateKey>,
     pub saml_connection_implicit_role_assignments:
         std::vec::Vec<SAMLConnectionImplicitRoleAssignment>,
     pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,

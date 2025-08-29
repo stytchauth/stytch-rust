@@ -93,9 +93,11 @@ pub struct PrimaryRequired {
 pub struct AttestRequest {
     /// profile_id: The ID of the trusted auth token profile to use for attestation.
     pub profile_id: String,
-    /// token: The trusted auth token to authenticate.
+    /// token: The trusted auth token to authenticate. The token must have an organization ID claim if JIT
+    /// provisioning is enabled.
     pub token: String,
-    /// organization_id: The organization ID that the session should be authenticated in.
+    /// organization_id: The organization ID that the session should be authenticated in. Must be provided if
+    /// the trusted auth token does not have an organization ID claim.
     pub organization_id: std::option::Option<String>,
     /// session_duration_minutes: Set the session lifetime to be this many minutes from now. This will start a
     /// new session if one doesn't already exist,
