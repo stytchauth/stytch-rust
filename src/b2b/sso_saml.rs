@@ -195,6 +195,7 @@ pub struct UpdateConnectionRequest {
     /// saml_encryption_private_key: A PKCS1 format RSA private key used to decrypt encrypted SAML assertions.
     /// Only PKCS1 format (starting with "-----BEGIN RSA PRIVATE KEY-----") is supported.
     pub saml_encryption_private_key: std::option::Option<String>,
+    pub allow_gateway_callback: std::option::Option<bool>,
 }
 /// UpdateConnectionResponse: Response type for `SAML.update_connection`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
