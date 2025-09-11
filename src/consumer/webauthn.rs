@@ -8,7 +8,9 @@ use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use crate::consumer::users::WebAuthnRegistration;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// WebAuthnCredential:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -346,7 +348,11 @@ impl WebAuthn {
             .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let webauthn_registration_id = &body.webauthn_registration_id;
+        let webauthn_registration_id = percent_encoding::utf8_percent_encode(
+            &body.webauthn_registration_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/webauthn/{webauthn_registration_id}");
         self.http_client
             .send(crate::Request {
@@ -360,14 +366,23 @@ impl WebAuthn {
         &self,
         body: ListCredentialsRequest,
     ) -> crate::Result<ListCredentialsResponse> {
-        let user_id = &body.user_id;
-        let domain = &body.domain;
-        let path = format!("/v1/webauthn/credentials/{user_id}/{domain}");
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let domain =
+            percent_encoding::utf8_percent_encode(&body.domain, percent_encoding::NON_ALPHANUMERIC)
+                .to_string();
+        let path = format!(
+            "/v1/webauthn/credentials/{user_id}/{domain}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }

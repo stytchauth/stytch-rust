@@ -6,6 +6,7 @@
 
 use crate::consumer::m2m::M2MClient;
 use crate::consumer::m2m::M2MClientWithNextClientSecret;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// RotateCancelRequest: Request type for `Secrets.rotate_cancel`.
@@ -87,7 +88,11 @@ impl Secrets {
         &self,
         body: RotateStartRequest,
     ) -> crate::Result<RotateStartResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate/start");
         self.http_client
             .send(crate::Request {
@@ -101,7 +106,11 @@ impl Secrets {
         &self,
         body: RotateCancelRequest,
     ) -> crate::Result<RotateCancelResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate/cancel");
         self.http_client
             .send(crate::Request {
@@ -112,7 +121,11 @@ impl Secrets {
             .await
     }
     pub async fn rotate(&self, body: RotateRequest) -> crate::Result<RotateResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/m2m/clients/{client_id}/secrets/rotate");
         self.http_client
             .send(crate::Request {

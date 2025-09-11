@@ -6,7 +6,9 @@
 
 use crate::b2b::organizations_members::Members;
 use crate::b2b::scim::SCIMAttributes;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// ActiveSCIMConnection:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -1237,18 +1239,29 @@ impl Organizations {
             .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}");
         self.http_client
             .send(crate::Request {
@@ -1259,7 +1272,11 @@ impl Organizations {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}");
         self.http_client
             .send(crate::Request {
@@ -1280,13 +1297,20 @@ impl Organizations {
             .await
     }
     pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/metrics");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/metrics?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
@@ -1294,13 +1318,20 @@ impl Organizations {
         &self,
         body: ConnectedAppsRequest,
     ) -> crate::Result<ConnectedAppsResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/connected_apps");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/connected_apps?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
@@ -1308,15 +1339,25 @@ impl Organizations {
         &self,
         body: GetConnectedAppRequest,
     ) -> crate::Result<GetConnectedAppResponse> {
-        let organization_id = &body.organization_id;
-        let connected_app_id = &body.connected_app_id;
-        let path =
-            format!("/v1/b2b/organizations/{organization_id}/connected_apps/{connected_app_id}");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connected_app_id = percent_encoding::utf8_percent_encode(
+            &body.connected_app_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/connected_apps/{connected_app_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }

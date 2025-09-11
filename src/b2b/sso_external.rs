@@ -9,6 +9,7 @@ use crate::b2b::sso::ConnectionImplicitRoleAssignment;
 use crate::b2b::sso::GroupImplicitRoleAssignment;
 use crate::b2b::sso::SAMLConnectionImplicitRoleAssignment;
 use crate::b2b::sso::SAMLGroupImplicitRoleAssignment;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `External.create_connection`.
@@ -112,7 +113,11 @@ impl External {
         &self,
         body: CreateConnectionRequest,
     ) -> crate::Result<CreateConnectionResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/external/{organization_id}");
         self.http_client
             .send(crate::Request {
@@ -126,8 +131,16 @@ impl External {
         &self,
         body: UpdateConnectionRequest,
     ) -> crate::Result<UpdateConnectionResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/external/{organization_id}/connections/{connection_id}");
         self.http_client
             .send(crate::Request {
