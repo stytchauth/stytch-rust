@@ -9,7 +9,9 @@ use crate::consumer::m2m::M2MClientWithClientSecret;
 use crate::consumer::m2m::M2MSearchQuery;
 use crate::consumer::m2m::ResultsMetadata;
 use crate::consumer::m2m_clients_secrets::Secrets;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// CreateRequest: Request type for `Clients.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -183,8 +185,15 @@ impl Clients {
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let client_id = &body.client_id;
-        let path = format!("/v1/m2m/clients/{client_id}");
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/m2m/clients/{client_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -204,7 +213,11 @@ impl Clients {
             .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/m2m/clients/{client_id}");
         self.http_client
             .send(crate::Request {
@@ -215,7 +228,11 @@ impl Clients {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/m2m/clients/{client_id}");
         self.http_client
             .send(crate::Request {

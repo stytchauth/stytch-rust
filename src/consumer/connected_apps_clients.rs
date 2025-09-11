@@ -8,7 +8,9 @@ use crate::consumer::connected_apps::ConnectedAppClient;
 use crate::consumer::connected_apps::ConnectedAppWithClientSecret;
 use crate::consumer::connected_apps::ResultsMetadata;
 use crate::consumer::connected_apps_clients_secrets::Secrets;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// CreateRequest: Request type for `Clients.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -197,8 +199,15 @@ impl Clients {
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let client_id = &body.client_id;
-        let path = format!("/v1/connected_apps/clients/{client_id}");
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/connected_apps/clients/{client_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -208,7 +217,11 @@ impl Clients {
             .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/connected_apps/clients/{client_id}");
         self.http_client
             .send(crate::Request {
@@ -219,7 +232,11 @@ impl Clients {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let client_id = &body.client_id;
+        let client_id = percent_encoding::utf8_percent_encode(
+            &body.client_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/connected_apps/clients/{client_id}");
         self.http_client
             .send(crate::Request {

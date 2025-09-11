@@ -5,6 +5,7 @@
 // !!!
 
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProjectMetric {
@@ -49,7 +50,10 @@ impl Project {
     }
 
     pub async fn metrics(&self, body: MetricsRequest) -> crate::Result<MetricsResponse> {
-        let path = String::from("/v1/projects/metrics");
+        let path = format!(
+            "/v1/projects/metrics?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

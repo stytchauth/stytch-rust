@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// RevokeRequest: Request type for `ConnectedApps.revoke`.
@@ -43,9 +44,21 @@ impl ConnectedApps {
     }
 
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let connected_app_id = &body.connected_app_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connected_app_id = percent_encoding::utf8_percent_encode(
+            &body.connected_app_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/connected_apps/{connected_app_id}/revoke");
         self.http_client
             .send(crate::Request {
