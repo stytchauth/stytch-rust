@@ -8,7 +8,9 @@ use crate::b2b::organizations::Member;
 use crate::b2b::organizations::Organization;
 use crate::b2b::sessions::MemberSession;
 use crate::consumer::device_history::DeviceInfo;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// GetRequest: Request type for `RecoveryCodes.get`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -190,14 +192,25 @@ impl RecoveryCodes {
             .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path = format!("/v1/b2b/recovery_codes/{organization_id}/{member_id}");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/recovery_codes/{organization_id}/{member_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }

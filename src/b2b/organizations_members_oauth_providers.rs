@@ -7,7 +7,9 @@
 use crate::b2b::organizations::GithubProviderInfo;
 use crate::b2b::organizations::HubspotProviderInfo;
 use crate::b2b::organizations::SlackProviderInfo;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
+use serde_urlencoded;
 
 /// GithubResponse: Response type for `OAuthProviders.github`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -173,16 +175,25 @@ impl OAuthProviders {
     }
 
     pub async fn google(&self, body: ProviderInformationRequest) -> crate::Result<GoogleResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google"
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/google?{}",
+            serde_urlencoded::to_string(body).unwrap()
         );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
@@ -190,30 +201,45 @@ impl OAuthProviders {
         &self,
         body: ProviderInformationRequest,
     ) -> crate::Result<MicrosoftResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft"
-        );
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/microsoft?{}", serde_urlencoded::to_string(body).unwrap());
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
     pub async fn slack(&self, body: SlackRequest) -> crate::Result<SlackResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/slack"
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/slack?{}",
+            serde_urlencoded::to_string(body).unwrap()
         );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
@@ -221,30 +247,45 @@ impl OAuthProviders {
         &self,
         body: ProviderInformationRequest,
     ) -> crate::Result<HubspotResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/hubspot"
-        );
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/hubspot?{}", serde_urlencoded::to_string(body).unwrap());
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
     pub async fn github(&self, body: ProviderInformationRequest) -> crate::Result<GithubResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
-            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/github"
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oauth_providers/github?{}",
+            serde_urlencoded::to_string(body).unwrap()
         );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
                 path,
-                body,
+                body: serde_json::json!({}),
             })
             .await
     }
