@@ -105,7 +105,10 @@ impl RBAC {
     }
 
     pub async fn policy(&self, body: PolicyRequest) -> crate::Result<PolicyResponse> {
-        let path = String::from("/v1/rbac/policy");
+        let path = format!(
+            "/v1/rbac/policy?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

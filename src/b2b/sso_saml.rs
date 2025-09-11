@@ -7,6 +7,7 @@
 use crate::b2b::sso::SAMLConnection;
 use crate::b2b::sso::SAMLConnectionImplicitRoleAssignment;
 use crate::b2b::sso::SAMLGroupImplicitRoleAssignment;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `SAML.create_connection`.
@@ -299,7 +300,11 @@ impl SAML {
         &self,
         body: CreateConnectionRequest,
     ) -> crate::Result<CreateConnectionResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/saml/{organization_id}");
         self.http_client
             .send(crate::Request {
@@ -313,8 +318,16 @@ impl SAML {
         &self,
         body: UpdateConnectionRequest,
     ) -> crate::Result<UpdateConnectionResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}");
         self.http_client
             .send(crate::Request {
@@ -328,8 +341,16 @@ impl SAML {
         &self,
         body: UpdateByURLRequest,
     ) -> crate::Result<UpdateByURLResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/url");
         self.http_client
             .send(crate::Request {
@@ -343,9 +364,21 @@ impl SAML {
         &self,
         body: DeleteVerificationCertificateRequest,
     ) -> crate::Result<DeleteVerificationCertificateResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
-        let certificate_id = &body.certificate_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let certificate_id = percent_encoding::utf8_percent_encode(
+            &body.certificate_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/verification_certificates/{certificate_id}");
         self.http_client
             .send(crate::Request {
@@ -359,9 +392,21 @@ impl SAML {
         &self,
         body: DeleteEncryptionPrivateKeyRequest,
     ) -> crate::Result<DeleteEncryptionPrivateKeyResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
-        let private_key_id = &body.private_key_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let private_key_id = percent_encoding::utf8_percent_encode(
+            &body.private_key_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/saml/{organization_id}/connections/{connection_id}/encryption_private_keys/{private_key_id}");
         self.http_client
             .send(crate::Request {

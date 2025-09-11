@@ -7,6 +7,7 @@
 use crate::consumer::attribute::Attributes;
 use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::users::User;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -925,7 +926,10 @@ impl Sessions {
     }
 
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let path = String::from("/v1/sessions");
+        let path = format!(
+            "/v1/sessions?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -981,8 +985,15 @@ impl Sessions {
             .await
     }
     pub async fn get_jwks(&self, body: GetJWKSRequest) -> crate::Result<GetJWKSResponse> {
-        let project_id = &body.project_id;
-        let path = format!("/v1/sessions/jwks/{project_id}");
+        let project_id = percent_encoding::utf8_percent_encode(
+            &body.project_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/sessions/jwks/{project_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

@@ -5,6 +5,7 @@
 // !!!
 
 use crate::consumer::attribute::Attributes;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// BiometricRegistration:
@@ -730,8 +731,15 @@ impl Users {
             .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let user_id = &body.user_id;
-        let path = format!("/v1/users/{user_id}");
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/users/{user_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -751,7 +759,11 @@ impl Users {
             .await
     }
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let user_id = &body.user_id;
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/{user_id}");
         self.http_client
             .send(crate::Request {
@@ -765,7 +777,11 @@ impl Users {
         &self,
         body: ExchangePrimaryFactorRequest,
     ) -> crate::Result<ExchangePrimaryFactorResponse> {
-        let user_id = &body.user_id;
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/{user_id}/exchange_primary_factor");
         self.http_client
             .send(crate::Request {
@@ -776,7 +792,11 @@ impl Users {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let user_id = &body.user_id;
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/{user_id}");
         self.http_client
             .send(crate::Request {
@@ -790,7 +810,11 @@ impl Users {
         &self,
         body: DeleteEmailRequest,
     ) -> crate::Result<DeleteEmailResponse> {
-        let email_id = &body.email_id;
+        let email_id = percent_encoding::utf8_percent_encode(
+            &body.email_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/emails/{email_id}");
         self.http_client
             .send(crate::Request {
@@ -804,7 +828,11 @@ impl Users {
         &self,
         body: DeletePhoneNumberRequest,
     ) -> crate::Result<DeletePhoneNumberResponse> {
-        let phone_id = &body.phone_id;
+        let phone_id = percent_encoding::utf8_percent_encode(
+            &body.phone_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/phone_numbers/{phone_id}");
         self.http_client
             .send(crate::Request {
@@ -818,7 +846,11 @@ impl Users {
         &self,
         body: DeleteWebAuthnRegistrationRequest,
     ) -> crate::Result<DeleteWebAuthnRegistrationResponse> {
-        let webauthn_registration_id = &body.webauthn_registration_id;
+        let webauthn_registration_id = percent_encoding::utf8_percent_encode(
+            &body.webauthn_registration_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/webauthn_registrations/{webauthn_registration_id}");
         self.http_client
             .send(crate::Request {
@@ -832,7 +864,11 @@ impl Users {
         &self,
         body: DeleteBiometricRegistrationRequest,
     ) -> crate::Result<DeleteBiometricRegistrationResponse> {
-        let biometric_registration_id = &body.biometric_registration_id;
+        let biometric_registration_id = percent_encoding::utf8_percent_encode(
+            &body.biometric_registration_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/biometric_registrations/{biometric_registration_id}");
         self.http_client
             .send(crate::Request {
@@ -843,7 +879,11 @@ impl Users {
             .await
     }
     pub async fn delete_totp(&self, body: DeleteTOTPRequest) -> crate::Result<DeleteTOTPResponse> {
-        let totp_id = &body.totp_id;
+        let totp_id = percent_encoding::utf8_percent_encode(
+            &body.totp_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/totps/{totp_id}");
         self.http_client
             .send(crate::Request {
@@ -857,7 +897,11 @@ impl Users {
         &self,
         body: DeleteCryptoWalletRequest,
     ) -> crate::Result<DeleteCryptoWalletResponse> {
-        let crypto_wallet_id = &body.crypto_wallet_id;
+        let crypto_wallet_id = percent_encoding::utf8_percent_encode(
+            &body.crypto_wallet_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/crypto_wallets/{crypto_wallet_id}");
         self.http_client
             .send(crate::Request {
@@ -871,7 +915,11 @@ impl Users {
         &self,
         body: DeletePasswordRequest,
     ) -> crate::Result<DeletePasswordResponse> {
-        let password_id = &body.password_id;
+        let password_id = percent_encoding::utf8_percent_encode(
+            &body.password_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/passwords/{password_id}");
         self.http_client
             .send(crate::Request {
@@ -885,7 +933,11 @@ impl Users {
         &self,
         body: DeleteOAuthRegistrationRequest,
     ) -> crate::Result<DeleteOAuthRegistrationResponse> {
-        let oauth_user_registration_id = &body.oauth_user_registration_id;
+        let oauth_user_registration_id = percent_encoding::utf8_percent_encode(
+            &body.oauth_user_registration_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/oauth/{oauth_user_registration_id}");
         self.http_client
             .send(crate::Request {
@@ -899,8 +951,15 @@ impl Users {
         &self,
         body: ConnectedAppsRequest,
     ) -> crate::Result<ConnectedAppsResponse> {
-        let user_id = &body.user_id;
-        let path = format!("/v1/users/{user_id}/connected_apps");
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/users/{user_id}/connected_apps?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -910,8 +969,16 @@ impl Users {
             .await
     }
     pub async fn revoke(&self, body: RevokeRequest) -> crate::Result<RevokeResponse> {
-        let user_id = &body.user_id;
-        let connected_app_id = &body.connected_app_id;
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connected_app_id = percent_encoding::utf8_percent_encode(
+            &body.connected_app_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/users/{user_id}/connected_apps/{connected_app_id}/revoke");
         self.http_client
             .send(crate::Request {

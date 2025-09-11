@@ -13,6 +13,7 @@ use crate::b2b::sso_external::External;
 use crate::b2b::sso_oidc::OIDC;
 use crate::b2b::sso_saml::SAML;
 use crate::consumer::device_history::DeviceInfo;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -365,8 +366,15 @@ impl SSO {
         &self,
         body: GetConnectionsRequest,
     ) -> crate::Result<GetConnectionsResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/sso/{organization_id}");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/sso/{organization_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -379,8 +387,16 @@ impl SSO {
         &self,
         body: DeleteConnectionRequest,
     ) -> crate::Result<DeleteConnectionResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/{organization_id}/connections/{connection_id}");
         self.http_client
             .send(crate::Request {

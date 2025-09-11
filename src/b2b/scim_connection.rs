@@ -9,6 +9,7 @@ use crate::b2b::scim::SCIMConnectionWithNextToken;
 use crate::b2b::scim::SCIMConnectionWithToken;
 use crate::b2b::scim::SCIMGroup;
 use crate::b2b::scim::SCIMGroupImplicitRoleAssignments;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Connection.create`.
@@ -289,8 +290,16 @@ impl Connection {
     }
 
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
         self.http_client
             .send(crate::Request {
@@ -301,8 +310,16 @@ impl Connection {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
         self.http_client
             .send(crate::Request {
@@ -316,8 +333,16 @@ impl Connection {
         &self,
         body: RotateStartRequest,
     ) -> crate::Result<RotateStartResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path =
             format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/start");
         self.http_client
@@ -332,8 +357,16 @@ impl Connection {
         &self,
         body: RotateCompleteRequest,
     ) -> crate::Result<RotateCompleteResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path =
             format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/complete");
         self.http_client
@@ -348,8 +381,16 @@ impl Connection {
         &self,
         body: RotateCancelRequest,
     ) -> crate::Result<RotateCancelResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path =
             format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}/rotate/cancel");
         self.http_client
@@ -361,9 +402,20 @@ impl Connection {
             .await
     }
     pub async fn get_groups(&self, body: GetGroupsRequest) -> crate::Result<GetGroupsResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
-        let path = format!("/v1/b2b/scim/{organization_id}/connection/{connection_id}");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/scim/{organization_id}/connection/{connection_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -373,7 +425,11 @@ impl Connection {
             .await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/scim/{organization_id}/connection");
         self.http_client
             .send(crate::Request {
@@ -384,8 +440,15 @@ impl Connection {
             .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/scim/{organization_id}/connection");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/scim/{organization_id}/connection?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,

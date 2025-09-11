@@ -5,6 +5,7 @@
 // !!!
 
 use crate::b2b::sso::OIDCConnection;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// CreateConnectionRequest: Request type for `OIDC.create_connection`.
@@ -192,7 +193,11 @@ impl OIDC {
         &self,
         body: CreateConnectionRequest,
     ) -> crate::Result<CreateConnectionResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/oidc/{organization_id}");
         self.http_client
             .send(crate::Request {
@@ -206,8 +211,16 @@ impl OIDC {
         &self,
         body: UpdateConnectionRequest,
     ) -> crate::Result<UpdateConnectionResponse> {
-        let organization_id = &body.organization_id;
-        let connection_id = &body.connection_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let connection_id = percent_encoding::utf8_percent_encode(
+            &body.connection_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/sso/oidc/{organization_id}/connections/{connection_id}");
         self.http_client
             .send(crate::Request {

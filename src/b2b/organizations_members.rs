@@ -12,6 +12,7 @@ use crate::b2b::organizations::ResultsMetadata;
 use crate::b2b::organizations::SearchQuery;
 use crate::b2b::organizations_members_connected_apps::ConnectedApps;
 use crate::b2b::organizations_members_oauth_providers::OAuthProviders;
+use percent_encoding;
 use serde::{Deserialize, Serialize};
 
 /// CreateRequest: Request type for `Members.create`.
@@ -629,8 +630,16 @@ impl Members {
     }
 
     pub async fn update(&self, body: UpdateRequest) -> crate::Result<UpdateResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}");
         self.http_client
             .send(crate::Request {
@@ -641,8 +650,16 @@ impl Members {
             .await
     }
     pub async fn delete(&self, body: DeleteRequest) -> crate::Result<DeleteResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}");
         self.http_client
             .send(crate::Request {
@@ -653,8 +670,16 @@ impl Members {
             .await
     }
     pub async fn reactivate(&self, body: ReactivateRequest) -> crate::Result<ReactivateResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path =
             format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/reactivate");
         self.http_client
@@ -669,8 +694,16 @@ impl Members {
         &self,
         body: DeleteMFAPhoneNumberRequest,
     ) -> crate::Result<DeleteMFAPhoneNumberResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
             "/v1/b2b/organizations/{organization_id}/members/mfa_phone_numbers/{member_id}"
         );
@@ -683,8 +716,16 @@ impl Members {
             .await
     }
     pub async fn delete_totp(&self, body: DeleteTOTPRequest) -> crate::Result<DeleteTOTPResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/totp");
         self.http_client
             .send(crate::Request {
@@ -708,8 +749,16 @@ impl Members {
         &self,
         body: DeletePasswordRequest,
     ) -> crate::Result<DeletePasswordResponse> {
-        let organization_id = &body.organization_id;
-        let member_password_id = &body.member_password_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_password_id = percent_encoding::utf8_percent_encode(
+            &body.member_password_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
             "/v1/b2b/organizations/{organization_id}/members/passwords/{member_password_id}"
         );
@@ -722,8 +771,15 @@ impl Members {
             .await
     }
     pub async fn dangerously_get(&self, body: DangerouslyGetRequest) -> crate::Result<GetResponse> {
-        let member_id = &body.member_id;
-        let path = format!("/v1/b2b/organizations/members/dangerously_get/{member_id}");
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/members/dangerously_get/{member_id}?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -736,10 +792,20 @@ impl Members {
         &self,
         body: OIDCProviderInformationRequest,
     ) -> crate::Result<OIDCProvidersResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path =
-            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/oidc_providers");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/oidc_providers?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -752,8 +818,16 @@ impl Members {
         &self,
         body: UnlinkRetiredEmailRequest,
     ) -> crate::Result<UnlinkRetiredEmailResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
             "/v1/b2b/organizations/{organization_id}/members/{member_id}/unlink_retired_email"
         );
@@ -769,8 +843,16 @@ impl Members {
         &self,
         body: StartEmailUpdateRequest,
     ) -> crate::Result<StartEmailUpdateResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!(
             "/v1/b2b/organizations/{organization_id}/members/{member_id}/start_email_update"
         );
@@ -786,10 +868,20 @@ impl Members {
         &self,
         body: GetConnectedAppsRequest,
     ) -> crate::Result<GetConnectedAppsResponse> {
-        let organization_id = &body.organization_id;
-        let member_id = &body.member_id;
-        let path =
-            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/connected_apps");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/members/{member_id}/connected_apps?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
@@ -799,7 +891,11 @@ impl Members {
             .await
     }
     pub async fn create(&self, body: CreateRequest) -> crate::Result<CreateResponse> {
-        let organization_id = &body.organization_id;
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
         let path = format!("/v1/b2b/organizations/{organization_id}/members");
         self.http_client
             .send(crate::Request {
@@ -810,8 +906,15 @@ impl Members {
             .await
     }
     pub async fn get(&self, body: GetRequest) -> crate::Result<GetResponse> {
-        let organization_id = &body.organization_id;
-        let path = format!("/v1/b2b/organizations/{organization_id}/member");
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!(
+            "/v1/b2b/organizations/{organization_id}/member?{}",
+            serde_urlencoded::to_string(body).unwrap()
+        );
         self.http_client
             .send(crate::Request {
                 method: http::Method::GET,
