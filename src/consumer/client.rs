@@ -6,6 +6,7 @@
 
 use crate::consumer::connected_apps::ConnectedApp;
 use crate::consumer::crypto_wallets::CryptoWallets;
+use crate::consumer::debug::Debug;
 use crate::consumer::fraud::Fraud;
 use crate::consumer::idp::IDP;
 use crate::consumer::impersonation::Impersonation;
@@ -24,6 +25,7 @@ use crate::consumer::webauthn::WebAuthn;
 pub struct Client {
     pub connected_app: ConnectedApp,
     pub crypto_wallets: CryptoWallets,
+    pub debug: Debug,
     pub fraud: Fraud,
     pub idp: IDP,
     pub impersonation: Impersonation,
@@ -55,6 +57,7 @@ impl Client {
         Client {
             connected_app: ConnectedApp::new(http_client.clone()),
             crypto_wallets: CryptoWallets::new(http_client.clone()),
+            debug: Debug::new(http_client.clone()),
             fraud: Fraud::new(fraud_http_client.clone()),
             idp: IDP::new(http_client.clone()),
             impersonation: Impersonation::new(http_client.clone()),

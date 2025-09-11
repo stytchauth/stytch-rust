@@ -19,12 +19,14 @@ use crate::b2b::sessions::Sessions;
 use crate::b2b::sso::SSO;
 use crate::b2b::totps::TOTPs;
 use crate::consumer::connected_apps::ConnectedApp;
+use crate::consumer::debug::Debug;
 use crate::consumer::fraud::Fraud;
 use crate::consumer::m2m::M2M;
 use crate::consumer::project::Project;
 
 pub struct Client {
     pub connected_app: ConnectedApp,
+    pub debug: Debug,
     pub discovery: Discovery,
     pub fraud: Fraud,
     pub idp: IDP,
@@ -58,6 +60,7 @@ impl Client {
     ) -> Self {
         Client {
             connected_app: ConnectedApp::new(http_client.clone()),
+            debug: Debug::new(http_client.clone()),
             discovery: Discovery::new(http_client.clone()),
             fraud: Fraud::new(fraud_http_client.clone()),
             idp: IDP::new(http_client.clone()),
