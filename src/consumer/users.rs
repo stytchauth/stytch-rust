@@ -230,10 +230,6 @@ pub struct ConnectedAppsResponse {
 /// CreateRequest: Request type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CreateRequest {
-    /// roles: Roles to explicitly assign to this User.
-    ///    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
-    /// role assignment.
-    pub roles: std::vec::Vec<String>,
     /// email: The email address of the end user.
     pub email: std::option::Option<String>,
     /// name: The name of the user. Each field in the name object is optional.
@@ -263,6 +259,10 @@ pub struct CreateRequest {
     /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
     /// characters.
     pub external_id: std::option::Option<String>,
+    /// roles: Roles to explicitly assign to this User.
+    ///    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
+    /// role assignment.
+    pub roles: std::option::Option<std::vec::Vec<String>>,
 }
 /// CreateResponse: Response type for `Users.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
