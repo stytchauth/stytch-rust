@@ -40,6 +40,7 @@ pub struct ConnectedAppClient {
     pub access_token_custom_audience: std::option::Option<String>,
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
+    pub client_id_metadata_url: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectedAppPublic {
@@ -84,6 +85,7 @@ pub struct ConnectedAppWithClientSecret {
     pub access_token_custom_audience: std::option::Option<String>,
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
+    pub client_id_metadata_url: std::option::Option<String>,
 }
 /// ConnectedAppWithNextClientSecret:
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -119,6 +121,7 @@ pub struct ConnectedAppWithNextClientSecret {
     pub access_token_custom_audience: std::option::Option<String>,
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
+    pub client_id_metadata_url: std::option::Option<String>,
 }
 /// ResultsMetadata:
 #[derive(Serialize, Deserialize, Debug, Clone)]

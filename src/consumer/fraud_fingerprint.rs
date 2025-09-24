@@ -52,6 +52,11 @@ pub struct LookupResponse {
     pub status_code: http::StatusCode,
     /// properties: Additional information about the user's browser and network.
     pub properties: std::option::Option<Properties>,
+    /// raw_signals: The raw device attributes, such as screen size, that were collected by the Device
+    /// Fingerprinting product to generate the fingerprints and verdict. You must be specifically enabled for
+    /// the raw signals feature to see this field. You can find documentation for the specific fields in the
+    /// [guides](https://stytch.com/docs/fraud/guides/device-fingerprinting/reference/raw-signals).
+    pub raw_signals: std::option::Option<serde_json::Value>,
 }
 
 pub struct Fingerprint {
