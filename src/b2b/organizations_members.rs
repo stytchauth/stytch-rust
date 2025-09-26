@@ -407,6 +407,10 @@ pub struct StartEmailUpdateRequest {
     /// template. The template must be from Stytch's
     /// built-in customizations or a custom HTML email for Magic Links - Login.
     pub login_template_id: std::option::Option<String>,
+    /// delivery_method: The method that should be used to verify a member's new email address. The options are
+    /// `EMAIL_MAGIC_LINK` or `EMAIL_OTP`. This field is optional, if no value is provided, `EMAIL_MAGIC_LINK`
+    /// will be used.
+    pub delivery_method: std::option::Option<StartEmailUpdateRequestDeliveryMethod>,
 }
 /// StartEmailUpdateResponse: Response type for `Members.start_email_update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -602,6 +606,14 @@ pub struct UpdateResponse {
     pub status_code: http::StatusCode,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum StartEmailUpdateRequestDeliveryMethod {
+    #[serde(rename = "EMAIL_MAGIC_LINK")]
+    #[default]
+    EMAILMAGICLINK,
+    #[serde(rename = "EMAIL_OTP")]
+    EMAILOTP,
+}
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum StartEmailUpdateRequestLocale {
     #[serde(rename = "en")]
