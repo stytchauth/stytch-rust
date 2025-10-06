@@ -373,6 +373,7 @@ pub struct Session {
     pub user_id: String,
     /// authentication_factors: An array of different authentication factors that comprise a Session.
     pub authentication_factors: std::vec::Vec<AuthenticationFactor>,
+    pub roles: std::vec::Vec<String>,
     /// started_at: The timestamp when the Session was created. Values conform to the RFC 3339 standard and are
     /// expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub started_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
