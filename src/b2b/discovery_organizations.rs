@@ -66,6 +66,11 @@ pub struct CreateRequest {
     /// the organization slug will be generated based on the name portion of the email. Otherwise, the
     /// organization slug will be generated based on the email domain.
     pub organization_slug: std::option::Option<String>,
+    /// organization_external_id: An identifier that can be used in API calls wherever a organization_id is
+    /// expected. This is a string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum
+    /// length of 128 characters. External IDs must be unique within a project, but may be reused across
+    /// different projects in the same workspace.
+    pub organization_external_id: std::option::Option<String>,
     /// organization_logo_url: The image URL of the Organization logo.
     pub organization_logo_url: std::option::Option<String>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
