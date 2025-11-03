@@ -29,21 +29,8 @@ pub struct Connection {
         std::vec::Vec<ConnectionImplicitRoleAssignment>,
     pub external_group_implicit_role_assignments: std::vec::Vec<GroupImplicitRoleAssignment>,
 }
-/// ConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectionImplicitRoleAssignment {
-    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
-    ///   * `stytch_member`
-    ///   * `stytch_admin`
-    ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-    /// for a more detailed explanation.
-    ///
-    ///
     pub role_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -52,23 +39,9 @@ pub struct EncryptionPrivateKey {
     pub private_key: String,
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-/// GroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupImplicitRoleAssignment {
-    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
-    ///   * `stytch_member`
-    ///   * `stytch_admin`
-    ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-    /// for a more detailed explanation.
-    ///
-    ///
     pub role_id: String,
-    /// group: The name of the group that grants the specified role assignment.
     pub group: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -113,40 +86,13 @@ pub struct SAMLConnection {
     pub allow_gateway_callback: bool,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
-/// SAMLConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLConnectionImplicitRoleAssignment {
-    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
-    ///   * `stytch_member`
-    ///   * `stytch_admin`
-    ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-    /// for a more detailed explanation.
-    ///
-    ///
     pub role_id: String,
 }
-/// SAMLGroupImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SAMLGroupImplicitRoleAssignment {
-    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
-    /// human-readable.
-    ///
-    ///   Reserved `role_id`s that are predefined by Stytch include:
-    ///
-    ///   * `stytch_member`
-    ///   * `stytch_admin`
-    ///
-    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
-    /// for a more detailed explanation.
-    ///
-    ///
     pub role_id: String,
-    /// group: The name of the group that grants the specified role assignment.
     pub group: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]

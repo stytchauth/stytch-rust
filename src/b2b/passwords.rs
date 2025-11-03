@@ -18,6 +18,7 @@ use crate::consumer::passwords::Argon2Config;
 use crate::consumer::passwords::MD5Config;
 use crate::consumer::passwords::PBKDF2Config;
 use crate::consumer::passwords::SHA1Config;
+use crate::consumer::passwords::SHA512Config;
 use crate::consumer::passwords::ScryptConfig;
 use serde::{Deserialize, Serialize};
 
@@ -174,7 +175,7 @@ pub struct MigrateRequest {
     /// hash: The password hash. For a Scrypt or PBKDF2 hash, the hash needs to be a base64 encoded string.
     pub hash: String,
     /// hash_type: The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`,
-    /// `sha_1`, and `pbkdf_2` are supported.
+    /// `sha_1`, `sha_512`, and `pbkdf_2` are supported.
     pub hash_type: MigrateRequestHashType,
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
@@ -186,6 +187,8 @@ pub struct MigrateRequest {
     pub argon_2_config: std::option::Option<Argon2Config>,
     /// sha_1_config: Optional parameters for SHA-1 hash types.
     pub sha_1_config: std::option::Option<SHA1Config>,
+    /// sha_512_config: Optional parameters for SHA-512 hash types.
+    pub sha_512_config: std::option::Option<SHA512Config>,
     /// scrypt_config: Required parameters if the scrypt is not provided in a **PHC encoded form**.
     pub scrypt_config: std::option::Option<ScryptConfig>,
     /// pbkdf_2_config: Required additional parameters for PBKDF2 hash keys. Note that we use the SHA-256 by
@@ -334,6 +337,8 @@ pub enum MigrateRequestHashType {
     Argon2id,
     #[serde(rename = "sha_1")]
     Sha1,
+    #[serde(rename = "sha_512")]
+    Sha512,
     #[serde(rename = "scrypt")]
     Scrypt,
     #[serde(rename = "phpass")]

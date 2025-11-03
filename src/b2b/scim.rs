@@ -172,12 +172,9 @@ pub struct SCIMGroup {
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
 }
-/// SCIMGroupImplicitRoleAssignments:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SCIMGroupImplicitRoleAssignments {
-    /// role_id: The ID of the role.
     pub role_id: String,
-    /// group_id: The ID of the group.
     pub group_id: String,
     pub group_name: String,
 }

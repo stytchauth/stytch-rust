@@ -90,6 +90,14 @@ pub struct SHA1Config {
     /// append_salt: The salt that should be appended to the migrated password.
     pub append_salt: String,
 }
+/// SHA512Config:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SHA512Config {
+    /// prepend_salt: The salt that should be prepended to the migrated password.
+    pub prepend_salt: String,
+    /// append_salt: The salt that should be appended to the migrated password.
+    pub append_salt: String,
+}
 /// ScryptConfig:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ScryptConfig {
@@ -266,7 +274,7 @@ pub struct MigrateRequest {
     /// hash: The password hash. For a Scrypt or PBKDF2 hash, the hash needs to be a base64 encoded string.
     pub hash: String,
     /// hash_type: The password hash used. Currently `bcrypt`, `scrypt`, `argon_2i`, `argon_2id`, `md_5`,
-    /// `sha_1`, and `pbkdf_2` are supported.
+    /// `sha_1`, `sha_512`, and `pbkdf_2` are supported.
     pub hash_type: MigrateRequestHashType,
     /// md_5_config: Optional parameters for MD-5 hash types.
     pub md_5_config: std::option::Option<MD5Config>,
@@ -274,6 +282,8 @@ pub struct MigrateRequest {
     pub argon_2_config: std::option::Option<Argon2Config>,
     /// sha_1_config: Optional parameters for SHA-1 hash types.
     pub sha_1_config: std::option::Option<SHA1Config>,
+    /// sha_512_config: Optional parameters for SHA-512 hash types.
+    pub sha_512_config: std::option::Option<SHA512Config>,
     /// scrypt_config: Required parameters if the scrypt is not provided in a
     /// [PHC encoded form](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md#phc-string-format).
     pub scrypt_config: std::option::Option<ScryptConfig>,
@@ -394,6 +404,8 @@ pub enum MigrateRequestHashType {
     Argon2id,
     #[serde(rename = "sha_1")]
     Sha1,
+    #[serde(rename = "sha_512")]
+    Sha512,
     #[serde(rename = "scrypt")]
     Scrypt,
     #[serde(rename = "phpass")]

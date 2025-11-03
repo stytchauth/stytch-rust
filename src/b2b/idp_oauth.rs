@@ -46,6 +46,7 @@ pub struct AuthorizeRequest {
     pub nonce: std::option::Option<String>,
     /// code_challenge: A base64url encoded challenge derived from the code verifier for PKCE flows.
     pub code_challenge: std::option::Option<String>,
+    pub resources: std::option::Option<std::vec::Vec<String>>,
 }
 /// AuthorizeResponse: Response type for `OAuth.authorize`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
