@@ -11,7 +11,7 @@ The minimum supported Rust version (MSRV) of this library is Rust 1.70.
 Use `cargo add stytch` to add this to your `Cargo.toml`:
 
 ```toml
-stytch = "8.0.0"
+stytch = "10.0"
 ```
 
 ## Usage
@@ -156,9 +156,54 @@ Learn more about errors in the [docs](https://stytch.com/docs/api/errors).
 
 ## Cargo Features
 
-- `reqwest-rustls-tls`: Enable reqwest's `rustls-tls` feature for the rustls implementation.
-- `reqwest-native-tls`: Enable reqwest's `native-tls` feature for the native TLS implementation.
-  (This is enabled by default.)
+The library supports different TLS backends for HTTPS connections:
+
+- **`rustls`** (default): Uses rustls with aws-lc cryptography. Recommended for most users. Pure Rust implementation with excellent performance.
+- **`native-tls`**: Uses platform-native TLS (OpenSSL on Linux, Secure Transport on macOS, SChannel on Windows).
+
+To use native-tls instead of the default:
+
+```toml
+stytch = { version = "10.0", default-features = false, features = ["native-tls"] }
+```
+
+**Note:** The default TLS backend changed from `native-tls` to `rustls` in version 10.0. See the migration guide below if upgrading from v9.x.
+
+## Migrating from v9.x to v10.0
+
+### Breaking Changes
+
+**1. Default TLS backend changed**
+- **Previous default:** `native-tls` (platform TLS)
+- **New default:** `rustls` (pure Rust TLS with aws-lc)
+- **Migration:** If you need to keep using native-tls, specify it explicitly:
+  ```toml
+  stytch = { version = "10.0", default-features = false, features = ["native-tls"] }
+  ```
+
+**2. Feature flags renamed**
+- `reqwest-native-tls` → `native-tls`
+- `reqwest-rustls-tls` → `rustls`
+- **Migration:** Update your Cargo.toml feature names:
+  ```toml
+  # Before (v9.x)
+  stytch = { version = "9.4", features = ["reqwest-rustls-tls"] }
+
+  # After (v10.0)
+  stytch = "10.0"  # rustls is now default, or explicitly:
+  stytch = { version = "10.0", features = ["rustls"] }
+  ```
+
+**3. Crypto providers updated**
+- Both JWT verification and HTTPS connections now use aws-lc-rs instead of ring
+- **No code changes required** - this is internal to the library
+
+### Why These Changes?
+
+- **Modern crypto:** Aligns with Rust ecosystem direction (reqwest 0.13, jsonwebtoken 10.x)
+- **No ring dependency:** Eliminates ring from the dependency tree entirely
+- **Unified crypto:** Single crypto provider (aws-lc-rs) for all cryptographic operations
+- **Fewer dependencies:** 31% reduction in dependency tree size vs separate crypto backends
 
 ## Documentation
 
