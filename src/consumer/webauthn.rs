@@ -108,6 +108,7 @@ pub struct AuthenticateStartRequest {
     /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
+    pub use_base64_url_encoding: std::option::Option<bool>,
 }
 /// AuthenticateStartResponse: Response type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

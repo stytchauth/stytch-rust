@@ -4,9 +4,16 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::b2b::rbac_organizations::Organizations;
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
+/// OrgPolicy:
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OrgPolicy {
+    /// roles: An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
+    pub roles: std::vec::Vec<PolicyRole>,
+}
 /// Policy:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Policy {
@@ -162,12 +169,14 @@ pub struct PolicyResponse {
 
 pub struct RBAC {
     http_client: crate::client::Client,
+    pub organizations: Organizations,
 }
 
 impl RBAC {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
+            organizations: Organizations::new(http_client.clone()),
         }
     }
 

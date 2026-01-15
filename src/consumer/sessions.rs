@@ -799,7 +799,7 @@ pub enum AuthenticationFactorDeliveryMethod {
     #[serde(rename = "sms")]
     Sms,
     #[serde(rename = "whatsapp")]
-    Whatsapp,
+    WhatsApp,
     #[serde(rename = "embedded")]
     Embedded,
     #[serde(rename = "oauth_google")]
