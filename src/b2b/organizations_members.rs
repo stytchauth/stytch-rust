@@ -93,6 +93,20 @@ pub struct DangerouslyGetRequest {
     /// include_deleted: Whether to include deleted Members in the response. Defaults to false.
     pub include_deleted: std::option::Option<bool>,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteExternalIdRequest {
+    pub organization_id: String,
+    pub member_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteExternalIdResponse {
+    pub request_id: String,
+    pub member_id: String,
+    pub member: Member,
+    pub organization: Organization,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// DeleteMFAPhoneNumberRequest: Request type for `Members.delete_mfa_phone_number`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteMFAPhoneNumberRequest {
@@ -900,6 +914,30 @@ impl Members {
                 method: http::Method::GET,
                 path,
                 body: serde_json::json!({}),
+            })
+            .await
+    }
+    pub async fn delete_external_id(
+        &self,
+        body: DeleteExternalIdRequest,
+    ) -> crate::Result<DeleteExternalIdResponse> {
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let member_id = percent_encoding::utf8_percent_encode(
+            &body.member_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path =
+            format!("/v1/b2b/organizations/{organization_id}/members/{member_id}/external_id");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
             })
             .await
     }

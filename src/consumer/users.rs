@@ -360,6 +360,18 @@ pub struct DeleteEmailResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteExternalIdRequest {
+    pub user_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteExternalIdResponse {
+    pub request_id: String,
+    pub user_id: String,
+    pub user: User,
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
 /// DeleteOAuthRegistrationRequest: Request type for `Users.delete_oauth_registration`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeleteOAuthRegistrationRequest {
@@ -940,6 +952,24 @@ impl Users {
         )
         .to_string();
         let path = format!("/v1/users/oauth/{oauth_user_registration_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn delete_external_id(
+        &self,
+        body: DeleteExternalIdRequest,
+    ) -> crate::Result<DeleteExternalIdResponse> {
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/users/{user_id}/external_id");
         self.http_client
             .send(crate::Request {
                 method: http::Method::DELETE,

@@ -7,6 +7,7 @@
 use crate::consumer::connected_apps::ConnectedAppClient;
 use crate::consumer::connected_apps::ConnectedAppWithClientSecret;
 use crate::consumer::connected_apps::ResultsMetadata;
+use crate::consumer::connected_apps::SearchConnectedAppsQuery;
 use crate::consumer::connected_apps_clients_secrets::Secrets;
 use percent_encoding;
 use serde::{Deserialize, Serialize};
@@ -108,6 +109,7 @@ pub struct SearchRequest {
     /// results can be returned by a single search request. If the total size of your result set is greater than
     /// one page size, you must paginate the response. See the `cursor` field.
     pub limit: std::option::Option<u32>,
+    pub query: std::option::Option<SearchConnectedAppsQuery>,
 }
 /// SearchResponse: Response type for `Clients.search`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

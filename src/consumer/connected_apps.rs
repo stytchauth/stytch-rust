@@ -41,6 +41,7 @@ pub struct ConnectedAppClient {
     /// logo_url: The logo URL of the Connected App, if any.
     pub logo_url: std::option::Option<String>,
     pub client_id_metadata_url: std::option::Option<String>,
+    pub creation_method: std::option::Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ConnectedAppPublic {
@@ -132,6 +133,59 @@ pub struct ResultsMetadata {
     /// next_cursor: The `next_cursor` string is returned when your search result contains more than one page of
     /// results. This value is passed into your next search call in the `cursor` field.
     pub next_cursor: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SearchConnectedAppsOperand {
+    pub client_ids: std::vec::Vec<String>,
+    pub client_types: std::vec::Vec<SearchConnectedAppsOperandClientTypes>,
+    pub creation_methods: std::vec::Vec<SearchConnectedAppsOperandCreationMethods>,
+    pub filter: std::option::Option<
+        SearchConnectedAppsOperandFilterTypeSearchConnectedAppsOperandFilterType,
+    >,
+    pub client_name_prefix: std::option::Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SearchConnectedAppsOperandFilterType {}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SearchConnectedAppsQuery {
+    pub operands: std::vec::Vec<SearchConnectedAppsOperand>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum SearchConnectedAppsOperandClientTypes {
+    #[serde(rename = "first_party")]
+    #[default]
+    FirstParty,
+    #[serde(rename = "first_party_public")]
+    FirstPartyPublic,
+    #[serde(rename = "third_party")]
+    ThirdParty,
+    #[serde(rename = "third_party_public")]
+    ThirdPartyPublic,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum SearchConnectedAppsOperandCreationMethods {
+    #[serde(rename = "dcr")]
+    #[default]
+    Dcr,
+    #[serde(rename = "cimd")]
+    Cimd,
+    #[serde(rename = "manual")]
+    Manual,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum SearchConnectedAppsOperandFilterTypeSearchConnectedAppsOperandFilterType {
+    #[serde(rename = "UNKNOWN_OPERAND")]
+    #[default]
+    UNKNOWNOPERAND,
+    #[serde(rename = "client_ids")]
+    ClientIds,
+    #[serde(rename = "client_name_prefix")]
+    ClientNamePrefix,
+    #[serde(rename = "client_types")]
+    ClientTypes,
+    #[serde(rename = "creation_methods")]
+    CreationMethods,
 }
 
 pub struct ConnectedApp {
