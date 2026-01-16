@@ -7,7 +7,7 @@
 use crate::consumer::attribute::Attributes;
 use serde::{Deserialize, Serialize};
 
-/// LoginOrCreateRequest: Request type for `Whatsapp.login_or_create`.
+/// LoginOrCreateRequest: Request type for `WhatsApp.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LoginOrCreateRequest {
     /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
@@ -38,7 +38,7 @@ pub struct LoginOrCreateRequest {
     ///
     pub locale: std::option::Option<LoginOrCreateRequestLocale>,
 }
-/// LoginOrCreateResponse: Response type for `Whatsapp.login_or_create`.
+/// LoginOrCreateResponse: Response type for `WhatsApp.login_or_create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct LoginOrCreateResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -58,7 +58,7 @@ pub struct LoginOrCreateResponse {
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
-/// SendRequest: Request type for `Whatsapp.send`.
+/// SendRequest: Request type for `WhatsApp.send`.
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SendRequest {
     /// phone_number: The phone number to use for one-time passcodes. The phone number should be in E.164 format
@@ -88,7 +88,7 @@ pub struct SendRequest {
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
 }
-/// SendResponse: Response type for `Whatsapp.send`.
+/// SendResponse: Response type for `WhatsApp.send`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SendResponse {
     /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
@@ -147,11 +147,11 @@ pub enum SendRequestLocale {
     CaES,
 }
 
-pub struct Whatsapp {
+pub struct WhatsApp {
     http_client: crate::client::Client,
 }
 
-impl Whatsapp {
+impl WhatsApp {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),

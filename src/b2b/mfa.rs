@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 /// MemberOptions:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MemberOptions {
     /// mfa_phone_number: The Member's MFA phone number.
     pub mfa_phone_number: String,
@@ -15,7 +15,7 @@ pub struct MemberOptions {
     pub totp_registration_id: String,
 }
 /// MfaRequired:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MfaRequired {
     /// member_options: Information about the Member's options for completing MFA.
     pub member_options: std::option::Option<MemberOptions>,

@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProjectMetric {
     pub metric_type: ProjectMetricMetricType,
     pub count: u32,

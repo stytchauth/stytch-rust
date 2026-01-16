@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Attributes:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Attributes {
     /// ip_address: The IP address of the user.
     pub ip_address: std::option::Option<String>,

@@ -14,7 +14,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// Argon2Config:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Argon2Config {
     /// salt: The salt value.
     pub salt: String,
@@ -28,7 +28,7 @@ pub struct Argon2Config {
     pub key_length: i32,
 }
 /// Feedback:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Feedback {
     /// warning: For `zxcvbn` validation, contains an end user consumable warning if the password is valid but
     /// not strong enough.
@@ -42,7 +42,7 @@ pub struct Feedback {
     pub luds_requirements: std::option::Option<LUDSRequirements>,
 }
 /// LUDSRequirements:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LUDSRequirements {
     /// has_lower_case: For LUDS validation, whether the password contains at least one lowercase letter.
     pub has_lower_case: bool,
@@ -62,7 +62,7 @@ pub struct LUDSRequirements {
     pub missing_characters: i32,
 }
 /// MD5Config:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MD5Config {
     /// prepend_salt: The salt that should be prepended to the migrated password.
     pub prepend_salt: String,
@@ -70,7 +70,7 @@ pub struct MD5Config {
     pub append_salt: String,
 }
 /// PBKDF2Config:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PBKDF2Config {
     /// salt: The salt value, which should be in a base64 encoded string form.
     pub salt: String,
@@ -83,7 +83,7 @@ pub struct PBKDF2Config {
     pub algorithm: String,
 }
 /// SHA1Config:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SHA1Config {
     /// prepend_salt: The salt that should be prepended to the migrated password.
     pub prepend_salt: String,
@@ -91,7 +91,7 @@ pub struct SHA1Config {
     pub append_salt: String,
 }
 /// SHA512Config:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SHA512Config {
     /// prepend_salt: The salt that should be prepended to the migrated password.
     pub prepend_salt: String,
@@ -99,7 +99,7 @@ pub struct SHA512Config {
     pub append_salt: String,
 }
 /// ScryptConfig:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ScryptConfig {
     /// salt: The salt value, which should be in a base64 encoded string form.
     pub salt: String,

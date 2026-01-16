@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use crate::shared::jwt_helpers::{authenticate_jwt, JWTError};
 
 /// M2MClient:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct M2MClient {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -31,7 +31,7 @@ pub struct M2MClient {
     pub next_client_secret_last_four: std::option::Option<String>,
 }
 /// M2MClientWithClientSecret:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct M2MClientWithClientSecret {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -56,7 +56,7 @@ pub struct M2MClientWithClientSecret {
     pub next_client_secret_last_four: std::option::Option<String>,
 }
 /// M2MClientWithNextClientSecret:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct M2MClientWithNextClientSecret {
     /// client_id: The ID of the client.
     pub client_id: String,
@@ -82,7 +82,7 @@ pub struct M2MClientWithNextClientSecret {
     pub next_client_secret_last_four: std::option::Option<String>,
 }
 /// M2MSearchQuery:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct M2MSearchQuery {
     /// operator: The action to perform on the operands. The accepted value are:
     ///
@@ -95,7 +95,7 @@ pub struct M2MSearchQuery {
     pub operands: std::vec::Vec<serde_json::Value>,
 }
 /// ResultsMetadata:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query. If totals have been disabled for your
     /// Stytch Workspace to improve search performance, the value will always be -1.

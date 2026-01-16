@@ -17,7 +17,7 @@ use percent_encoding;
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Connection {
     pub organization_id: String,
     pub connection_id: String,
@@ -29,22 +29,22 @@ pub struct Connection {
         std::vec::Vec<ConnectionImplicitRoleAssignment>,
     pub external_group_implicit_role_assignments: std::vec::Vec<GroupImplicitRoleAssignment>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectionImplicitRoleAssignment {
     pub role_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EncryptionPrivateKey {
     pub private_key_id: String,
     pub private_key: String,
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GroupImplicitRoleAssignment {
     pub role_id: String,
     pub group: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OIDCConnection {
     pub organization_id: String,
     pub connection_id: String,
@@ -62,7 +62,7 @@ pub struct OIDCConnection {
     pub custom_scopes: String,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLConnection {
     pub organization_id: String,
     pub connection_id: String,
@@ -86,16 +86,16 @@ pub struct SAMLConnection {
     pub allow_gateway_callback: bool,
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLConnectionImplicitRoleAssignment {
     pub role_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLGroupImplicitRoleAssignment {
     pub role_id: String,
     pub group: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct X509Certificate {
     pub certificate_id: String,
     pub certificate: String,

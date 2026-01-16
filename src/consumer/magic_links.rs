@@ -12,7 +12,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// Options:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Options {
     /// ip_match_required: Require that the IP address the Magic Link was requested from matches the IP address
     /// it's clicked from.

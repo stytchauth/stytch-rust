@@ -14,7 +14,7 @@ use crate::consumer::device_history::DeviceInfo;
 use serde::{Deserialize, Serialize};
 
 /// ProviderValues:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProviderValues {
     /// scopes: The OAuth scopes included for a given provider. See each provider's section above to see which
     /// scopes are included by default and how to add custom scopes.

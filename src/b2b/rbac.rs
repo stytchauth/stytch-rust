@@ -4,11 +4,18 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::b2b::rbac_organizations::Organizations;
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
+/// OrgPolicy:
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct OrgPolicy {
+    /// roles: An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
+    pub roles: std::vec::Vec<PolicyRole>,
+}
 /// Policy:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Policy {
     /// roles: An array of [Role objects](https://stytch.com/docs/b2b/api/rbac-role-object).
     pub roles: std::vec::Vec<PolicyRole>,
@@ -17,7 +24,7 @@ pub struct Policy {
     pub scopes: std::vec::Vec<PolicyScope>,
 }
 /// PolicyResource:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyResource {
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
@@ -83,7 +90,7 @@ pub struct PolicyResource {
     pub actions: std::vec::Vec<String>,
 }
 /// PolicyRole:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
     /// human-readable.
@@ -105,7 +112,7 @@ pub struct PolicyRole {
     pub permissions: std::vec::Vec<PolicyRolePermission>,
 }
 /// PolicyRolePermission:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyRolePermission {
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
@@ -128,13 +135,13 @@ pub struct PolicyRolePermission {
     /// use `*` as a wildcard to require a Scope permission to use all possible actions related to the Resource.
     pub actions: std::vec::Vec<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyScope {
     pub scope: String,
     pub description: String,
     pub permissions: std::vec::Vec<PolicyScopePermission>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyScopePermission {
     pub resource_id: String,
     pub actions: std::vec::Vec<String>,
@@ -162,12 +169,14 @@ pub struct PolicyResponse {
 
 pub struct RBAC {
     http_client: crate::client::Client,
+    pub organizations: Organizations,
 }
 
 impl RBAC {
     pub fn new(http_client: crate::client::Client) -> Self {
         Self {
             http_client: http_client.clone(),
+            organizations: Organizations::new(http_client.clone()),
         }
     }
 

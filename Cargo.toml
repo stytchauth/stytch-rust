@@ -1,6 +1,6 @@
 [package]
 name = "stytch"
-version = "10.0.0"
+version = "10.1.0"
 edition = "2021"
 license = "MIT"
 description = "Stytch Rust client"
@@ -16,7 +16,9 @@ chrono = { version = "0.4.22", default-features = false, features = [
 ] }
 http = "1.1.0"
 http-serde = "2.1.1"
-jsonwebtoken = { version = "10.2", default-features = false, features = ["aws_lc_rs"] }
+jsonwebtoken = { version = "10.2", default-features = false, features = [
+  "aws_lc_rs",
+] }
 percent-encoding = "2.3.2"
 reqwest = { version = "0.13", default-features = false, features = ["json"] }
 serde = { version = "1.0.139", features = ["derive"] }

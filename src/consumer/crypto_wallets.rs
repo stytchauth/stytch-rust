@@ -10,7 +10,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// SIWEParams:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SIWEParams {
     /// domain: Only required if `siwe_params` is passed. The domain that is requesting the crypto wallet
     /// signature. Must be an RFC 3986 authority.

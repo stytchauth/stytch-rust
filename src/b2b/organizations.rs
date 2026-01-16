@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
 /// ActiveSCIMConnection:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ActiveSCIMConnection {
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -21,7 +21,7 @@ pub struct ActiveSCIMConnection {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// ActiveSSOConnection:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ActiveSSOConnection {
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
     pub connection_id: String,
@@ -29,8 +29,19 @@ pub struct ActiveSSOConnection {
     pub display_name: String,
     pub identity_provider: String,
 }
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct CustomRole {
+    pub role_id: String,
+    pub description: String,
+    pub permissions: std::vec::Vec<CustomRolePermission>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct CustomRolePermission {
+    pub resource_id: String,
+    pub actions: std::vec::Vec<String>,
+}
 /// EmailImplicitRoleAssignment:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EmailImplicitRoleAssignment {
     /// domain: Email domain that grants the specified Role.
     pub domain: String,
@@ -49,7 +60,7 @@ pub struct EmailImplicitRoleAssignment {
     pub role_id: String,
 }
 /// GithubProviderInfo:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GithubProviderInfo {
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
@@ -68,7 +79,7 @@ pub struct GithubProviderInfo {
     pub scopes: std::vec::Vec<String>,
 }
 /// HubspotProviderInfo:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct HubspotProviderInfo {
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
@@ -92,7 +103,7 @@ pub struct HubspotProviderInfo {
     pub refresh_token: std::option::Option<String>,
 }
 /// Member:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Member {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
@@ -188,7 +199,7 @@ pub struct Member {
     pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// MemberConnectedApp:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MemberConnectedApp {
     /// connected_app_id: The ID of the Connected App.
     pub connected_app_id: String,
@@ -205,7 +216,7 @@ pub struct MemberConnectedApp {
     pub logo_url: std::option::Option<String>,
 }
 /// MemberRole:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MemberRole {
     /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
     /// human-readable.
@@ -226,7 +237,7 @@ pub struct MemberRole {
     pub sources: std::vec::Vec<MemberRoleSource>,
 }
 /// MemberRoleSource:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MemberRoleSource {
     /// type_: The type of role assignment. The possible values are:
     ///
@@ -306,7 +317,7 @@ pub struct MemberRoleSource {
     pub details: std::option::Option<serde_json::Value>,
 }
 /// OAuthRegistration:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OAuthRegistration {
     /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
     /// Microsoft, GitHub etc.
@@ -324,7 +335,7 @@ pub struct OAuthRegistration {
     pub locale: std::option::Option<String>,
 }
 /// OIDCProviderInfo:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OIDCProviderInfo {
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
@@ -348,7 +359,7 @@ pub struct OIDCProviderInfo {
     pub refresh_token: std::option::Option<String>,
 }
 /// Organization:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Organization {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
     /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
@@ -489,6 +500,7 @@ pub struct Organization {
     /// Organization. Only used when the Organization's `third_party_connected_apps_allowed_type` is
     /// `RESTRICTED`.
     pub allowed_third_party_connected_apps: std::vec::Vec<String>,
+    pub custom_roles: std::vec::Vec<CustomRole>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -510,7 +522,7 @@ pub struct Organization {
     /// will not allow JIT provisioning by OAuth Tenant. Allowed keys are "slack", "hubspot", and "github".
     pub allowed_oauth_tenants: std::option::Option<serde_json::Value>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OrganizationConnectedApp {
     pub connected_app_id: String,
     pub name: String,
@@ -519,7 +531,7 @@ pub struct OrganizationConnectedApp {
     pub logo_url: std::option::Option<String>,
 }
 /// OrganizationConnectedAppActiveMember:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OrganizationConnectedAppActiveMember {
     /// member_id: Globally unique UUID that identifies a specific Member.
     pub member_id: String,
@@ -527,7 +539,7 @@ pub struct OrganizationConnectedAppActiveMember {
     pub granted_scopes: std::vec::Vec<String>,
 }
 /// ResultsMetadata:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query. If totals have been disabled for your
     /// Stytch Workspace to improve search performance, the value will always be -1.
@@ -537,7 +549,7 @@ pub struct ResultsMetadata {
     pub next_cursor: std::option::Option<String>,
 }
 /// RetiredEmail:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RetiredEmail {
     /// email_id: The globally unique UUID of a Member's email.
     pub email_id: String,
@@ -545,7 +557,7 @@ pub struct RetiredEmail {
     pub email_address: String,
 }
 /// SCIMRegistration:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMRegistration {
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
@@ -557,7 +569,7 @@ pub struct SCIMRegistration {
     pub scim_attributes: std::option::Option<SCIMAttributes>,
 }
 /// SSORegistration:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SSORegistration {
     /// connection_id: Globally unique UUID that identifies a specific SSO `connection_id` for a Member.
     pub connection_id: String,
@@ -569,7 +581,7 @@ pub struct SSORegistration {
     pub sso_attributes: std::option::Option<serde_json::Value>,
 }
 /// SearchQuery:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchQuery {
     /// operator: The action to perform on the operands. The accepted values are:
     ///
@@ -584,7 +596,7 @@ pub struct SearchQuery {
     pub operands: std::vec::Vec<serde_json::Value>,
 }
 /// SlackProviderInfo:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SlackProviderInfo {
     /// provider_subject: The unique identifier for the User within a given OAuth provider. Also commonly called
     /// the `sub` or "Subject field" in OAuth protocols.
@@ -793,6 +805,17 @@ pub struct CreateResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteExternalIdRequest {
+    pub organization_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteExternalIdResponse {
+    pub request_id: String,
+    pub organization: Organization,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -1358,6 +1381,24 @@ impl Organizations {
                 method: http::Method::GET,
                 path,
                 body: serde_json::json!({}),
+            })
+            .await
+    }
+    pub async fn delete_external_id(
+        &self,
+        body: DeleteExternalIdRequest,
+    ) -> crate::Result<DeleteExternalIdResponse> {
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/b2b/organizations/{organization_id}/external_id");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
             })
             .await
     }

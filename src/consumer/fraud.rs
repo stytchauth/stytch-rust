@@ -10,7 +10,7 @@ use crate::consumer::fraud_verdict_reasons::VerdictReasons;
 use serde::{Deserialize, Serialize};
 
 /// ASNProperties:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ASNProperties {
     /// asn: The Autonomous System Number of the user's network.
     pub asn: String,
@@ -20,13 +20,13 @@ pub struct ASNProperties {
     pub network: String,
 }
 /// BrowserProperties:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct BrowserProperties {
     /// user_agent: The user agent of the user's browser.
     pub user_agent: String,
 }
 /// Fingerprints:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Fingerprints {
     /// network_fingerprint: Combination of signals associated with a specific network commonly known as TLS
     /// fingerprinting.
@@ -43,7 +43,7 @@ pub struct Fingerprints {
     pub browser_id: std::option::Option<String>,
 }
 /// IPGeoProperties:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct IPGeoProperties {
     /// city: The city where the IP is located.
     pub city: String,
@@ -53,7 +53,7 @@ pub struct IPGeoProperties {
     pub country: String,
 }
 /// Metadata:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Metadata {
     /// external_id: An external ID, such as a user ID, that you wish to associate with the telemetry ID.
     pub external_id: std::option::Option<String>,
@@ -63,7 +63,7 @@ pub struct Metadata {
     pub user_action: std::option::Option<String>,
 }
 /// NetworkProperties:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct NetworkProperties {
     /// ip_address: The IP address of the client.
     pub ip_address: String,
@@ -77,13 +77,13 @@ pub struct NetworkProperties {
     pub is_vpn: bool,
 }
 /// Properties:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Properties {
     pub network_properties: NetworkProperties,
     pub browser_properties: BrowserProperties,
 }
 /// Rule:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Rule {
     /// rule_type: The rule type. The possible values are `VISITOR_ID`, `BROWSER_ID`, `VISITOR_FINGERPRINT`,
     /// `BROWSER_FINGERPRINT`, `HARDWARE_FINGERPRINT`, `NETWORK_FINGERPRINT`, `CIDR_BLOCK`, `ASN`, or
@@ -123,7 +123,7 @@ pub struct Rule {
     pub last_updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// Verdict:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Verdict {
     /// action: The suggested action based on the fingerprint review. The available actions are:
     ///   * `ALLOW` - This is a known valid device grouping or device profile that is part of the default ALLOW
@@ -155,7 +155,7 @@ pub struct Verdict {
     pub rule_match_identifier: std::option::Option<String>,
 }
 /// VerdictReasonAction:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct VerdictReasonAction {
     /// verdict_reason: The verdict reason.
     pub verdict_reason: String,
@@ -172,7 +172,7 @@ pub struct VerdictReasonAction {
     pub override_description: std::option::Option<String>,
 }
 /// VerdictReasonOverride:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct VerdictReasonOverride {
     /// verdict_reason: The verdict reason that was overridden.
     pub verdict_reason: String,

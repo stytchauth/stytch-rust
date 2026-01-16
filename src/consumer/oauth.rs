@@ -10,7 +10,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// ProviderValues:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ProviderValues {
     /// access_token: The `access_token` that you may use to access the User's data in the provider's API.
     pub access_token: String,

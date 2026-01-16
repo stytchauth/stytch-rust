@@ -7,7 +7,7 @@
 use crate::b2b::scim_connection::Connection;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Address {
     pub formatted: String,
     pub street_address: String,
@@ -19,14 +19,14 @@ pub struct Address {
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Email {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EnterpriseExtension {
     pub employee_number: String,
     pub cost_center: String,
@@ -35,33 +35,33 @@ pub struct EnterpriseExtension {
     pub organization: String,
     pub manager: std::option::Option<Manager>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Entitlement {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Group {
     pub value: String,
     pub display: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct IMs {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Manager {
     pub value: String,
     #[serde(rename = "ref")]
     pub ref_: String,
     pub display_name: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Name {
     pub formatted: String,
     pub family_name: String,
@@ -70,28 +70,28 @@ pub struct Name {
     pub honorific_prefix: String,
     pub honorific_suffix: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PhoneNumber {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Photo {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Role {
     pub value: String,
     #[serde(rename = "type")]
     pub type_: String,
     pub primary: bool,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMAttributes {
     pub user_name: String,
     pub id: String,
@@ -117,7 +117,7 @@ pub struct SCIMAttributes {
     pub name: std::option::Option<Name>,
     pub enterprise_extension: std::option::Option<EnterpriseExtension>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnection {
     pub organization_id: String,
     pub connection_id: String,
@@ -131,7 +131,7 @@ pub struct SCIMConnection {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnectionWithNextToken {
     pub organization_id: String,
     pub connection_id: String,
@@ -145,7 +145,7 @@ pub struct SCIMConnectionWithNextToken {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnectionWithToken {
     pub organization_id: String,
     pub connection_id: String,
@@ -158,7 +158,7 @@ pub struct SCIMConnectionWithToken {
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// SCIMGroup:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMGroup {
     /// group_id: Stytch-issued, globally unique UUID that identifies a specific SCIM Group. The entity `id` in
     /// the SCIM specification is issued by the Service Provider (SP) and returned to the Identity Provider
@@ -172,13 +172,13 @@ pub struct SCIMGroup {
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMGroupImplicitRoleAssignments {
     pub role_id: String,
     pub group_id: String,
     pub group_name: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct X509Certificate {
     pub value: String,
     #[serde(rename = "type")]

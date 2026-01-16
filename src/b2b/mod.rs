@@ -28,6 +28,7 @@ pub mod passwords_email;
 pub mod passwords_existing_password;
 pub mod passwords_session;
 pub mod rbac;
+pub mod rbac_organizations;
 pub mod recovery_codes;
 pub mod scim;
 pub mod scim_connection;

@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
 /// WebAuthnCredential:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct WebAuthnCredential {
     /// credential_id: The unique, public ID of the WebAuthn credential.
     pub credential_id: String,
@@ -108,6 +108,7 @@ pub struct AuthenticateStartRequest {
     /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
+    pub use_base64_url_encoding: std::option::Option<bool>,
 }
 /// AuthenticateStartResponse: Response type for `WebAuthn.authenticate_start`.
 #[derive(Serialize, Deserialize, Debug, Clone)]

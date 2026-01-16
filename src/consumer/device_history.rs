@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 /// DeviceAttributeDetails:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeviceAttributeDetails {
     /// is_new: Whether this `ip_geo_country` has been seen before for this user.
     pub is_new: bool,
@@ -19,7 +19,7 @@ pub struct DeviceAttributeDetails {
     pub last_seen_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// DeviceInfo:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DeviceInfo {
     /// visitor_id: The `visitor_id` (a unique identifier) of the user's device. See the
     /// [Device Fingerprinting documentation](https://stytch.com/docs/fraud/guides/device-fingerprinting/fingerprints) for more details on the `visitor_id`.

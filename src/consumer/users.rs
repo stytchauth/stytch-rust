@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
 /// BiometricRegistration:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct BiometricRegistration {
     /// biometric_registration_id: The unique ID for a biometric registration.
     pub biometric_registration_id: String,
@@ -19,7 +19,7 @@ pub struct BiometricRegistration {
     pub verified: bool,
 }
 /// CryptoWallet:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CryptoWallet {
     /// crypto_wallet_id: The unique ID for a crypto wallet
     pub crypto_wallet_id: String,
@@ -32,7 +32,7 @@ pub struct CryptoWallet {
     pub verified: bool,
 }
 /// Email:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Email {
     /// email_id: The unique ID of a specific email address.
     pub email_id: String,
@@ -43,7 +43,7 @@ pub struct Email {
     pub verified: bool,
 }
 /// Name:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Name {
     /// first_name: The first name of the user.
     pub first_name: std::option::Option<String>,
@@ -53,7 +53,7 @@ pub struct Name {
     pub last_name: std::option::Option<String>,
 }
 /// OAuthProvider:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OAuthProvider {
     /// provider_type: Denotes the OAuth identity provider that the user has authenticated with, e.g. Google,
     /// Facebook, GitHub etc.
@@ -71,7 +71,7 @@ pub struct OAuthProvider {
     pub oauth_user_registration_id: String,
 }
 /// Password:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Password {
     /// password_id: The unique ID of a specific password
     pub password_id: String,
@@ -79,7 +79,7 @@ pub struct Password {
     pub requires_reset: bool,
 }
 /// PhoneNumber:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PhoneNumber {
     /// phone_id: The unique ID for the phone number.
     pub phone_id: String,
@@ -90,7 +90,7 @@ pub struct PhoneNumber {
     pub verified: bool,
 }
 /// ResultsMetadata:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query. If totals have been disabled for your
     /// Stytch Workspace to improve search performance, the value will always be -1.
@@ -100,7 +100,7 @@ pub struct ResultsMetadata {
     pub next_cursor: std::option::Option<String>,
 }
 /// SearchUsersQuery:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SearchUsersQuery {
     /// operator: The action to perform on the operands. The accepted values are:
     ///
@@ -115,7 +115,7 @@ pub struct SearchUsersQuery {
     pub operands: std::vec::Vec<serde_json::Value>,
 }
 /// TOTP:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TOTP {
     /// totp_id: The unique ID for a TOTP instance.
     pub totp_id: String,
@@ -124,7 +124,7 @@ pub struct TOTP {
     pub verified: bool,
 }
 /// User:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct User {
     /// user_id: The unique ID of the affected User.
     pub user_id: String,
@@ -172,7 +172,7 @@ pub struct User {
     pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// UserConnectedApp:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UserConnectedApp {
     /// connected_app_id: The ID of the Connected App.
     pub connected_app_id: String,
@@ -189,7 +189,7 @@ pub struct UserConnectedApp {
     pub logo_url: std::option::Option<String>,
 }
 /// WebAuthnRegistration:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct WebAuthnRegistration {
     /// webauthn_registration_id: The unique ID for the Passkey or WebAuthn registration.
     pub webauthn_registration_id: String,
@@ -357,6 +357,18 @@ pub struct DeleteEmailResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteExternalIdRequest {
+    pub user_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteExternalIdResponse {
+    pub request_id: String,
+    pub user_id: String,
+    pub user: User,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -940,6 +952,24 @@ impl Users {
         )
         .to_string();
         let path = format!("/v1/users/oauth/{oauth_user_registration_id}");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
+            })
+            .await
+    }
+    pub async fn delete_external_id(
+        &self,
+        body: DeleteExternalIdRequest,
+    ) -> crate::Result<DeleteExternalIdResponse> {
+        let user_id = percent_encoding::utf8_percent_encode(
+            &body.user_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/users/{user_id}/external_id");
         self.http_client
             .send(crate::Request {
                 method: http::Method::DELETE,
