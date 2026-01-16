@@ -10,7 +10,7 @@ use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
 
 /// TOTP:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TOTP {
     /// totp_id: The unique ID for a TOTP instance.
     pub totp_id: String,

@@ -8,7 +8,7 @@ use crate::consumer::connected_apps_clients::Clients;
 use serde::{Deserialize, Serialize};
 
 /// ConnectedAppClient:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectedAppClient {
     /// client_id: The ID of the Connected App client.
     pub client_id: String,
@@ -43,7 +43,7 @@ pub struct ConnectedAppClient {
     pub logo_url: std::option::Option<String>,
     pub client_id_metadata_url: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectedAppPublic {
     pub client_id: String,
     pub client_name: String,
@@ -52,7 +52,7 @@ pub struct ConnectedAppPublic {
     pub logo_url: std::option::Option<String>,
 }
 /// ConnectedAppWithClientSecret:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectedAppWithClientSecret {
     /// client_id: The ID of the Connected App client.
     pub client_id: String,
@@ -89,7 +89,7 @@ pub struct ConnectedAppWithClientSecret {
     pub client_id_metadata_url: std::option::Option<String>,
 }
 /// ConnectedAppWithNextClientSecret:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectedAppWithNextClientSecret {
     /// client_id: The ID of the Connected App client.
     pub client_id: String,
@@ -125,7 +125,7 @@ pub struct ConnectedAppWithNextClientSecret {
     pub client_id_metadata_url: std::option::Option<String>,
 }
 /// ResultsMetadata:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ResultsMetadata {
     /// total: The total number of results returned by your search query. If totals have been disabled for your
     /// Stytch Workspace to improve search performance, the value will always be -1.

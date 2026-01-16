@@ -23,7 +23,7 @@ use crate::consumer::passwords::ScryptConfig;
 use serde::{Deserialize, Serialize};
 
 /// LudsFeedback:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LudsFeedback {
     /// has_lower_case: For LUDS validation, whether the password contains at least one lowercase letter.
     pub has_lower_case: bool,
@@ -44,7 +44,7 @@ pub struct LudsFeedback {
     pub missing_characters: i32,
 }
 /// ZxcvbnFeedback:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ZxcvbnFeedback {
     /// warning: For zxcvbn validation, contains an end user consumable warning if the password is valid but not
     /// strong enough.

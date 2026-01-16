@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
 /// AuthorizationCheck:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthorizationCheck {
     /// organization_id: Globally unique UUID that identifies a specific Organization. The Organization's ID
     /// must match the Member's Organization
@@ -41,7 +41,7 @@ pub struct AuthorizationCheck {
     pub action: String,
 }
 /// AuthorizationVerdict:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthorizationVerdict {
     /// authorized: Whether the Member was authorized to perform the specified action on the specified Resource.
     /// Always true if the request succeeds.
@@ -51,7 +51,7 @@ pub struct AuthorizationVerdict {
     pub granting_roles: std::vec::Vec<String>,
 }
 /// MemberSession:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MemberSession {
     /// member_session_id: Globally unique UUID that identifies a specific Session.
     pub member_session_id: String,
@@ -82,7 +82,7 @@ pub struct MemberSession {
     pub custom_claims: std::option::Option<serde_json::Value>,
 }
 /// PrimaryRequired:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PrimaryRequired {
     /// allowed_auth_methods: Details the auth method that the member must also complete to fulfill the primary
     /// authentication requirements of the Organization. For example, a value of `[magic_link]` indicates that

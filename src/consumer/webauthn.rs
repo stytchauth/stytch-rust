@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
 /// WebAuthnCredential:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct WebAuthnCredential {
     /// credential_id: The unique, public ID of the WebAuthn credential.
     pub credential_id: String,

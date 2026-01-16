@@ -11,20 +11,20 @@ use percent_encoding;
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AmazonOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AppleOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// AuthenticationFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticationFactor {
     /// type_: The type of authentication factor. The possible values are: `email_otp`, `impersonated`,
     /// `imported`,
@@ -137,13 +137,13 @@ pub struct AuthenticationFactor {
     pub trusted_auth_token_factor: std::option::Option<TrustedAuthTokenFactor>,
 }
 /// AuthenticatorAppFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthenticatorAppFactor {
     /// totp_id: Globally unique UUID that identifies a TOTP instance.
     pub totp_id: String,
 }
 /// AuthorizationCheck:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthorizationCheck {
     /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
     /// human-readable.
@@ -156,7 +156,7 @@ pub struct AuthorizationCheck {
     pub action: String,
 }
 /// AuthorizationVerdict:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct AuthorizationVerdict {
     /// authorized: Whether the User was authorized to perform the specified action on the specified Resource.
     /// Always true if the request succeeds.
@@ -165,72 +165,72 @@ pub struct AuthorizationVerdict {
     /// on the specified Resource.
     pub granting_roles: std::vec::Vec<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct BiometricFactor {
     pub biometric_registration_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct BitbucketOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CoinbaseOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CryptoWalletFactor {
     pub crypto_wallet_id: String,
     pub crypto_wallet_address: String,
     pub crypto_wallet_type: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct DiscordOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// EmailFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EmailFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
     /// email_address: The email address of the Member.
     pub email_address: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EmbeddableMagicLinkFactor {
     pub embedded_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct FacebookOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct FigmaOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GitLabOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// GithubOAuthExchangeFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GithubOAuthExchangeFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
 /// GithubOAuthFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GithubOAuthFactor {
     /// id: The unique ID of an OAuth registration.
     pub id: String,
@@ -241,13 +241,13 @@ pub struct GithubOAuthFactor {
     pub email_id: std::option::Option<String>,
 }
 /// GoogleOAuthExchangeFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GoogleOAuthExchangeFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
 /// GoogleOAuthFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GoogleOAuthFactor {
     /// id: The unique ID of an OAuth registration.
     pub id: String,
@@ -258,13 +258,13 @@ pub struct GoogleOAuthFactor {
     pub email_id: std::option::Option<String>,
 }
 /// HubspotOAuthExchangeFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct HubspotOAuthExchangeFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
 /// HubspotOAuthFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct HubspotOAuthFactor {
     /// id: The unique ID of an OAuth registration.
     pub id: String,
@@ -275,7 +275,7 @@ pub struct HubspotOAuthFactor {
     pub email_id: std::option::Option<String>,
 }
 /// ImpersonatedFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ImpersonatedFactor {
     /// impersonator_id: For impersonated sessions initiated via the Stytch Dashboard, the `impersonator_id`
     /// will be the impersonator's Stytch Dashboard `member_id`.
@@ -283,14 +283,14 @@ pub struct ImpersonatedFactor {
     /// impersonator_email_address: The email address of the impersonator.
     pub impersonator_email_address: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct InstagramOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 #[allow(non_snake_case)]
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct JWK {
     pub kty: String,
     #[serde(rename = "use")]
@@ -303,14 +303,14 @@ pub struct JWK {
     pub n: String,
     pub e: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct LinkedInOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// MicrosoftOAuthFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct MicrosoftOAuthFactor {
     /// id: The unique ID of an OAuth registration.
     pub id: String,
@@ -321,13 +321,13 @@ pub struct MicrosoftOAuthFactor {
     pub email_id: std::option::Option<String>,
 }
 /// OAuthAccessTokenExchangeFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OAuthAccessTokenExchangeFactor {
     /// client_id: The ID of the Connected App client.
     pub client_id: String,
 }
 /// OIDCSSOFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OIDCSSOFactor {
     /// id: The unique ID of an SSO Registration.
     pub id: String,
@@ -337,19 +337,19 @@ pub struct OIDCSSOFactor {
     pub external_id: String,
 }
 /// PhoneNumberFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PhoneNumberFactor {
     /// phone_id: The globally unique UUID of the Member's phone number.
     pub phone_id: String,
     /// phone_number: The phone number of the Member.
     pub phone_number: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RecoveryCodeFactor {
     pub totp_recovery_code_id: String,
 }
 /// SAMLSSOFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLSSOFactor {
     /// id: The unique ID of an SSO Registration.
     pub id: String,
@@ -358,14 +358,14 @@ pub struct SAMLSSOFactor {
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SalesforceOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// Session:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Session {
     /// session_id: A unique identifier for a specific Session.
     pub session_id: String,
@@ -389,20 +389,20 @@ pub struct Session {
     /// authenticate call.
     pub custom_claims: std::option::Option<serde_json::Value>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ShopifyOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// SlackOAuthExchangeFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SlackOAuthExchangeFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: String,
 }
 /// SlackOAuthFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SlackOAuthFactor {
     /// id: The unique ID of an OAuth registration.
     pub id: String,
@@ -412,55 +412,55 @@ pub struct SlackOAuthFactor {
     /// email_id: The globally unique UUID of the Member's email.
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SnapchatOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SpotifyOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SteamOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TikTokOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
 /// TrustedAuthTokenFactor:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TrustedAuthTokenFactor {
     /// token_id: The ID of the trusted auth token.
     pub token_id: String,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TwitchOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct TwitterOAuthFactor {
     pub id: String,
     pub provider_subject: String,
     pub email_id: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct WebAuthnFactor {
     pub webauthn_registration_id: String,
     pub domain: String,
     pub user_agent: std::option::Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct YahooOAuthFactor {
     pub id: String,
     pub provider_subject: String,

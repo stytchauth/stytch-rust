@@ -8,7 +8,7 @@ use crate::consumer::idp_oauth::OAuth;
 use serde::{Deserialize, Serialize};
 
 /// ScopeResult:
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ScopeResult {
     /// scope: The name of the scope.
     pub scope: String,
