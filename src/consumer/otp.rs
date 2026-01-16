@@ -9,7 +9,7 @@ use crate::consumer::device_history::DeviceInfo;
 use crate::consumer::magic_links::Options;
 use crate::consumer::otp_email::Email;
 use crate::consumer::otp_sms::Sms;
-use crate::consumer::otp_whatsapp::Whatsapp;
+use crate::consumer::otp_whatsapp::WhatsApp;
 use crate::consumer::sessions::Session;
 use crate::consumer::users::User;
 use serde::{Deserialize, Serialize};
@@ -99,7 +99,7 @@ pub struct AuthenticateResponse {
 pub struct OTPs {
     http_client: crate::client::Client,
     pub sms: Sms,
-    pub whatsapp: Whatsapp,
+    pub whatsapp: WhatsApp,
     pub email: Email,
 }
 
@@ -108,7 +108,7 @@ impl OTPs {
         Self {
             http_client: http_client.clone(),
             sms: Sms::new(http_client.clone()),
-            whatsapp: Whatsapp::new(http_client.clone()),
+            whatsapp: WhatsApp::new(http_client.clone()),
             email: Email::new(http_client.clone()),
         }
     }

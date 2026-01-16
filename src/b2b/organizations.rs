@@ -29,6 +29,17 @@ pub struct ActiveSSOConnection {
     pub display_name: String,
     pub identity_provider: String,
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CustomRole {
+    pub role_id: String,
+    pub description: String,
+    pub permissions: std::vec::Vec<CustomRolePermission>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CustomRolePermission {
+    pub resource_id: String,
+    pub actions: std::vec::Vec<String>,
+}
 /// EmailImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmailImplicitRoleAssignment {
@@ -489,6 +500,7 @@ pub struct Organization {
     /// Organization. Only used when the Organization's `third_party_connected_apps_allowed_type` is
     /// `RESTRICTED`.
     pub allowed_third_party_connected_apps: std::vec::Vec<String>,
+    pub custom_roles: std::vec::Vec<CustomRole>,
     /// trusted_metadata: An arbitrary JSON object for storing application-specific data or
     /// identity-provider-specific data.
     pub trusted_metadata: std::option::Option<serde_json::Value>,
@@ -793,6 +805,17 @@ pub struct CreateResponse {
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
+    #[serde(with = "http_serde::status_code")]
+    pub status_code: http::StatusCode,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DeleteExternalIdRequest {
+    pub organization_id: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct DeleteExternalIdResponse {
+    pub request_id: String,
+    pub organization: Organization,
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
 }
@@ -1358,6 +1381,24 @@ impl Organizations {
                 method: http::Method::GET,
                 path,
                 body: serde_json::json!({}),
+            })
+            .await
+    }
+    pub async fn delete_external_id(
+        &self,
+        body: DeleteExternalIdRequest,
+    ) -> crate::Result<DeleteExternalIdResponse> {
+        let organization_id = percent_encoding::utf8_percent_encode(
+            &body.organization_id,
+            percent_encoding::NON_ALPHANUMERIC,
+        )
+        .to_string();
+        let path = format!("/v1/b2b/organizations/{organization_id}/external_id");
+        self.http_client
+            .send(crate::Request {
+                method: http::Method::DELETE,
+                path,
+                body,
             })
             .await
     }
