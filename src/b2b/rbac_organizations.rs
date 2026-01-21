@@ -24,27 +24,44 @@ pub struct GetOrgPolicyResponse {
     /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
     /// debug an issue.
     pub request_id: String,
+    /// org_policy: The organization-specific RBAC Policy that contains roles defined for this organization.
+    /// Organization policies supplement the project-level RBAC policy with additional roles that are specific
+    /// to the organization.
+    pub org_policy: OrgPolicy,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
     /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+}
+/// SetOrgPolicyRequest: Request type for `Organizations.set_org_policy`.
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct SetOrgPolicyRequest {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
+    pub organization_id: String,
     /// org_policy: The organization-specific RBAC Policy that contains roles defined for this organization.
     /// Organization policies supplement the project-level RBAC policy with additional roles that are specific
     /// to the organization.
-    pub org_policy: std::option::Option<OrgPolicy>,
+    pub org_policy: OrgPolicy,
 }
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct SetOrgPolicyRequest {
-    pub organization_id: String,
-    pub org_policy: std::option::Option<OrgPolicy>,
-}
+/// SetOrgPolicyResponse: Response type for `Organizations.set_org_policy`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SetOrgPolicyResponse {
+    /// request_id: Globally unique UUID that is returned with every API call. This value is important to log
+    /// for debugging purposes; we may ask for this value to help identify a specific API call when helping you
+    /// debug an issue.
     pub request_id: String,
+    /// org_policy: The organization-specific RBAC Policy that contains roles defined for this organization.
+    /// Organization policies supplement the project-level RBAC policy with additional roles that are specific
+    /// to the organization.
+    pub org_policy: OrgPolicy,
+    /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
+    /// patterns, e.g. 2XX values equate to success, 3XX values are redirects, 4XX are client errors, and 5XX
+    /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    pub org_policy: std::option::Option<OrgPolicy>,
 }
 
 pub struct Organizations {
