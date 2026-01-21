@@ -4,6 +4,7 @@
 // or your changes may be overwritten later!
 // !!!
 
+use crate::consumer::fraud_email::Email;
 use crate::consumer::fraud_fingerprint::Fingerprint;
 use crate::consumer::fraud_rules::Rules;
 use crate::consumer::fraud_verdict_reasons::VerdictReasons;
@@ -19,11 +20,36 @@ pub struct ASNProperties {
     /// network: The CIDR block associated with the ASN.
     pub network: String,
 }
+/// AddressInformation:
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct AddressInformation {
+    /// has_known_bounces: Whether email sent to this address is known to have bounced previously.
+    pub has_known_bounces: bool,
+    /// has_valid_syntax: Whether this email address is valid.
+    pub has_valid_syntax: bool,
+    /// is_suspected_role_address: Whether the local part of the email appears to be a role or group, rather
+    /// than an individual end user.
+    pub is_suspected_role_address: bool,
+    /// normalized_email: The normalized email address after removing '.' characters and any characters after a
+    /// '+'.
+    pub normalized_email: String,
+    /// tumbling_character_count: The number of '.' and '+' characters in the email address. A higher tumbling
+    /// count indicates a higher potential for fraud.
+    pub tumbling_character_count: i32,
+}
 /// BrowserProperties:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct BrowserProperties {
     /// user_agent: The user agent of the user's browser.
     pub user_agent: String,
+}
+/// DomainInformation:
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct DomainInformation {
+    /// has_mx_or_a_record: Whether the email has appropriate DNS records to deliver a message.
+    pub has_mx_or_a_record: bool,
+    /// is_disposable_domain: Whether the email domain is known to be disposable.
+    pub is_disposable_domain: bool,
 }
 /// Fingerprints:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -249,6 +275,7 @@ pub struct Fraud {
     pub fingerprint: Fingerprint,
     pub rules: Rules,
     pub verdict_reasons: VerdictReasons,
+    pub email: Email,
 }
 
 impl Fraud {
@@ -257,6 +284,7 @@ impl Fraud {
             fingerprint: Fingerprint::new(http_client.clone()),
             rules: Rules::new(http_client.clone()),
             verdict_reasons: VerdictReasons::new(http_client.clone()),
+            email: Email::new(http_client.clone()),
         }
     }
 }

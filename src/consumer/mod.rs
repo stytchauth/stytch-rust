@@ -8,6 +8,7 @@ pub mod crypto_wallets;
 pub mod debug;
 pub mod device_history;
 pub mod fraud;
+pub mod fraud_email;
 pub mod fraud_fingerprint;
 pub mod fraud_rules;
 pub mod fraud_verdict_reasons;
