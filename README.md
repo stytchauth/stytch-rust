@@ -11,7 +11,7 @@ The minimum supported Rust version (MSRV) of this library is Rust 1.70.
 Use `cargo add stytch` to add this to your `Cargo.toml`:
 
 ```toml
-stytch = "10.0"
+stytch = "10.2"
 ```
 
 ## Usage
@@ -164,10 +164,20 @@ The library supports different TLS backends for HTTPS connections:
 To use native-tls instead of the default:
 
 ```toml
-stytch = { version = "10.0", default-features = false, features = ["native-tls"] }
+stytch = { version = "10.2", default-features = false, features = ["native-tls"] }
 ```
 
 **Note:** The default TLS backend changed from `native-tls` to `rustls` in version 10.0. See the migration guide below if upgrading from v9.x.
+
+For situations where the system doesn't include CA root certificates (Docker images like Alpine, Debian-slim, etc.) and
+your application is updated frequently you can use the `webpki-root-certs` feature to add the Mozilla trusted root
+certificates to the client instead of adding system root certificates if desired.
+
+To use this feature simply include `stytch` to following way:
+
+```toml
+stytch = { version = "10.2", features = ["webpki-root-certs"] }
+```
 
 ## Migrating from v9.x to v10.0
 

@@ -31,8 +31,10 @@ tokio = { version = "1", features = [
 ], default-features = false }
 tracing = "0.1.35"
 url = "2.2.2"
+webpki-root-certs = { version = "1.0.5", optional = true }
 
 [features]
 default = ["rustls"]
 rustls = ["reqwest/rustls"]
 native-tls = ["reqwest/native-tls"]
+webpki-root-certs = ["rustls", "dep:webpki-root-certs"]

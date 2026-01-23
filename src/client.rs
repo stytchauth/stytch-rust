@@ -55,7 +55,7 @@ impl Client {
     }
 
     pub fn new_fraud(project_id: &str, secret: &str) -> crate::Result<Self> {
-        let base_url = reqwest::Url::parse("https://telemetry.stytch.com").unwrap();
+        let base_url = reqwest::Url::parse("https://telemetry.stytch.com")?;
         Client::new_with_base_url(project_id, secret, base_url, Vertical::Consumer)
     }
 
@@ -72,10 +72,25 @@ impl Client {
 
         headers.insert(http::header::AUTHORIZATION, basic_auth);
 
-        let client = reqwest::Client::builder()
+        #[allow(unused_mut)]
+        let mut client_builder = reqwest::Client::builder()
             .user_agent(concat!("stytch-rust ", env!("CARGO_PKG_VERSION")))
-            .default_headers(headers)
-            .build()?;
+            .default_headers(headers);
+
+        #[cfg(feature = "webpki-root-certs")]
+        {
+            // Add webpki root certificates (in addition to the ones provided by the system). Useful
+            // when an app runs on bare-bones systems like Docker images based on Alpine or
+            // Debian-slim for example. To stay secure such an app must be frequently updated.
+            client_builder = client_builder.tls_certs_merge(
+                webpki_root_certs::TLS_SERVER_ROOT_CERTS.iter().map(|c| {
+                    reqwest::Certificate::from_der(c)
+                        .expect("webpki root certs should parse correctly")
+                }),
+            );
+        }
+
+        let client = client_builder.build()?;
 
         let jwks_url = match vertical {
             Vertical::Consumer => format!("/v1/sessions/jwks/{project_id}"),
