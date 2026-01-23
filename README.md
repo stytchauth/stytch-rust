@@ -11,7 +11,7 @@ The minimum supported Rust version (MSRV) of this library is Rust 1.70.
 Use `cargo add stytch` to add this to your `Cargo.toml`:
 
 ```toml
-stytch = "10.0"
+stytch = "10.3"
 ```
 
 ## Usage
@@ -164,16 +164,27 @@ The library supports different TLS backends for HTTPS connections:
 To use native-tls instead of the default:
 
 ```toml
-stytch = { version = "10.0", default-features = false, features = ["native-tls"] }
+stytch = { version = "10.3", default-features = false, features = ["native-tls"] }
 ```
 
 **Note:** The default TLS backend changed from `native-tls` to `rustls` in version 10.0. See the migration guide below if upgrading from v9.x.
+
+For situations where the system doesn't include CA root certificates (Docker images like Alpine, Debian-slim, etc.) and
+your application is updated frequently you can use the `webpki-root-certs` feature to add the Mozilla trusted root
+certificates to the client instead of adding system root certificates if desired.
+
+To use this feature simply include `stytch` to following way:
+
+```toml
+stytch = { version = "10.3", features = ["webpki-root-certs"] }
+```
 
 ## Migrating from v9.x to v10.0
 
 ### Breaking Changes
 
 **1. Default TLS backend changed**
+
 - **Previous default:** `native-tls` (platform TLS)
 - **New default:** `rustls` (pure Rust TLS with aws-lc)
 - **Migration:** If you need to keep using native-tls, specify it explicitly:
@@ -182,9 +193,11 @@ stytch = { version = "10.0", default-features = false, features = ["native-tls"]
   ```
 
 **2. Feature flags renamed**
+
 - `reqwest-native-tls` → `native-tls`
 - `reqwest-rustls-tls` → `rustls`
 - **Migration:** Update your Cargo.toml feature names:
+
   ```toml
   # Before (v9.x)
   stytch = { version = "9.4", features = ["reqwest-rustls-tls"] }
@@ -195,6 +208,7 @@ stytch = { version = "10.0", default-features = false, features = ["native-tls"]
   ```
 
 **3. Crypto providers updated**
+
 - Both JWT verification and HTTPS connections now use aws-lc-rs instead of ring
 - **No code changes required** - this is internal to the library
 
