@@ -38,9 +38,7 @@ pub struct CreateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SAML Connection` object affected by this API call. See the
-    /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-    /// field details.
+    /// connection: The [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object)
     pub connection: std::option::Option<SAMLConnection>,
 }
 /// DeleteEncryptionPrivateKeyRequest: Request type for `SAML.delete_encryption_private_key`.
@@ -120,9 +118,7 @@ pub struct UpdateByURLResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SAML Connection` object affected by this API call. See the
-    /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-    /// field details.
+    /// connection: The [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object)
     pub connection: std::option::Option<SAMLConnection>,
 }
 /// UpdateConnectionRequest: Request type for `SAML.update_connection`.
@@ -210,9 +206,7 @@ pub struct UpdateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SAML Connection` object affected by this API call. See the
-    /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-    /// field details.
+    /// connection: The [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object)
     pub connection: std::option::Option<SAMLConnection>,
 }
 

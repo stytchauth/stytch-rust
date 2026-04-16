@@ -287,6 +287,8 @@ pub struct CreateResponse {
     pub session_jwt: String,
     /// member: The [Member object](https://stytch.com/docs/b2b/api/member-object)
     pub member: Member,
+    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
+    pub organization: Organization,
     /// member_authenticated: Indicates whether the Member is fully authenticated. If false, the Member needs to
     /// complete an MFA step to log in to the Organization.
     pub member_authenticated: bool,
@@ -310,8 +312,6 @@ pub struct CreateResponse {
     pub status_code: http::StatusCode,
     /// member_session: The [Session object](https://stytch.com/docs/b2b/api/session-object).
     pub member_session: std::option::Option<MemberSession>,
-    /// organization: The [Organization object](https://stytch.com/docs/b2b/api/organization-object).
-    pub organization: std::option::Option<Organization>,
     /// mfa_required: Information about the MFA requirements of the Organization and the Member's options for
     /// fulfilling MFA.
     pub mfa_required: std::option::Option<MfaRequired>,

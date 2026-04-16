@@ -22,11 +22,11 @@ pub struct SendRequest {
     /// request starts and ends on the same device.
     pub pkce_code_challenge: std::option::Option<String>,
     /// login_template_id: Use a custom template for discovery emails. By default, it will use your default
-    /// email template. The template must be from Stytch's
-    /// built-in customizations or a custom HTML email for Magic Links - Login.
+    /// email template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates)
+    /// using our built-in customization options or custom HTML templates with type “Magic Links - Login”.
     pub login_template_id: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.

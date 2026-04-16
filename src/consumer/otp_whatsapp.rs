@@ -28,7 +28,7 @@ pub struct LoginOrCreateRequest {
     /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
@@ -72,7 +72,7 @@ pub struct SendRequest {
     /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.

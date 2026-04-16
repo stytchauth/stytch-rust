@@ -21,6 +21,7 @@ pub struct Policy {
     pub roles: std::vec::Vec<PolicyRole>,
     /// resources: An array of [Resource objects](https://stytch.com/docs/b2b/api/rbac-resource-object).
     pub resources: std::vec::Vec<PolicyResource>,
+    /// scopes: An array of [Scope objects](https://stytch.com/docs/b2b/api/rbac-scope-object).
     pub scopes: std::vec::Vec<PolicyScope>,
 }
 /// PolicyResource:
@@ -135,15 +136,40 @@ pub struct PolicyRolePermission {
     /// use `*` as a wildcard to require a Scope permission to use all possible actions related to the Resource.
     pub actions: std::vec::Vec<String>,
 }
+/// PolicyScope:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyScope {
+    /// scope: The unique identifier of the RBAC Scope, provided by the developer and intended to be
+    /// human-readable.
     pub scope: String,
+    /// description: The description of the RBAC Scope.
     pub description: String,
+    /// permissions: A list of permissions that link a
+    /// [Resource](https://stytch.com/docs/b2b/api/rbac-resource-object) to a list of actions.
     pub permissions: std::vec::Vec<PolicyScopePermission>,
 }
+/// PolicyScopePermission:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct PolicyScopePermission {
+    /// resource_id: A unique identifier of the RBAC Resource, provided by the developer and intended to be
+    /// human-readable.
+    ///
+    ///   A `resource_id` is not allowed to start with `stytch`, which is a special prefix used for Stytch
+    /// default Resources with reserved `resource_id`s. These include:
+    ///
+    ///   * `stytch.organization`
+    ///   * `stytch.member`
+    ///   * `stytch.sso`
+    ///   * `stytch.self`
+    ///
+    ///   Check out the
+    /// [guide on Stytch default Resources](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for a more
+    /// detailed explanation.
+    ///
+    ///
     pub resource_id: String,
+    /// actions: A list of permitted actions the Scope is required to take with the provided Resource. You can
+    /// use `*` as a wildcard to require a Scope permission to use all possible actions related to the Resource.
     pub actions: std::vec::Vec<String>,
 }
 /// PolicyRequest: Request type for `RBAC.policy`.

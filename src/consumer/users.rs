@@ -146,6 +146,8 @@ pub struct User {
     /// biometric_registrations: An array that contains a list of all biometric registrations for a given User
     /// in the Stytch API.
     pub biometric_registrations: std::vec::Vec<BiometricRegistration>,
+    /// is_locked: Whether the User is temporarily locked due to too many failed authentication attempts. See
+    /// the [User Locking Guide](https://stytch.com/docs/resources/platform/user-locks) for more information.
     pub is_locked: bool,
     /// roles: Roles assigned to this User.
     ///    See the [RBAC guide](https://stytch.com/docs/guides/rbac/role-assignment) for more information about
@@ -167,8 +169,15 @@ pub struct User {
     /// **cannot be used to store critical information.** See the
     /// [Metadata](https://stytch.com/docs/api/metadata) reference for complete field behavior details.
     pub untrusted_metadata: std::option::Option<serde_json::Value>,
+    /// external_id: An identifier that can be used in most API calls where a `member_id` is expected. This is a
+    /// string consisting of alphanumeric, `.`, `_`, `-`, or `|` characters with a maximum length of 128
+    /// characters. External IDs must be unique within the project.
     pub external_id: std::option::Option<String>,
+    /// lock_created_at: When the user lock was created, if there is one. Values conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub lock_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// lock_expires_at: When the user lock expires, if there is one. Values conform to the RFC 3339 standard
+    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// UserConnectedApp:

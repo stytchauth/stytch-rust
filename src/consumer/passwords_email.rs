@@ -100,14 +100,13 @@ pub struct ResetResponse {
 pub struct ResetStartRequest {
     /// email: The email of the User that requested the password reset.
     pub email: String,
-    /// reset_password_redirect_url: The url that the user clicks from the password reset email to finish the
-    /// reset password flow.
-    ///   This should be a url that your app receives and parses before showing your app's reset password page.
-    ///   After the user submits a new password to your app, it should send an API request to complete the
-    /// password reset process.
-    ///   If this value is not passed, the default reset password redirect URL that you set in your Dashboard is
-    /// used.
-    ///   If you have not set a default reset password redirect URL, an error is returned.
+    /// reset_password_redirect_url: The URL that the User is redirected to from the reset password magic link.
+    /// This URL should display your application's reset password page.
+    ///   Before rendering the reset page, extract the `token` from the query parameters. On the reset page,
+    /// collect the new password and complete the flow by calling the corresponding Password Reset by Email
+    /// endpoint.
+    ///   If this parameter is not specified, the default Reset Password redirect URL configured in the
+    /// Dashboard will be used. If you have not set a default Reset Password redirect URL, an error is returned.
     pub reset_password_redirect_url: std::option::Option<String>,
     /// reset_password_expiration_minutes: Set the expiration for the password reset, in minutes. By default, it
     /// expires in 30 minutes.
@@ -129,7 +128,7 @@ pub struct ResetStartRequest {
     /// redirect URL will be used. If you have not set a default login redirect URL, an error will be returned.
     pub login_redirect_url: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
@@ -140,8 +139,8 @@ pub struct ResetStartRequest {
     pub locale: std::option::Option<ResetStartRequestLocale>,
     /// reset_password_template_id: Use a custom template for password reset emails. By default, it will use
     /// your default email template.
-    ///   The template must be a template using our built-in customizations or a custom HTML email for Passwords
-    /// - Password reset.
+    ///   Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using our
+    /// built-in customization options or custom HTML templates with type “Passwords - Password reset”.
     pub reset_password_template_id: std::option::Option<String>,
 }
 /// ResetStartResponse: Response type for `Email.reset_start`.

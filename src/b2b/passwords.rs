@@ -96,7 +96,7 @@ pub struct AuthenticateRequest {
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
     ///
-    /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+    /// Parameter is an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese
@@ -280,8 +280,9 @@ pub struct StrengthCheckResponse {
     /// options,
     ///   [zxcvbn](https://stytch.com/docs/guides/passwords/strength-policy) is the default option which offers
     /// a high level of sophistication.
-    ///   We also offer [LUDS](https://stytch.com/docs/b2b/guides/passwords/strength-policy). If an email
-    /// address is included in the call we also
+    ///   We also offer [LUDS](https://stytch.com/docs/b2b/guides/passwords/strength-policy) which is less
+    /// sophisticated
+    ///   but easier to understand. If an email address is included in the call we also
     ///   require that the password hasn't been compromised using built-in breach detection powered by
     /// [HaveIBeenPwned](https://haveibeenpwned.com/)
     pub valid_password: bool,
@@ -295,8 +296,8 @@ pub struct StrengthCheckResponse {
     pub strength_policy: String,
     /// breach_detection_on_create: Will return `true` if breach detection will be evaluated. By default this
     /// option is enabled.
-    ///   This option can be disabled by contacting
-    /// [support@stytch.com](mailto:support@stytch.com?subject=Password%20strength%20configuration).
+    ///   This option can be disabled in the
+    /// [dashboard](https://stytch.com/dashboard/password-strength-config#breach-detection).
     ///   If this value is false then `breached_password` will always be `false` as well.
     pub breach_detection_on_create: bool,
     /// status_code: The HTTP status code of the response. Stytch follows standard HTTP response status code
