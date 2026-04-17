@@ -36,9 +36,7 @@ pub struct CreateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SCIM Connection` object affected by this API call. See the
-    /// [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-    /// field details.
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnectionWithToken>,
 }
 /// DeleteRequest: Request type for `Connection.delete`.
@@ -118,8 +116,7 @@ pub struct GetResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: A [SCIM Connection](https://stytch.com/docs/b2b/api/scim-connection-object) connection
-    /// belonging to the organization (currently limited to one).
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnection>,
 }
 /// RotateCancelRequest: Request type for `Connection.rotate_cancel`.
@@ -144,9 +141,7 @@ pub struct RotateCancelResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SCIM Connection` object affected by this API call. See the
-    /// [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-    /// field details.
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnection>,
 }
 /// RotateCompleteRequest: Request type for `Connection.rotate_complete`.
@@ -171,9 +166,7 @@ pub struct RotateCompleteResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SCIM Connection` object affected by this API call. See the
-    /// [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-    /// field details.
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnection>,
 }
 /// RotateStartRequest: Request type for `Connection.rotate_start`.
@@ -198,9 +191,7 @@ pub struct RotateStartResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SCIM Connection` object affected by this API call. See the
-    /// [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object) for complete response
-    /// field details.
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnectionWithNextToken>,
 }
 /// UpdateRequest: Request type for `Connection.update`.
@@ -232,9 +223,7 @@ pub struct UpdateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `SAML Connection` object affected by this API call. See the
-    /// [SAML Connection Object](https://stytch.com/docs/b2b/api/saml-connection-object) for complete response
-    /// field details.
+    /// connection: The [SCIM Connection Object](https://stytch.com/docs/b2b/api/scim-connection-object).
     pub connection: std::option::Option<SCIMConnection>,
 }
 

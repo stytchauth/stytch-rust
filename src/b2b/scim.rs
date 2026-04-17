@@ -117,44 +117,117 @@ pub struct SCIMAttributes {
     pub name: std::option::Option<Name>,
     pub enterprise_extension: std::option::Option<EnterpriseExtension>,
 }
+/// SCIMConnection:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnection {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// status: The status of the connection. The possible values are deleted or active.
     pub status: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// identity_provider: Name of the IdP. Enum with possible values: `okta`, `microsoft-entra`, `cyberark`,
+    /// `jumpcloud`, `onelogin`, `pingfederate`, `rippling` or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic, such as automatically
+    /// appending `?aadOptscim062020` to the returned BaseURL for `microsoft-entra` SCIM Connections to
+    /// [enable the SCIM 2.0 compliant flag](https://learn.microsoft.com/en-us/entra/identity/app-provisioning/application-provisioning-config-problem-scim-compatibility#scim-20-compliance-issues-and-status).
     pub identity_provider: String,
+    /// base_url: The URL supplied to the Identity Provider (IdP) alongside the bearer token enabling access to
+    /// Stytch's SCIM API endpoints
     pub base_url: String,
+    /// bearer_token_last_four: The last four digits of the bearer token. If you've lost access to your
+    /// `bearer_token` and need to generate a new one, use the
+    /// [SCIM rotate token start endpoint](https://stytch.com/docs/b2b/api/scim-rotate-token-start).
     pub bearer_token_last_four: String,
+    /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
+    /// the array must contain a `group_id` and a `role_id`.
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
     pub next_bearer_token_last_four: String,
+    /// bearer_token_expires_at: The bearer token expiry time.
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// next_bearer_token_expires_at: This field is supplied only during
+    /// [token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start). The next bearer token expiry
+    /// time.
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
+/// SCIMConnectionWithNextToken:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnectionWithNextToken {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// status: The status of the connection. The possible values are deleted or active.
     pub status: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// base_url: The URL supplied to the Identity Provider (IdP) alongside the bearer token enabling access to
+    /// Stytch's SCIM API endpoints
     pub base_url: String,
+    /// identity_provider: Name of the IdP. Enum with possible values: `okta`, `microsoft-entra`, `cyberark`,
+    /// `jumpcloud`, `onelogin`, `pingfederate`, `rippling` or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic, such as automatically
+    /// appending `?aadOptscim062020` to the returned BaseURL for `microsoft-entra` SCIM Connections to
+    /// [enable the SCIM 2.0 compliant flag](https://learn.microsoft.com/en-us/entra/identity/app-provisioning/application-provisioning-config-problem-scim-compatibility#scim-20-compliance-issues-and-status).
     pub identity_provider: String,
+    /// bearer_token_last_four: The last four digits of the bearer token. If you've lost access to your
+    /// `bearer_token` and need to generate a new one, use the
+    /// [SCIM rotate token start endpoint](https://stytch.com/docs/b2b/api/scim-rotate-token-start).
     pub bearer_token_last_four: String,
+    /// next_bearer_token: This field is supplied only during
+    /// [token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start). This token should be used as
+    /// the new bearer token for the SCIM connection after token rotation has been completed using the
+    /// [SCIM rotate token complete endpoint](https://stytch.com/docs/b2b/api/scim-rotate-token-complete).
     pub next_bearer_token: String,
+    /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
+    /// the array must contain a `group_id` and a `role_id`.
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
+    /// bearer_token_expires_at: The bearer token expiry time.
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// next_bearer_token_expires_at: This field is supplied only during
+    /// [token rotation](https://stytch.com/docs/b2b/api/scim-rotate-token-start). The next bearer token expiry
+    /// time.
     pub next_bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
+/// SCIMConnectionWithToken:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMConnectionWithToken {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
+    /// status: The status of the connection. The possible values are deleted or active.
     pub status: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// identity_provider: Name of the IdP. Enum with possible values: `okta`, `microsoft-entra`, `cyberark`,
+    /// `jumpcloud`, `onelogin`, `pingfederate`, `rippling` or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic, such as automatically
+    /// appending `?aadOptscim062020` to the returned BaseURL for `microsoft-entra` SCIM Connections to
+    /// [enable the SCIM 2.0 compliant flag](https://learn.microsoft.com/en-us/entra/identity/app-provisioning/application-provisioning-config-problem-scim-compatibility#scim-20-compliance-issues-and-status).
     pub identity_provider: String,
+    /// base_url: The URL supplied to the Identity Provider (IdP) alongside the bearer token enabling access to
+    /// Stytch's SCIM API endpoints
     pub base_url: String,
+    /// bearer_token: The token supplied to the Identity Provider (IdP) alongside the base URL that grants
+    /// access to Stytch's SCIM API endpoints. It should be included in HTTP authorization headers. This field
+    /// is supplied only on creation of the SCIM connection.
     pub bearer_token: String,
+    /// scim_group_implicit_role_assignments: An array of SCIM group implicit role assignments. Each object in
+    /// the array must contain a `group_id` and a `role_id`.
     pub scim_group_implicit_role_assignments: std::vec::Vec<SCIMGroupImplicitRoleAssignments>,
+    /// bearer_token_expires_at: The bearer token expiry time.
     pub bearer_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// SCIMGroup:
@@ -172,9 +245,12 @@ pub struct SCIMGroup {
     /// connection_id: The ID of the SCIM connection.
     pub connection_id: String,
 }
+/// SCIMGroupImplicitRoleAssignments:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SCIMGroupImplicitRoleAssignments {
+    /// role_id: The ID of the role.
     pub role_id: String,
+    /// group_id: The ID of the group.
     pub group_id: String,
     pub group_name: String,
 }

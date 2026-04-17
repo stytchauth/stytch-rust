@@ -36,9 +36,7 @@ pub struct CreateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `OIDC Connection` object affected by this API call. See the
-    /// [OIDC Connection Object](https://stytch.com/docs/b2b/api/oidc-connection-object) for complete response
-    /// field details.
+    /// connection: The [OIDC Connection Object](https://stytch.com/docs/b2b/api/oidc-connection-object).
     pub connection: std::option::Option<OIDCConnection>,
 }
 /// UpdateConnectionRequest: Request type for `OIDC.update_connection`.
@@ -99,9 +97,7 @@ pub struct UpdateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `OIDC Connection` object affected by this API call. See the
-    /// [OIDC Connection Object](https://stytch.com/docs/b2b/api/oidc-connection-object) for complete response
-    /// field details.
+    /// connection: The [OIDC Connection Object](https://stytch.com/docs/b2b/api/oidc-connection-object).
     pub connection: std::option::Option<OIDCConnection>,
     /// warning: If it is not possible to resolve the well-known metadata document from the OIDC issuer, this
     /// field will explain what went wrong if the request is successful otherwise. In other words, even if the

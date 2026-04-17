@@ -66,11 +66,11 @@ pub struct SendRequest {
     /// email_address: The email address to start the discovery flow for.
     pub email_address: String,
     /// login_template_id: Use a custom template for login emails. By default, it will use your default email
-    /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// OTP - Login.
+    /// template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using
+    /// our built-in customization options or custom HTML templates with type “OTP - Login”.
     pub login_template_id: std::option::Option<String>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.

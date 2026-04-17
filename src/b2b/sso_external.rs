@@ -44,9 +44,7 @@ pub struct CreateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `External Connection` object affected by this API call. See the
-    /// [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object) for complete
-    /// response field details.
+    /// connection: The [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object).
     pub connection: std::option::Option<Connection>,
 }
 /// UpdateConnectionRequest: Request type for `External.update_connection`.
@@ -92,9 +90,7 @@ pub struct UpdateConnectionResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
-    /// connection: The `External Connection` object affected by this API call. See the
-    /// [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object) for complete
-    /// response field details.
+    /// connection: The [External Connection Object](https://stytch.com/docs/b2b/api/external-connection-object).
     pub connection: std::option::Option<Connection>,
 }
 

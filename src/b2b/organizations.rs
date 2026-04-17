@@ -144,6 +144,7 @@ pub struct Member {
     /// [discovery flow](https://stytch.com/docs/b2b/api/create-organization-via-discovery). See the
     ///   [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/stytch-default) for more details on this Role.
     pub is_admin: bool,
+    /// totp_registration_id: Globally unique UUID that identifies a TOTP instance.
     pub totp_registration_id: String,
     /// retired_email_addresses:
     ///   A list of retired email addresses for this member.
@@ -160,6 +161,8 @@ pub struct Member {
     ///   using the [Unlink Retired Email endpoint](https://stytch.com/docs/b2b/api/unlink-retired-member-email).
     ///
     pub retired_email_addresses: std::vec::Vec<RetiredEmail>,
+    /// is_locked: Whether the Member is temporarily locked due to too many failed authentication attempts. See
+    /// the [User Locking Guide](https://stytch.com/docs/resources/platform/user-locks) for more information.
     pub is_locked: bool,
     /// mfa_enrolled: Sets whether the Member is enrolled in MFA. If true, the Member must complete an MFA step
     /// whenever they wish to log in to their Organization. If false, the Member only needs to complete an MFA
@@ -168,6 +171,9 @@ pub struct Member {
     /// mfa_phone_number: The Member's phone number. A Member may only have one phone number. The phone number
     /// should be in E.164 format (i.e. +1XXXXXXXXXX).
     pub mfa_phone_number: String,
+    /// default_mfa_method: The Member's default MFA method. This value is used to determine which secondary MFA
+    /// method to use in the case of multiple methods registered for a Member. The current possible values are
+    /// `sms_otp` and `totp`.
     pub default_mfa_method: String,
     /// roles: Explicit or implicit Roles assigned to this Member, along with details about the role assignment
     /// source.
@@ -195,7 +201,11 @@ pub struct Member {
     pub scim_registration: std::option::Option<SCIMRegistration>,
     /// external_id: The ID of the member given by the identity provider.
     pub external_id: std::option::Option<String>,
+    /// lock_created_at: When the member lock was created, if there is one. Values conform to the RFC 3339
+    /// standard and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub lock_created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// lock_expires_at: When the member lock expires, if there is one. Values conform to the RFC 3339 standard
+    /// and are expressed in UTC, e.g. `2021-12-29T12:33:09Z`.
     pub lock_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// MemberConnectedApp:
@@ -437,6 +447,16 @@ pub struct Organization {
     /// `microsoft_oauth`, `slack_oauth`, `github_oauth`, and `hubspot_oauth`.
     ///
     pub allowed_auth_methods: std::vec::Vec<String>,
+    /// mfa_policy: The setting that controls the MFA policy for all Members in the Organization. The accepted
+    /// values are:
+    ///
+    ///   `REQUIRED_FOR_ALL` – All Members within the Organization will be required to complete MFA every time
+    /// they wish to log in. However, any active Session that existed prior to this setting change will remain
+    /// valid.
+    ///
+    ///   `OPTIONAL` – The default value. The Organization does not require MFA by default for all Members.
+    /// Members will be required to complete MFA only if their `mfa_enrolled` status is set to true.
+    ///
     pub mfa_policy: String,
     /// rbac_email_implicit_role_assignments: Implicit role assignments based off of email domains.
     ///   For each domain-Role pair, all Members whose email addresses have the specified email domain will be
@@ -467,6 +487,7 @@ pub struct Organization {
     ///   `NOT_ALLOWED` – the default setting, disables JIT provisioning by OAuth Tenant.
     ///
     pub oauth_tenant_jit_provisioning: String,
+    /// claimed_email_domains: A list of email domains that are claimed by the Organization.
     pub claimed_email_domains: std::vec::Vec<String>,
     /// first_party_connected_apps_allowed_type: The authentication setting that sets the Organization's policy
     /// towards first party Connected Apps. The accepted values are:

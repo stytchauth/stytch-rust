@@ -17,20 +17,55 @@ use percent_encoding;
 use serde::{Deserialize, Serialize};
 use serde_urlencoded;
 
+/// Connection:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Connection {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: Globally unique UUID that identifies a specific External SSO Connection.
     pub connection_id: String,
+    /// external_organization_id: Globally unique UUID that identifies a different Organization within your
+    /// Project.
     pub external_organization_id: String,
+    /// external_connection_id: Globally unique UUID that identifies a specific SSO connection configured for a
+    /// different Organization in your Project.
     pub external_connection_id: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// status: The status of the connection. External connections are always active.
     pub status: String,
+    /// external_connection_implicit_role_assignments: All Members who log in with this External connection will
+    /// implicitly receive the specified Roles. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment. Implicit role assignments are not supported for External connections if the underlying SSO
+    /// connection is an OIDC connection.
     pub external_connection_implicit_role_assignments:
         std::vec::Vec<ConnectionImplicitRoleAssignment>,
+    /// external_group_implicit_role_assignments: Defines the names of the groups
+    ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this external
+    /// connection and
+    ///  belongs to the specified group, they will be granted the associated Role. See the
+    ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
     pub external_group_implicit_role_assignments: std::vec::Vec<GroupImplicitRoleAssignment>,
 }
+/// ConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct ConnectionImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -44,50 +79,154 @@ pub struct GroupImplicitRoleAssignment {
     pub role_id: String,
     pub group: String,
 }
+/// OIDCConnection:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct OIDCConnection {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: Globally unique UUID that identifies a specific OIDC Connection.
     pub connection_id: String,
+    /// status: The status of the connection. The possible values are pending or active. See the
+    /// [Update OIDC Connection endpoint](https://stytch.com/docs/b2b/api/update-oidc-connection) for more
+    /// details.
     pub status: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// redirect_url: The callback URL for this OIDC connection. This value will be passed to the IdP to
+    /// redirect the Member back to Stytch after a sign-in attempt.
     pub redirect_url: String,
+    /// client_id: The OAuth2.0 client ID used to authenticate login attempts. This will be provided by the IdP.
     pub client_id: String,
+    /// client_secret: The secret belonging to the OAuth2.0 client used to authenticate login attempts. This
+    /// will be provided by the IdP.
     pub client_secret: String,
+    /// issuer: A case-sensitive `https://` URL that uniquely identifies the IdP. This will be provided by the
+    /// IdP.
     pub issuer: String,
+    /// authorization_url: The location of the URL that starts an OAuth login at the IdP. This will be provided
+    /// by the IdP.
     pub authorization_url: String,
+    /// token_url: The location of the URL that issues OAuth2.0 access tokens and OIDC ID tokens. This will be
+    /// provided by the IdP.
     pub token_url: String,
+    /// userinfo_url: The location of the IDP's
+    /// [UserInfo Endpoint](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). This will be
+    /// provided by the IdP.
     pub userinfo_url: String,
+    /// jwks_url: The location of the IdP's JSON Web Key Set, used to verify credentials issued by the IdP. This
+    /// will be provided by the IdP.
     pub jwks_url: String,
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: String,
+    /// custom_scopes: A space-separated list of custom scopes that will be requested on every SSOStart call. If
+    /// set, this value will replace the default set of OIDC scopes requested: `openid email profile`.
+    /// Additional scopes can be requested using the `custom_scopes` query parameter on individual SSOStart
+    /// calls.
     pub custom_scopes: String,
+    /// attribute_mapping: An object that represents the attributes used to identify a Member. This object will
+    /// map the IdP-defined User attributes to Stytch-specific values, which will appear on the member's Trusted
+    /// Metadata.
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
+/// SAMLConnection:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLConnection {
+    /// organization_id: Globally unique UUID that identifies a specific Organization. The `organization_id` is
+    /// critical to perform operations on an Organization, so be sure to preserve this value. You may also use
+    /// the organization_slug or organization_external_id here as a convenience.
     pub organization_id: String,
+    /// connection_id: Globally unique UUID that identifies a specific SAML Connection.
     pub connection_id: String,
+    /// status: The status of the connection. The possible values are pending or active. See the
+    /// [Update SAML Connection endpoint](https://stytch.com/docs/b2b/api/update-saml-connection) for more
+    /// details.
     pub status: String,
+    /// idp_entity_id: A globally unique name for the IdP. This will be provided by the IdP.
     pub idp_entity_id: String,
+    /// display_name: A human-readable display name for the connection.
     pub display_name: String,
+    /// idp_sso_url: The URL for which assertions for login requests will be sent. This will be provided by the
+    /// IdP.
     pub idp_sso_url: String,
+    /// acs_url: The URL of the Assertion Consumer Service. This value will be passed to the IdP to redirect the
+    /// Member back to Stytch after a sign-in attempt. Read our
+    /// [SAML Overview](https://stytch.com/docs/b2b/api/saml-overview) for more info.
     pub acs_url: String,
+    /// audience_uri: The URL of the Audience Restriction. This value will indicate that Stytch is the intended
+    /// audience of an assertion. Read our [SAML Overview](https://stytch.com/docs/b2b/api/saml-overview) for
+    /// more info.
     pub audience_uri: String,
+    /// signing_certificates: A list of X.509 certificates Stytch will use to sign its assertion requests.
+    /// Certificates should be uploaded to the IdP.
     pub signing_certificates: std::vec::Vec<X509Certificate>,
+    /// verification_certificates: A list of X.509 certificates Stytch will use to validate an assertion
+    /// callback. Certificates should be populated from the IdP.
     pub verification_certificates: std::vec::Vec<X509Certificate>,
     pub encryption_private_keys: std::vec::Vec<EncryptionPrivateKey>,
+    /// saml_connection_implicit_role_assignments: All Members who log in with this SAML connection will
+    /// implicitly receive the specified Roles. See the
+    /// [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
     pub saml_connection_implicit_role_assignments:
         std::vec::Vec<SAMLConnectionImplicitRoleAssignment>,
+    /// saml_group_implicit_role_assignments: Defines the names of the SAML groups
+    ///  that grant specific role assignments. For each group-Role pair, if a Member logs in with this SAML
+    /// connection and
+    ///  belongs to the specified SAML group, they will be granted the associated Role. See the
+    ///  [RBAC guide](https://stytch.com/docs/b2b/guides/rbac/role-assignment) for more information about role
+    /// assignment.
     pub saml_group_implicit_role_assignments: std::vec::Vec<SAMLGroupImplicitRoleAssignment>,
+    /// alternative_audience_uri: An alternative URL to use for the Audience Restriction. This value can be used
+    /// when you wish to migrate an existing SAML integration to Stytch with zero downtime. Read our
+    /// [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+    /// for more info.
     pub alternative_audience_uri: String,
+    /// identity_provider: Name of the IdP. Enum with possible values: `classlink`, `cyberark`, `duo`,
+    /// `google-workspace`, `jumpcloud`, `keycloak`, `miniorange`, `microsoft-entra`, `okta`, `onelogin`,
+    /// `pingfederate`, `rippling`, `salesforce`, `shibboleth`, or `generic`.
+    ///
+    /// Specifying a known provider allows Stytch to handle any provider-specific logic.
     pub identity_provider: String,
+    /// nameid_format: The NameID format the SAML Connection expects to use. Defaults to
+    /// `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`.
     pub nameid_format: String,
+    /// alternative_acs_url: An alternative URL to use for the `AssertionConsumerServiceURL` in SP initiated
+    /// SAML AuthNRequests. This value can be used when you wish to migrate an existing SAML integration to
+    /// Stytch with zero downtime. Note that you will be responsible for proxying requests sent to the
+    /// Alternative ACS URL to Stytch. Read our
+    /// [SSO migration guide](https://stytch.com/docs/b2b/guides/migrations/additional-migration-considerations)
+    /// for more info.
     pub alternative_acs_url: String,
+    /// idp_initiated_auth_disabled: Determines whether IDP initiated auth is allowed for a given SAML
+    /// connection. Defaults to false (IDP Initiated Auth is enabled).
     pub idp_initiated_auth_disabled: bool,
     pub allow_gateway_callback: bool,
+    /// attribute_mapping: An object that represents the attributes used to identify a Member. This object will
+    /// map the IdP-defined User attributes to Stytch-specific values. Required attributes: `email` and one of
+    /// `full_name` or `first_name` and `last_name`.
     pub attribute_mapping: std::option::Option<serde_json::Value>,
 }
+/// SAMLConnectionImplicitRoleAssignment:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct SAMLConnectionImplicitRoleAssignment {
+    /// role_id: The unique identifier of the RBAC Role, provided by the developer and intended to be
+    /// human-readable.
+    ///
+    ///   Reserved `role_id`s that are predefined by Stytch include:
+    ///
+    ///   * `stytch_member`
+    ///   * `stytch_admin`
+    ///
+    ///   Check out the [guide on Stytch default Roles](https://stytch.com/docs/b2b/guides/rbac/stytch-default)
+    /// for a more detailed explanation.
+    ///
+    ///
     pub role_id: String,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -95,13 +234,20 @@ pub struct SAMLGroupImplicitRoleAssignment {
     pub role_id: String,
     pub group: String,
 }
+/// X509Certificate:
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct X509Certificate {
+    /// certificate_id: The ID of the certificate.
     pub certificate_id: String,
+    /// certificate: The certificate, in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format.
     pub certificate: String,
+    /// issuer: The issuer of the certificate. For signing certificates, this value will be "Stytch".
     pub issuer: String,
+    /// created_at: A timestamp that indicates when the certificate was created.
     pub created_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// expires_at: A timestamp that indicates when the certificate will expire.
     pub expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
+    /// updated_at: A timestamp that indicates when the certificate was updated.
     pub updated_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 /// AuthenticateRequest: Request type for `SSO.authenticate`.
@@ -143,7 +289,7 @@ pub struct AuthenticateRequest {
     /// will pre-emptively send a one-time passcode (OTP) to the Member's phone number. The locale argument will
     /// be used to determine which language to use when sending the passcode.
     ///
-    /// Parameter is a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
+    /// Parameter is an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/),
     /// e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), and Brazilian Portuguese

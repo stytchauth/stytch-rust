@@ -108,6 +108,9 @@ pub struct AuthenticateStartRequest {
     /// be optimized for Passkeys with `userVerification` set to `"preferred"`.
     ///
     pub return_passkey_credential_options: std::option::Option<bool>,
+    /// use_base64_url_encoding: If true, values in the `public_key_credential_creation_options` will be base64
+    /// URL encoded. Set this option to true when using built-in browser methods like
+    /// `navigator.credentials.create` and `navigator.credentials.get`.
     pub use_base64_url_encoding: std::option::Option<bool>,
 }
 /// AuthenticateStartResponse: Response type for `WebAuthn.authenticate_start`.
@@ -243,6 +246,9 @@ pub struct RegisterStartRequest {
     pub override_id: std::option::Option<String>,
     pub override_name: std::option::Option<String>,
     pub override_display_name: std::option::Option<String>,
+    /// use_base64_url_encoding: If true, values in the `public_key_credential_creation_options` will be base64
+    /// URL encoded. Set this option to true when using built-in browser methods like
+    /// `navigator.credentials.create` and `navigator.credentials.get`.
     pub use_base64_url_encoding: std::option::Option<bool>,
 }
 /// RegisterStartResponse: Response type for `WebAuthn.register_start`.

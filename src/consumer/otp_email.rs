@@ -27,7 +27,7 @@ pub struct LoginOrCreateRequest {
     /// an account for them.
     pub create_user_as_pending: std::option::Option<bool>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
@@ -37,12 +37,12 @@ pub struct LoginOrCreateRequest {
     ///
     pub locale: std::option::Option<LoginOrCreateRequestLocale>,
     /// login_template_id: Use a custom template for login emails. By default, it will use your default email
-    /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// Magic links - Login.
+    /// template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using
+    /// our built-in customization options or custom HTML templates with type “Magic links - Login”.
     pub login_template_id: std::option::Option<String>,
     /// signup_template_id: Use a custom template for sign-up emails. By default, it will use your default email
-    /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// Magic links - Sign-up.
+    /// template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using
+    /// our built-in customization options or custom HTML templates with type “Magic links - Sign-up”.
     pub signup_template_id: std::option::Option<String>,
 }
 /// LoginOrCreateResponse: Response type for `Email.login_or_create`.
@@ -78,7 +78,7 @@ pub struct SendRequest {
     /// Stytch endpoints by your application.
     pub attributes: std::option::Option<Attributes>,
     /// locale: Used to determine which language to use when sending the user this delivery method. Parameter is
-    /// a [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
+    /// an [IETF BCP 47 language tag](https://www.w3.org/International/articles/language-tags/), e.g. `"en"`.
     ///
     /// Currently supported languages are English (`"en"`), Spanish (`"es"`), French (`"fr"`) and Brazilian
     /// Portuguese (`"pt-br"`); if no value is provided, the copy defaults to English.
@@ -94,12 +94,12 @@ pub struct SendRequest {
     /// session_jwt: The `session_jwt` associated with a User's existing Session.
     pub session_jwt: std::option::Option<String>,
     /// login_template_id: Use a custom template for login emails. By default, it will use your default email
-    /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// OTP - Login.
+    /// template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using
+    /// our built-in customization options or custom HTML templates with type “OTP - Login”.
     pub login_template_id: std::option::Option<String>,
     /// signup_template_id: Use a custom template for sign-up emails. By default, it will use your default email
-    /// template. The template must be a template using our built-in customizations or a custom HTML email for
-    /// OTP - Sign-up.
+    /// template. Templates can be added in the [Stytch dashboard](https://stytch.com/dashboard/templates) using
+    /// our built-in customization options or custom HTML templates with type “OTP - Sign-up”.
     pub signup_template_id: std::option::Option<String>,
 }
 /// SendResponse: Response type for `Email.send`.
