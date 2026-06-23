@@ -58,6 +58,7 @@ pub struct AuthenticateResponse {
     /// are server errors.
     #[serde(with = "http_serde::status_code")]
     pub status_code: http::StatusCode,
+    pub intermediate_session_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 
 pub struct Discovery {

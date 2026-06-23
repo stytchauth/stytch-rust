@@ -1,6 +1,6 @@
 [package]
 name = "stytch"
-version = "11.0.0"
+version = "11.1.0"
 edition = "2021"
 license = "MIT"
 description = "Stytch Rust client"
@@ -11,13 +11,13 @@ categories = ["api-bindings", "authentication", "web-programming"]
 [dependencies]
 base64 = "0.22.1"
 chrono = { version = "0.4.22", default-features = false, features = [
-  "serde",
-  "std",
+"serde",
+"std",
 ] }
 http = "1.1.0"
 http-serde = "2.1.1"
 jsonwebtoken = { version = "10.2", default-features = false, features = [
-  "aws_lc_rs",
+"aws_lc_rs",
 ] }
 percent-encoding = "2.3.2"
 reqwest = { version = "0.13", default-features = false, features = ["json"] }
@@ -26,8 +26,8 @@ serde_json = "1.0.82"
 serde_urlencoded = "0.7.1"
 thiserror = "1.0.31"
 tokio = { version = "1", features = [
-  "macros",
-  "sync",
+"macros",
+"sync",
 ], default-features = false }
 tracing = "0.1.35"
 url = "2.2.2"
