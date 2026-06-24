@@ -8,7 +8,7 @@ on:
 jobs:
   format:
     name: Format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-public
     steps:
       - uses: actions/checkout@v4
 
@@ -20,7 +20,7 @@ jobs:
 
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-public
     steps:
       - uses: actions/checkout@v4
 
@@ -36,7 +36,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-public
 
     steps:
       - uses: actions/checkout@v4
