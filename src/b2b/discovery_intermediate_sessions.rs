@@ -124,6 +124,7 @@ pub struct ExchangeResponse {
     /// [Fingerprint Lookup API](https://stytch.com/docs/fraud/api/fingerprint-lookup) returned results, the
     /// `member_device` response field will contain information about the member's device attributes.
     pub member_device: std::option::Option<DeviceInfo>,
+    pub intermediate_session_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -145,6 +146,22 @@ pub enum ExchangeRequestLocale {
     ZhHans,
     #[serde(rename = "caES")]
     CaES,
+    #[serde(rename = "ja")]
+    Ja,
+    #[serde(rename = "ru")]
+    Ru,
+    #[serde(rename = "nl")]
+    Nl,
+    #[serde(rename = "pl")]
+    Pl,
+    #[serde(rename = "tr")]
+    Tr,
+    #[serde(rename = "fa")]
+    Fa,
+    #[serde(rename = "vi")]
+    Vi,
+    #[serde(rename = "cs")]
+    Cs,
 }
 
 pub struct IntermediateSessions {

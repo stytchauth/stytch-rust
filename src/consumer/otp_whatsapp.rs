@@ -125,6 +125,22 @@ pub enum LoginOrCreateRequestLocale {
     ZhHans,
     #[serde(rename = "caES")]
     CaES,
+    #[serde(rename = "ja")]
+    Ja,
+    #[serde(rename = "ru")]
+    Ru,
+    #[serde(rename = "nl")]
+    Nl,
+    #[serde(rename = "pl")]
+    Pl,
+    #[serde(rename = "tr")]
+    Tr,
+    #[serde(rename = "fa")]
+    Fa,
+    #[serde(rename = "vi")]
+    Vi,
+    #[serde(rename = "cs")]
+    Cs,
 }
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum SendRequestLocale {
@@ -145,6 +161,22 @@ pub enum SendRequestLocale {
     ZhHans,
     #[serde(rename = "caES")]
     CaES,
+    #[serde(rename = "ja")]
+    Ja,
+    #[serde(rename = "ru")]
+    Ru,
+    #[serde(rename = "nl")]
+    Nl,
+    #[serde(rename = "pl")]
+    Pl,
+    #[serde(rename = "tr")]
+    Tr,
+    #[serde(rename = "fa")]
+    Fa,
+    #[serde(rename = "vi")]
+    Vi,
+    #[serde(rename = "cs")]
+    Cs,
 }
 
 pub struct WhatsApp {

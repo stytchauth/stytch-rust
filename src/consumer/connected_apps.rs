@@ -33,6 +33,7 @@ pub struct ConnectedAppClient {
     /// to request explicit user consent for the `offline_access` scope.
     pub bypass_consent_for_offline_access: bool,
     pub creation_method: String,
+    pub id_token_template_content: String,
     /// client_secret_last_four: The last four characters of the client secret.
     pub client_secret_last_four: std::option::Option<String>,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
@@ -76,6 +77,7 @@ pub struct ConnectedAppWithClientSecret {
     /// bypass_consent_for_offline_access: Valid for first party clients only. If true, the client does not need
     /// to request explicit user consent for the `offline_access` scope.
     pub bypass_consent_for_offline_access: bool,
+    pub id_token_template_content: String,
     /// client_secret_last_four: The last four characters of the client secret.
     pub client_secret_last_four: std::option::Option<String>,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
@@ -116,6 +118,7 @@ pub struct ConnectedAppWithNextClientSecret {
     /// bypass_consent_for_offline_access: Valid for first party clients only. If true, the client does not need
     /// to request explicit user consent for the `offline_access` scope.
     pub bypass_consent_for_offline_access: bool,
+    pub id_token_template_content: String,
     /// next_client_secret_last_four: The last four characters of the `next_client_secret`. Null if no
     /// `next_client_secret` exists.
     pub next_client_secret_last_four: std::option::Option<String>,

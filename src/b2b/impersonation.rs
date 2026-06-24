@@ -52,6 +52,7 @@ pub struct AuthenticateResponse {
     pub member_session: std::option::Option<MemberSession>,
     /// mfa_required: MFA will not be required when authenticating impersonation tokens.
     pub mfa_required: std::option::Option<MfaRequired>,
+    pub intermediate_session_token_expires_at: std::option::Option<chrono::DateTime<chrono::Utc>>,
 }
 
 pub struct Impersonation {

@@ -42,6 +42,7 @@ pub struct CreateRequest {
     /// bypass_consent_for_offline_access: Valid for first party clients only. If true, the client does not need
     /// to request explicit user consent for the `offline_access` scope.
     pub bypass_consent_for_offline_access: std::option::Option<bool>,
+    pub id_token_template_content: std::option::Option<String>,
 }
 /// CreateResponse: Response type for `Clients.create`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -155,6 +156,7 @@ pub struct UpdateRequest {
     /// bypass_consent_for_offline_access: Valid for first party clients only. If true, the client does not need
     /// to request explicit user consent for the `offline_access` scope.
     pub bypass_consent_for_offline_access: std::option::Option<bool>,
+    pub id_token_template_content: std::option::Option<String>,
 }
 /// UpdateResponse: Response type for `Clients.update`.
 #[derive(Serialize, Deserialize, Debug, Clone)]
